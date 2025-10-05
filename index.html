@@ -420,83 +420,85 @@
     </section>
 
 <!-- GASコード（主要スニペット：スタイル維持/微整形） -->
-    <section class="reveal" id="gas-codes" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
-      <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
-        利用GAS&Prompt一覧
-      </h2>
+ <section class="reveal" id="gas-codes" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+  <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
+    利用GAS&Prompt一覧
+  </h2>
 
-<div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
-  <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">スプシ用</h3>
+  <!-- カード1：スプシ用（〜slack連携まで） -->
+  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
+    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">スプシ用</h3>
+    <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
+      <li>スプシ上の入信、返信、デフォテンプレをchatGPTで判定→結果出力</li>
+      <ul><li>GASのscript内に、chatGPT用のPromptが入ってる</li></ul>
+      <li>出力結果を、判定項目ごとの列に評価展開</li>
+    </ul>
 
-  <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
-    <li>スプシ上の入信、返信、デフォテンプレをchatGPTで判定→結果出力</li>
-    <ul><li>GASのscript内に、chatGPT用のPromptが入ってる</li></ul>
-    <li>出力結果を、判定項目ごとの列に評価展開</li>
-  </ul>
+    <!-- GPT連携.gs -->
+    <details>
+      <summary>GPT連携.gs</summary>
+      <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+        入信/返信/テンプレの3ブロックをchatGPTに連携、品質評価を実施し、判定結果をスプシに書き戻すメイン処理。
+        <br>（scriptの中にchatGPT用のPromptも内包）</br>
+      </p>
+      <pre class="codebox"><code>/* ・・・（元の GPT連携.gs のコードそのまま）・・・ */</code></pre>
+    </details>
 
-  <!-- GPT連携.gs -->
-  <details>
-    <summary>GPT連携.gs</summary>
-    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-      入信/返信/テンプレの3ブロックをchatGPTに連携、品質評価を実施し、判定結果をスプシに書き戻すメイン処理。
-      <br>（scriptの中にchatGPT用のPromptも内包）</br>
-    </p>
-    <pre class="codebox"><code>/* ・・・（元の GPT連携.gs のコードそのまま）・・・ */</code></pre>
-  </details>
+    <!-- 評価展開.gs -->
+    <details>
+      <summary>評価展開.gs</summary>
+      <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+        スプシに吐き戻された判定結果を解析し、入信の主訴と、各判定項目をスプシの列ごとに展開。
+      </p>
+      <pre class="codebox"><code>/* ・・・（元の 評価展開.gs のコードそのまま）・・・ */</code></pre>
+    </details>
 
-  <!-- 評価展開.gs -->
-  <details>
-    <summary>評価展開.gs</summary>
-    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-      スプシに吐き戻された判定結果を解析し、入信の主訴と、各判定項目をスプシの列ごとに展開。
-  </p
-    <pre class="codebox"><code>/* ・・・（元の 評価展開.gs のコードそのまま）・・・ */</code></pre>
-  </details>
+    <!-- GPT&展開.gs（ランナー） -->
+    <details>
+      <summary>GPT&展開.gs</summary>
+      <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+        スプシのメニューバーに「GPT連携ボタン」を追加し、GPT連携→評価展開→Slack通知までを一括実行するランナー。失敗時のSlack通知／リトライも担当。
+      </p>
+      <pre class="codebox"><code>/* ・・・（元の 実行制御/ランナー のコード）・・・ */</code></pre>
+    </details>
 
-  <!-- GPT&展開.gs -->
-  <details>
-    <summary>GPT&展開.gs</summary>
-    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-    スプシのメニューバーに「GPT連携ボタン」を作り、GPT連携、評価展開、slack通知の全処理を実行させるランナーGAS。失敗時もSlack通知とリトライを実施。
-    </p>
-    <pre class="codebox"><code>/* ・・・（元の 実行制御.gs のコードそのまま／雛形でも可）・・・ */</code></pre>
-  </details>
-
-  <!-- 入力抽出.gs -->
-  <details>
-    <summary>slack連携.gs</summary>
-    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-    Auditの前処理が完了したら、チャンネルにslack通知を実行させるGAS。
-    </p>
-    <pre class="codebox"><code>/* ・・・（元の 入力抽出.gs のコードそのまま／雛形でも可）・・・ */</code></pre>
-  </details>
-</div>
-
-  <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
-    <li>スプシ上の入信、返信、デフォテンプレをchatGPTで判定→結果出力</li>
-    <ul><li>GASのscript内に、chatGPT用のPromptが入ってる</li></ul>
-    <li>出力結果を、判定項目ごとの列に評価展開</li>
-  </ul>
-
-  <!-- GPT -->
-  <details>
-    <summary>GPT用</summary>
-    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-      入信/返信/テンプレの3ブロックをchatGPTに連携、品質評価を実施し、判定結果をスプシに書き戻すメイン処理。
-      <br>（scriptの中にchatGPT用のPromptも内包）</br>
-    </p>
-    <pre class="codebox"><code>/* ・・・（元の GPT連携.gs のコードそのまま）・・・ */</code></pre>
-  </details>
-
-  <!-- Gemini -->
-  <details>
-    <summary>評価展開.gs</summary>
-    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-      スプシに吐き戻された判定結果を解析し、入信の主訴と、各判定項目をスプシの列ごとに展開。
-  </p
-    <pre class="codebox"><code>/* ・・・（元の 評価展開.gs のコードそのまま）・・・ */</code></pre>
-  </details>
+    <!-- slack連携.gs -->
+    <details>
+      <summary>slack連携.gs</summary>
+      <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+        Auditの前後でチャンネルに通知を送るGAS。Webhook URLはスクリプトプロパティから読み込み。
+      </p>
+      <pre class="codebox"><code>/* ・・・（元の slack 連携コード）・・・ */</code></pre>
+    </details>
   </div>
+
+  <!-- カード2：スプシ用（GPT用＋評価展開だけをまとめるボックス） -->
+  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
+    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">スプシ用（GPT用セット）</h3>
+    <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
+      <li>上記のうち、GPT処理と評価展開に関わる主要スクリプトを抜粋。</li>
+    </ul>
+
+    <!-- GPT用 -->
+    <details>
+      <summary>GPT用</summary>
+      <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+        GPT API連携の土台（モデル/温度/バックオフ/並列化など）をまとめたモジュール。各処理から共通で呼び出す。
+      </p>
+      <pre class="codebox"><code>/* ・・・（GPT連携の共通モジュール部）・・・ */</code></pre>
+    </details>
+
+    <!-- 評価展開.gs（再掲：このカードに属する形で） -->
+    <details>
+      <summary>GPT用.gs</summary>
+      <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+        判定テキスト（AP列）を解析し、Minimum/Advance/主訴を各列へ整形出力。可視化用の基盤。
+      </p>
+      <pre class="codebox"><code>/* ・・・（元の 評価展開.gs のコードそのまま）・・・ */</code></pre>
+    </details>
+  </div>
+</section>
+
 
     <!-- おまけ（1080px） -->
     <section class="reveal" id="how-made" style="width:100%;max-width:1080px;
