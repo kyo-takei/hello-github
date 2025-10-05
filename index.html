@@ -16,67 +16,57 @@
   }
 
   header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
+    position: sticky; top: 0; z-index: 50;
     backdrop-filter: blur(10px);
     background: rgba(240,240,240,0.6);
     border-bottom: 1px solid rgba(0,0,0,.05);
-    text-align: center;
-    padding: 10px 0;
-    font-weight: 600;
-    letter-spacing: .05em;
+    text-align: center; padding: 10px 0;
+    font-weight: 600; letter-spacing: .05em;
   }
 
   main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 70px;
-    padding: 80px 0 140px;
+    display: flex; flex-direction: column; align-items: center;
+    gap: 70px; padding: 80px 0 140px;
   }
 
+  /* 初期状態：下に少し、縮小、影なし、薄く */
   section {
-    width: 100%;
-    max-width: 760px;
-    background: #fff;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 0 0 rgba(0,0,0,0);
+    width: 100%; max-width: 760px; background: #fff;
+    border-radius: 16px; overflow: hidden;
     transform: translateY(80px) scale(0.95);
-    opacity: 0;
+    opacity: 0.0;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+    will-change: transform, opacity, box-shadow;
     transition:
       transform 1.4s var(--ease),
       opacity 1.4s var(--ease),
-      box-shadow 1.2s var(--ease);
+      /* 影だけ 0.25s 遅れて始まる（=追従して出てくる） */
+      box-shadow 1.0s var(--ease) 0.25s;
   }
 
+  /* 表示中：ふわっと浮き上がり、影が後追いで乗る */
   section.is-in {
     transform: translateY(0) scale(1);
     opacity: 1;
-    /* 👇ここで影を濃くして立体感を出す */
     box-shadow:
       0 25px 70px rgba(0,0,0,0.28),
       0 10px 20px rgba(0,0,0,0.15);
   }
 
   img {
-    display: block;
-    width: 100%;
-    height: auto;
-    vertical-align: middle;
-    user-select: none;
-    pointer-events: none;
+    display: block; width: 100%; height: auto;
+    vertical-align: middle; user-select: none; pointer-events: none;
   }
 
+  /* モバイル微調整 */
   @media (max-width: 768px) {
     main { gap: 50px; padding: 60px 0 100px; }
-    section {
-      border-radius: 10px;
-      box-shadow:
-        0 15px 40px rgba(0,0,0,0.25),
-        0 6px 12px rgba(0,0,0,0.15);
-    }
+    section { border-radius: 12px; }
+  }
+
+  /* アニメ控えめ希望ユーザーへの配慮（OS設定連動） */
+  @media (prefers-reduced-motion: reduce) {
+    section { transition: none; transform: none; opacity: 1; box-shadow: none; }
   }
 </style>
 </head>
@@ -92,14 +82,26 @@
   </main>
 
 <script>
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
+  // 「入ったら is-in 付与、十分抜けたら is-in 削除」で何度でも再生
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      // 20%以上見えたら発火
+      if (e.isIntersecting && e.intersectionRatio >= 0.2) {
         e.target.classList.add('is-in');
+      } else {
+        // ほぼ見えなくなったらクラスを外す（=次回また再生できる）
+        // しきい値を少し下げてヒステリシスを作る
+        if (e.intersectionRatio < 0.1) {
+          e.target.classList.remove('is-in');
+        }
       }
     });
-  },{threshold:0.2});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  }, {
+    threshold: [0, 0.1, 0.2, 0.6],
+    rootMargin: "0px 0px -5% 0px" // 下側に少し余裕（好みで調整可）
+  });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
 </body>
 </html>
