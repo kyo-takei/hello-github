@@ -171,7 +171,7 @@
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;margin-bottom:32px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">背景と課題</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-          <li>委託先に入信対応のサンプリングチェックを依頼し、IHでダブルチェックを実施していたが、チェック項目が多く、双方で1件あたり2〜30分の工数になっていた。</li>
+          <li>委託先に入信対応のサンプリングチェックを依頼し、IHでダブルチェックを実施していたが、チェック項目が多く、1件あたり約30分の工数になっていた。</li>
           <li>7月にAIチャンネルやWBRでシェアした
             <strong>
               <a href="https://chatgpt.com/g/g-6875b677f42c81b8a8bfe0ed6c477b94-tenhurepin-zhi-tietuka"
@@ -187,16 +187,16 @@
         </ul>
       </div>
 
-      <!-- 取り組みの概要 -->
+      <!-- 取り組み概要 -->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;margin-bottom:32px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">取り組みの概要</h3>
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">AI活用概要</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
           <li>サンプルチェック用の案件の入信/返信文を<strong>個人情報保護フォルダへ毎日自動抽出</strong>する仕組みを構築。</li>
            <ul>
           <li><strong>Special Thanks @UcchiYさん</strong>のご協力により実現。</li>
             </ul>
           <li>委託先には<strong>プロセスチェックのみ</strong>依頼（1件3分）。ツール処理やフロー判断はAIではなく人が担当。</li>
-          <li><strong>案件→chatGPT取り込み→スプシ吐き出し→slack通知をGAS連携</strong>により、AI判定〜出力まで<strong>ワンクリック放置</strong>運用を実現。</li>
+          <li>AIに相談することで、<strong>案件→chatGPT取り込み→スプシ吐き出し→slack通知をGAS連携</strong>ができ、<strong>ワンクリック放置運用</strong>実現。</li>
         </ul>
       </div>
 
@@ -207,18 +207,7 @@
           <li>サンプルチェックの時間を、<strong>約1000分の1に爆速化！！</strong></li>
           <ul><li><strong>500件</strong>のAudit＋評価記載を<strong>15分</strong>で完了（従来約<strong>250h</strong>）。</li> </ul>
           <li>委託先のAccuracy 80% → AI分析で<strong>実測30%</strong>が発覚、品質可視化に前進。</li>
-          <li>品質評価をAIに任せることで、再現性あるAudit運用を確立。</li>
-        </ul>
-      </div>
-
-      <!-- 苦労 & 工夫ポイント -->
-      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;margin-bottom:32px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">苦労 &amp; 工夫ポイント</h3>
-        <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
-          <li><strong>GASタイムアウト</strong>多発 → モデル最適化（GPT-5→4o）＋送信前の<strong>前処理/圧縮</strong>で効率化。</li>
-          <li><em>Template Quality Checker</em> を<strong>改修</strong>：判定基準や資料を<strong>Markdown内包</strong>で一貫性確保。</li>
-          <li><strong>AI適材適所</strong>：ChatGPT（心情理解/文案）× Gemini（コード最適化/スプシ親和）で相互最適化。</li>
-          <li>プロンプト冒頭で<strong>役割指定</strong>（CS責任者／エンジニア）による思考誘導。</li>
+          <li>品質評価をAIに任せることで、一貫性かつ再現性あるAudit運用を確立。</li>
         </ul>
       </div>
 
@@ -227,8 +216,8 @@
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">課題とNext Action</h3>
         <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
           <li>誤対応件数の増加に伴う委託先の<strong>管理者負荷</strong>対策。</li>
-          <li>AIの<strong>誤判定（現状精度：約85%）</strong>に対する再学習/チューニング。</li>
-          <li><strong>Rebuttal起点</strong>でのプロンプト調整（hiikichiさん協力）。</li>
+          <li>AIの<strong>誤判定（現状精度：約85%）</strong>があり、委託先からのRebuttal起点でのプロンプト調整に対する再学習/チューニング。</li>
+          <ul><li> <li><strong>Special Thanks @Hikichiさん</strong>のご協力により実現。</li></ul>
           <li>連投入信／画像のみ入信の<strong>判定改善</strong>。</li>
           <li><strong>500件超</strong>の安定稼働 → <strong>毎朝自動実行</strong>フローへ拡張。</li>
           <li>PoCをもとに<strong>他領域へ横展開</strong>、MP全体のAccuracy可視化と改善。</li>
