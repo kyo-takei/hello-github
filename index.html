@@ -229,14 +229,21 @@
   @keyframes rc-spin{ to{ transform: rotate(360deg); } }
 
   .results-badge{
-    position:absolute; top:-14px; right:-14px;
-    background:#111; color:#fff; font-weight:800; letter-spacing:.06em;
-    padding:10px 14px; border-radius:999px;
-    box-shadow:0 10px 22px rgba(0,0,0,.25);
-    transform: rotate(10deg);
-    z-index:2;                 /* 重なり保証 */
-    pointer-events:none;
-  }
+  position:absolute;
+  top:-24px;                 /* 少し上へ */
+  right:-24px;               /* 見切れ防止 */
+  background:#111;
+  color:#fff;
+  font-weight:900;
+  letter-spacing:.08em;
+  font-size:1.25rem;         /* ← 2まわり大きく */
+  padding:14px 20px;
+  border-radius:999px;
+  box-shadow:0 12px 28px rgba(0,0,0,.35);
+  transform: rotate(8deg);
+  z-index:3;
+  pointer-events:none;
+}
 
   .results-title{
     margin:0 0 14px;
@@ -271,7 +278,7 @@
   border:2px solid #ffd155;
   color:#5a4100;
   box-shadow:0 6px 14px rgba(255,190,60,.25) inset;
-  vertical-align:-0.12em;       /* ← ここも追加 */
+  vertical-align:-0.09em;       /* ← ここも追加 */
 }
 
 /* きらり（現状のままでOK。参考） */
@@ -301,7 +308,7 @@
 </style>
 
 <div class="results-card">
-  <div class="results-badge">🏆 RESULTS</div>
+  <div class="results-badge">🏆 RESULTS 🏆</div>
   <h3 class="results-title">成果</h3>
   <ul class="results-list">
     <li>サンプルチェックの時間を、<span class="kpi">約1000分の1に爆速化</span>！！</li>
@@ -312,7 +319,10 @@
     <li>品質評価をAIに任せることで、一貫性かつ再現性あるAudit運用を確立。</li>
   </ul>
 </div>
-
+      
+<!-- ここにだけ余白 -->
+      <div style="height:32px;"></div>
+      
       <!-- 課題点-->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">課題</h3>
@@ -519,8 +529,6 @@ function notifySlack_(text) {
         </details>
       </div>
     </section>
-
-    <!-- ▼▼ ここまで ▼▼ -->
 
     <!-- おまけ（1080px） -->
     <section class="reveal" id="how-made" style="width:100%;max-width:1080px;
