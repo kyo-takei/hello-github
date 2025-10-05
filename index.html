@@ -211,17 +211,27 @@
         </ul>
       </div>
 
-      <!-- 課題とNext Action -->
+      <!-- 課題点-->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">課題とNext Action</h3>
         <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
           <li>誤対応件数の増加に伴う委託先の<strong>管理者負荷</strong>対策。</li>
-          <li>AIの<strong>誤判定（現状精度：約85%）</strong>があり、委託先からのRebuttal起点でのプロンプト調整に対する再学習/チューニング。</li>
-          <ul><li> <li><strong>Special Thanks @Hikichiさん</strong>のご協力により実現。</li></ul>
-          <li>連投入信／画像のみ入信の<strong>判定改善</strong>。</li>
+          <li>AIの判定精度は<strong>現状約85%</strong>のため、委託先からのRebuttal起点プロンプト調整が必要</li>
+          <ul><li><strong>Special Thanks @Hikichiさん</strong>の日々のご協力により推進中。</li></ul>
+          <li>連投入信／画像のみ入信など、<strong>AI判定不可</strong>な案件もある</li>
           <li><strong>500件超</strong>の安定稼働 → <strong>毎朝自動実行</strong>フローへ拡張。</li>
-          <li>PoCをもとに<strong>他領域へ横展開</strong>、MP全体のAccuracy可視化と改善。</li>
           <li>正しい実績に基づく<strong>誤対応分析 → テンプレ/フロー改善案</strong>をOpsと共創。</li>
+        </ul>
+      </div>
+    </section>
+
+       <!-- Next Action-->
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;">
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">Next Action</h3>
+        <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
+          <li>正しいAccuracy実績に基づく<strong>誤対応分析 → テンプレ/フロー改善案</strong>をOpsと共創。</li>
+          <li>PaymentでのPoC完了→<strong>KYC、FR領域にも横展開</strong>し、改善サイクルを推進</li>
+          <li><strong>クリックなし、毎日自動化</strong>の検証ができたので、前日入信全件チェック→全領域のAccuracyをチャンネル配信の仕組み化検討中</li>
         </ul>
       </div>
     </section>
@@ -234,29 +244,11 @@
 
       <!-- ステップ1 -->
       <div class="stack-box">
-        <img src="flow-1.png" alt="ステップ1の画面" class="stack-img">
         <ul class="stack-caption">
           <li>AI判定の出力をスプシに自動反映（個人情報保護フォルダ内）。</li>
           <li>各行に <strong>pass/fail</strong> と補足テキストを記載。</li>
         </ul>
-      </div>
-
-      <!-- ステップ2 -->
-      <div class="stack-box">
-        <img src="flow-2.png" alt="ステップ2の画面" class="stack-img">
-        <ul class="stack-caption">
-          <li>集計・サマリを自動生成。</li>
-          <li>Modify診断や評価サマリを一括で確認可能。</li>
-        </ul>
-      </div>
-
-      <!-- ステップ3 -->
-      <div class="stack-box">
-        <img src="flow-3.png" alt="ステップ3の画面" class="stack-img">
-        <ul class="stack-caption">
-          <li>完了時は <strong>bot</strong> がSlackへ通知。</li>
-          <li>ワンクリック実行 → 放置でOK。</li>
-        </ul>
+        <img src="flow-1.png" alt="ステップ1の画面" class="stack-img">
       </div>
     </section>
 
