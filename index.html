@@ -5,11 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>QA・品質管理のAI活用</title>
 <style>
-  :root {
-    --ease: cubic-bezier(.25,.1,.25,1);
-    /* 左右 2cm × 2 = 合計 4cm 広げる */
-    --w-extra: 4cm;
-  }
+  :root { --ease: cubic-bezier(.25,.1,.25,1); }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
 
@@ -50,8 +46,7 @@
 
   /* ===== 自己紹介 ===== */
   .profile{
-    max-width: calc(800px + var(--w-extra)); /* ← 左右2cmずつ拡張 */
-    width:90%;
+    max-width:800px; width:90%;
     background:#fff;
     border-radius:16px;
     box-shadow:0 12px 40px rgba(0,0,0,0.12);
@@ -81,9 +76,7 @@
     gap:70px; padding:40px 0 140px;
   }
   section{
-    width:100%;
-    max-width: calc(760px + var(--w-extra)); /* ← 左右2cmずつ拡張 */
-    background:#fff;
+    width:100%; max-width:760px; background:#fff;
     border-radius:16px; overflow:hidden;
     transform:translateY(80px) scale(0.95);
     opacity:0;
@@ -101,15 +94,9 @@
       0 25px 70px rgba(0,0,0,0.28),
       0 10px 20px rgba(0,0,0,0.15);
   }
-
-  /* 大きめの白外枠セクション用（見出し付きの箱） */
-  .wide-outer{
-    max-width: calc(1080px + var(--w-extra)) !important; /* ← 左右2cmずつ拡張 */
-  }
-
   img{ display:block; width:100%; height:auto; user-select:none; pointer-events:none; }
 
-  /* ===== 画像スタック（新規） ===== */
+  /* ===== 画像スタック ===== */
   .stack-box{
     background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
     padding:28px 36px;margin-bottom:28px;
@@ -120,7 +107,7 @@
   }
   .stack-caption{ color:#444; margin:8px 0 0; }
 
-  /* ===== コード折りたたみ（新規） ===== */
+  /* ===== コード折りたたみ ===== */
   details{
     background:#fff; border-radius:12px; box-shadow:0 4px 18px rgba(0,0,0,.06);
     padding:12px 14px; margin:12px 0;
@@ -166,7 +153,7 @@
   </div>
 
   <main>
-    <!-- 漫画コマ（通常サイズ：760px + 4cm） -->
+    <!-- 漫画コマ（760px） -->
     <section class="reveal"><img src="1.png" alt="comic1" loading="lazy"></section>
     <section class="reveal"><img src="2.png" alt="comic2" loading="lazy"></section>
     <section class="reveal"><img src="3.png" alt="comic3" loading="lazy"></section>
@@ -174,13 +161,13 @@
     <section class="reveal"><img src="5.png" alt="comic5" loading="lazy"></section>
     <section class="reveal"><img src="6.png" alt="comic6" loading="lazy"></section>
 
-    <!-- 品質管理AI化の取り組み背景（大枠：1080px + 4cm） -->
-    <section class="reveal wide-outer" id="ai-qa" style="width:100%;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:80px;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+    <!-- 品質管理AI化の取り組み（1080px） -->
+    <section class="reveal" id="ai-qa" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:80px;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:36px;font-weight:800;margin:0 0 40px;text-align:center;color:#111;">
         品質管理AI化の取り組み
       </h2>
 
-      <!-- 背景と課題（中の白箱は親幅に追従） -->
+      <!-- 背景と課題 -->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;margin-bottom:32px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">背景と課題</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
@@ -206,8 +193,8 @@
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
           <li>サンプルチェック用の案件の入信/返信文を<strong>個人情報保護フォルダへ毎日自動抽出</strong>する仕組みを構築。</li>
            <ul>
-          <li><strong>Special Thanks @UcchiYさん</strong>のご協力により実現。</li>
-            </ul>
+             <li><strong>Special Thanks @UcchiYさん</strong>のご協力により実現。</li>
+           </ul>
           <li>委託先には<strong>プロセスチェックのみ</strong>依頼（1件3分）。ツール処理やフロー判断はAIではなく人が担当。</li>
           <li>AIに相談し、<strong>案件→chatGPT取り込み→スプシ転記→slack通知</strong>をGAS連携で<strong>ワンクリック放置運用</strong>実現。</li>
         </ul>
@@ -218,7 +205,7 @@
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">成果</h3>
         <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
           <li>サンプルチェックの時間を、<strong>約1000分の1に爆速化！！</strong></li>
-          <ul><li><strong>500件</strong>のAudit＋評価記載を<strong>15分</strong>で完了（従来約<strong>250h</strong>）。</li> </ul>
+          <ul><li><strong>500件</strong>のAudit＋評価記載を<strong>15分</strong>で完了（従来約<strong>250h</strong>）。</li></ul>
           <li>委託先でのAccuracy：80% → AI分析で<strong>実測：30%</strong>が発覚、品質可視化に前進。</li>
           <li>品質評価をAIに任せることで、一貫性かつ再現性あるAudit運用を確立。</li>
         </ul>
@@ -239,7 +226,7 @@
       <!-- ここにだけ余白 -->
       <div style="height:32px;"></div>
       
-       <!-- Next Action-->
+      <!-- Next Action-->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">Next Action</h3>
         <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
@@ -250,24 +237,35 @@
       </div>
     </section>
 
-    <!-- ★ 新セクション①：スクショ縦積み＋箇条書き説明（大枠） -->
-    <section class="reveal wide-outer" id="flow-explain" style="width:100%;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+    <!-- 実行フロー（1080px） -->
+    <section class="reveal" id="flow-explain" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
         実行フローのイメージ
       </h2>
 
-      <!-- ステップ1 -->
       <div class="stack-box">
         <ul class="stack-caption">
-          <li>AI判定の出力をスプシに自動反映（個人情報保護フォルダ内）。</li>
-          <li>各行に <strong>pass/fail</strong> と補足テキストを記載。</li>
+          <li>以下の内容が、案件1件ごとに、スプシにアウトプットされます</li>
+           <ul>
+             <li>1) Audit判定一覧</li>
+             <li>2) 主訴の特定</li>
+             <li>3) 評価サマリ</li>
+             <li>4) Modify診断</li>
+             <li>5) 問題の指摘</li>
+             <li>6)改善後の送信メールの提案</li>
+           </ul>
         </ul>
         <img src="flow-1.png" alt="ステップ1の画面" class="stack-img">
       </div>
+      <div class="stack-box">
+        <ul class="stack-caption">
+          <li>Auditが完了したら、GALのtoshi botでTeamチャンネルに完了通知が来るので放置できる！</li>
+        <img src="flow-1.png" alt="ステップ2の画面" class="stack-img">
+      </div>
     </section>
 
-    <!-- ★ 新セクション②：GASコード（折りたたみ）（大枠） -->
-    <section class="reveal wide-outer" id="gas-codes" style="width:100%;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+    <!-- GASコード（1080px） -->
+    <section class="reveal" id="gas-codes" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
         運用GAS（主要スニペット）
       </h2>
@@ -361,13 +359,14 @@ function notifySlack_(text) {
       </details>
     </section>
 
-    <!-- おまけ（このページの作り方）（大枠） -->
-    <section class="reveal wide-outer" id="how-made" style="width:100%;background:#ffffff; border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px; box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+    <!-- おまけ（1080px） -->
+    <section class="reveal" id="how-made" style="width:100%;max-width:1080px;
+      background:#ffffff; border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:32px;font-weight:800;margin:0 0 40px;text-align:center;color:#111;">
         おまけ（このページの作り方）
       </h2>
 
-      <!-- 内部ウィンドウはグラデ塗りのまま -->
       <div style="background:linear-gradient(180deg, #dff3ff 0%, #ffffff 40%, #dff3ff 70%, #ffffff 100%);
                   border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
                   padding:28px 36px;margin-bottom:28px;color:#10324a;">
