@@ -8,10 +8,14 @@
   :root { --ease: cubic-bezier(.25,.1,.25,1); }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
+
+  /* ===== 全体背景：はっきり目のグラデ ===== */
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
-    background: #eaf6ff;
+    background: linear-gradient(180deg, #dff3ff 0%, #ffffff 40%, #dff3ff 70%, #ffffff 100%);
+    /* スクロールしてもグラデが気持ちよく続く */
+    background-attachment: fixed;
     color: #222;
     overflow-x: hidden;
   }
@@ -134,7 +138,7 @@
     <section class="reveal"><img src="6.png" alt="comic6" loading="lazy"></section>
 
     <!-- MP CTMの課題と取り組み背景 -->
-    <section class="reveal" id="ai-qa" style="width:100%;max-width:1080px;background:#f5f5f5;border-radius:20px;padding:60px 40px;margin-top:80px;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+    <section class="reveal" id="ai-qa" style="width:100%;max-width:1080px;background:rgba(255,255,255,0.65);backdrop-filter:saturate(1.1) blur(0px);border-radius:20px;padding:60px 40px;margin-top:80px;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:36px;font-weight:800;margin:0 0 40px;text-align:center;color:#111;">
         MP CTMの課題と取り組み背景
       </h2>
@@ -196,7 +200,7 @@
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">課題とNext Action</h3>
         <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
           <li>誤対応件数の増加に伴う委託先の<strong>管理者負荷</strong>対策。</li>
-          <li>AIの<strong>誤判定（精度約85%）</strong>に対する再学習/チューニング。</li>
+          <li>AIの<strong>誤判定（現状精度：約85%）</strong>に対する再学習/チューニング。</li>
           <li><strong>Rebuttal起点</strong>でのプロンプト調整（hiikichiさん協力）。</li>
           <li>連投入信／画像のみ入信の<strong>判定改善</strong>。</li>
           <li><strong>500件超</strong>の安定稼働 → <strong>毎朝自動実行</strong>フローへ拡張。</li>
@@ -205,42 +209,40 @@
         </ul>
       </div>
     </section>
-<!-- おまけ（このページの作り方） -->
-<section class="reveal" id="how-made" style="width:100%;max-width:1080px;
-  background:linear-gradient(180deg,#eaf6ff 0%,#ffffff 100%);
-  border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;
-  box-shadow:0 6px 20px rgba(0,0,0,0.08);">
-  <h2 style="font-size:32px;font-weight:800;margin:0 0 40px;text-align:center;color:#111;">
-    おまけ（このページの作り方）
-  </h2>
 
-  <!-- ウィンドウ：タイトルバナー（Gemini） -->
-  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
-    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">タイトルバナー：Gemini</h3>
-    <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-      <li><strong>プロンプト：</strong>「非エンジニアでもAIでココまでできる」というタイトルで、横長のWeb用バナーを、添付の人物画像を含めて作って</li>
-      <li><strong>添付資料：</strong>自分の顔画像も添付</li>
-    </ul>
-  </div>
+    <!-- おまけ（このページの作り方） -->
+    <section class="reveal" id="how-made" style="width:100%;max-width:1080px;
+      background:linear-gradient(180deg,#eaf6ff 0%,#ffffff 100%);
+      border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;
+      box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+      <h2 style="font-size:32px;font-weight:800;margin:0 0 40px;text-align:center;color:#111;">
+        おまけ（このページの作り方）
+      </h2>
 
-  <!-- ウィンドウ：漫画草案（chatGPT5） -->
-  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
-    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">漫画草案：chatGPT5</h3>
-    <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-      <li><strong>プロンプト：</strong>添付のDocsの内容で、1ページ1コマ、全6ページの漫画を作りたい。プロット、コマ割りを考えて</li>
-      <li><strong>添付資料：</strong>WBRでシェアしたdocs</li>
-    </ul>
-  </div>
+      <!-- 濃いめ水色の単色ウィンドウ（統一トーン） -->
+      <div style="background:#cfe9ff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;color:#10324a;">
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #10324a;padding-left:10px;">タイトルバナー：Gemini</h3>
+        <ul style="margin:8px 0 0 18px;line-height:1.8;">
+          <li><strong>プロンプト：</strong>「非エンジニアでもAIでココまでできる」というタイトルで、横長のWeb用バナーを、添付の人物画像を含めて作って</li>
+          <li><strong>添付資料：</strong>自分の顔画像も添付</li>
+        </ul>
+      </div>
 
-  <!-- ウィンドウ：漫画画像（Gemini） -->
-  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
-    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">漫画画像：Gemini</h3>
-    <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-      <li><strong>プロンプト：</strong>以下のプロット、コマ割りで、LP風に漫画を作って</li>
-    </ul>
-  </div>
-</section>
+      <div style="background:#cfe9ff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;color:#10324a;">
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #10324a;padding-left:10px;">漫画草案：chatGPT5</h3>
+        <ul style="margin:8px 0 0 18px;line-height:1.8;">
+          <li><strong>プロンプト：</strong>添付のDocsの内容で、1ページ1コマ、全6ページの漫画を作りたい。プロット、コマ割りを考えて</li>
+          <li><strong>添付資料：</strong>WBRでシェアしたdocs</li>
+        </ul>
+      </div>
 
+      <div style="background:#cfe9ff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;color:#10324a;">
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #10324a;padding-left:10px;">漫画画像：Gemini</h3>
+        <ul style="margin:8px 0 0 18px;line-height:1.8;">
+          <li><strong>プロンプト：</strong>以下のプロット、コマ割りで、LP風に漫画を作って</li>
+        </ul>
+      </div>
+    </section>
   </main>
 
   <script>
