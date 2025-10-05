@@ -145,7 +145,7 @@
         <span class="track">
           <span>Contents & Training Management（CTM）所属 </span>
           <span>AI×業務設計で“再現性ある自動化”を構築</span>
-          <span>Team内のAI Native化を目指し、日々奮闘中</span>
+          <span>Team内のAI Native化を目指し日々奮闘中</span>
         </span>
       </span>
     </p>
@@ -161,10 +161,10 @@
     <section class="reveal"><img src="5.png" alt="comic5" loading="lazy"></section>
     <section class="reveal"><img src="6.png" alt="comic6" loading="lazy"></section>
 
-    <!-- MP CTMの課題と取り組み背景 -->
+    <!-- 品質管理AI化の取り組み背景 -->
     <section class="reveal" id="ai-qa" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:80px;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:36px;font-weight:800;margin:0 0 40px;text-align:center;color:#111;">
-        MP CTMの課題と取り組み背景
+        品質管理AI化の取り組み背景
       </h2>
 
       <!-- 背景と課題 -->
@@ -180,10 +180,10 @@
                  Template Quality Checker
               </a>
             </strong>
-            を一部でAI活用していたが、入信や返信文を手作業でコピーする手間が残っていた。
+            というカスタムGPTを利用することで、一部AI化していたが、工数としては50%程度の削減かつ、入信や返信文を手作業でコピーする手間が残っていた。
           </li>
-          <li>委託先とIH間で品質基準の認識にギャップがあり、正しいAccuracyが可視化できず、CalibrationやFBでは安定化に限界。</li>
-          <li>より効率的で再現性のある仕組み構築が必要だった。</li>
+          <li>委託先とIH間で品質基準の認識にギャップがあり、正しいAccuracyが可視化できておらず、CalibrationやFBでは安定化に限界。</li>
+          <li>より効率的で再現性と品質を担保出来る仕組み構築が必要だった。</li>
         </ul>
       </div>
 
@@ -191,8 +191,10 @@
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;margin-bottom:32px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">取り組みの概要</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-          <li>Audit案件の入信/返信文を<strong>個人情報保護フォルダへ毎日自動抽出</strong>する仕組みを構築。</li>
-          <li><strong>UcchiYさん</strong>のご協力で実現。</li>
+          <li>サンプルチェック用の案件の入信/返信文を<strong>個人情報保護フォルダへ毎日自動抽出</strong>する仕組みを構築。</li>
+           <ul>
+          <li><strong>Special Thanks @UcchiYさん</strong>のご協力により実現。</li>
+            </ul>
           <li>委託先には<strong>プロセスチェックのみ</strong>依頼（1件3分）。ツール処理やフロー判断はAIではなく人が担当。</li>
           <li><strong>GAS連携</strong>により、AI判定〜出力まで<strong>ワンクリック＋放置</strong>運用を実現。</li>
         </ul>
