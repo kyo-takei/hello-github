@@ -419,13 +419,12 @@
       </div>
     </section>
 
-    <!-- GASコード（主要スニペット：スタイル維持/微整形） -->
+<!-- GASコード（主要スニペット：スタイル維持/微整形） -->
     <section class="reveal" id="gas-codes" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
         利用GAS&Prompt一覧
       </h2>
 
-<!-- ▼▼▼ ここから：スプシ用ブロックのみ差し替え ▼▼▼ -->
 <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
   <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">スプシ用</h3>
 
@@ -439,7 +438,8 @@
   <details>
     <summary>GPT連携.gs</summary>
     <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-      入信/返信/テンプレの3ブロックを正規化し、GPTで品質評価を実施します。判定テキストをAP列へ書き戻すメイン処理です。
+      入信/返信/テンプレの3ブロックをchatGPTに連携、品質評価を実施し、判定結果をスプシに書き戻すメイン処理。
+      <br>（scriptの中にchatGPT用のPromptも内包）</br>
     </p>
     <pre class="codebox"><code>/* ・・・（元の GPT連携.gs のコードそのまま）・・・ */</code></pre>
   </details>
@@ -448,68 +448,64 @@
   <details>
     <summary>評価展開.gs</summary>
     <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-      AP列の判定テキストを解析して各観点をY〜AM・AQ〜AS列に展開します。Minimum/Advanceを整形し主訴と併せて可視化します。
-    </p>
+      スプシに吐き戻された判定結果を解析し、入信の主訴と、各判定項目をスプシの列ごとに展開。
+  </p
     <pre class="codebox"><code>/* ・・・（元の 評価展開.gs のコードそのまま）・・・ */</code></pre>
   </details>
 
-  <!-- 実行制御.gs -->
+  <!-- GPT&展開.gs -->
   <details>
-    <summary>実行制御.gs</summary>
+    <summary>GPT&展開.gs</summary>
     <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-      手動・時間トリガー双方から全処理を順次実行するランナーです。失敗時はSlack通知とリトライを担当します。
+    スプシのメニューバーに「GPT連携ボタン」を作り、GPT連携、評価展開、slack通知の全処理を実行させるランナーGAS。失敗時もSlack通知とリトライを実施。
     </p>
     <pre class="codebox"><code>/* ・・・（元の 実行制御.gs のコードそのまま／雛形でも可）・・・ */</code></pre>
   </details>
 
   <!-- 入力抽出.gs -->
   <details>
-    <summary>入力抽出.gs</summary>
+    <summary>slack連携.gs</summary>
     <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-      評価対象の欠損や形式不一致を検出し、安全な行のみを抽出します。前処理で署名/内部ログなどの不要行も除去します。
+    Auditの前処理が完了したら、チャンネルにslack通知を実行させるGAS。
     </p>
     <pre class="codebox"><code>/* ・・・（元の 入力抽出.gs のコードそのまま／雛形でも可）・・・ */</code></pre>
   </details>
-
-  <!-- 共通ユーティリティ.gs -->
-  <details>
-    <summary>共通ユーティリティ.gs</summary>
-    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-      バックオフ・ログ・定数を集約し各スクリプトから再利用します。処理の安定性と保守性を高める共通関数群です。
-    </p>
-    <pre class="codebox"><code>/* ・・・（元の 共通ユーティリティ.gs のコードそのまま／雛形でも可）・・・ */</code></pre>
-  </details>
 </div>
-<!-- ▲▲▲ ここまで：スプシ用ブロックのみ差し替え ▲▲▲ -->
 
-      <!-- （以下、Slack通知のパネル以降は原文そのまま） -->
-      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">Slack通知</h3>
-        <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
-          <li>完了時にチャンネルへslack通知。</li>
-        </ul>
-        <details>
-          <summary>slack.gs</summary>
-          <pre class="codebox"><code>// --- 設定 ---
-/* ・・・（中略：元の slack.gs のコードはそのまま）・・・ */
-</code></pre>
-        </details>
+<!-- GASコード（主要スニペット：スタイル維持/微整形） -->
+    <section class="reveal" id="gas-codes" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+      <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
+        利用GAS&Prompt一覧
+      </h2>
 
-      </div>
+<div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
+  <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">スプシ用</h3>
 
-      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">Slack通知</h3>
-        <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
-          <li>完了時にチャンネルへカード通知。</li>
-        </ul>
-        <details>
-          <summary>notifySlack.gs</summary>
-          <pre class="codebox"><code>// Incoming Webhookで通知
-/* ・・・（中略：元の notifySlack.gs のコードはそのまま）・・・ */
-</code></pre>
-        </details>
-      </div>
-    </section>
+  <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
+    <li>スプシ上の入信、返信、デフォテンプレをchatGPTで判定→結果出力</li>
+    <ul><li>GASのscript内に、chatGPT用のPromptが入ってる</li></ul>
+    <li>出力結果を、判定項目ごとの列に評価展開</li>
+  </ul>
+
+  <!-- GPT -->
+  <details>
+    <summary>GPT用</summary>
+    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+      入信/返信/テンプレの3ブロックをchatGPTに連携、品質評価を実施し、判定結果をスプシに書き戻すメイン処理。
+      <br>（scriptの中にchatGPT用のPromptも内包）</br>
+    </p>
+    <pre class="codebox"><code>/* ・・・（元の GPT連携.gs のコードそのまま）・・・ */</code></pre>
+  </details>
+
+  <!-- Gemini -->
+  <details>
+    <summary>評価展開.gs</summary>
+    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+      スプシに吐き戻された判定結果を解析し、入信の主訴と、各判定項目をスプシの列ごとに展開。
+  </p
+    <pre class="codebox"><code>/* ・・・（元の 評価展開.gs のコードそのまま）・・・ */</code></pre>
+  </details>
+  </div>
 
     <!-- おまけ（1080px） -->
     <section class="reveal" id="how-made" style="width:100%;max-width:1080px;
