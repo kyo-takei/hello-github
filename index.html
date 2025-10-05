@@ -425,89 +425,62 @@
         利用GAS&Prompt一覧
       </h2>
 
-      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">スプシ用</h3>
+<!-- ▼▼▼ ここから：スプシ用ブロックのみ差し替え ▼▼▼ -->
+<div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
+  <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">スプシ用</h3>
 
-        <!-- （既存）スプシ用の概要リスト -->
-        <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
-          <li>スプシ上の入信、返信、デフォテンプレをchatGPTで判定→結果出力</li>
-          <ul><li>GASのscript内に、chatGPT用のPromptが入ってる</li></ul>
-          <li>出力結果を、判定項目ごとの列に評価展開</li>
-        </ul>
+  <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
+    <li>スプシ上の入信、返信、デフォテンプレをchatGPTで判定→結果出力</li>
+    <ul><li>GASのscript内に、chatGPT用のPromptが入ってる</li></ul>
+    <li>出力結果を、判定項目ごとの列に評価展開</li>
+  </ul>
 
-        <!-- GPT連携.gs -->
-        <details>
-          <summary>GPT連携.gs</summary>
-          <!-- ★ 追加入りの1行説明（箇条書き） -->
-          <ul style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-            <li>入信/返信/テンプレの3ブロックをまとめてGPT判定し、AP列に評価テキストを書き戻すメイン処理。</li>
-          </ul>
-          <pre class="codebox"><code>// // ===============================================================
-// Part 1: GPT連携処理（U,V,W列 → AP列へ）
-// 最速化・最適化バージョン (完全版)
-// ===============================================================
-/* ・・・（中略：元のGPT連携.gsのコードはそのまま）・・・ */
-</code></pre>
-        </details>
+  <!-- GPT連携.gs -->
+  <details>
+    <summary>GPT連携.gs</summary>
+    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+      入信/返信/テンプレの3ブロックを正規化し、GPTで品質評価を実施します。判定テキストをAP列へ書き戻すメイン処理です。
+    </p>
+    <pre class="codebox"><code>/* ・・・（元の GPT連携.gs のコードそのまま）・・・ */</code></pre>
+  </details>
 
-        <!-- 評価展開.gs（既存） -->
-        <details>
-          <summary>評価展開.gs</summary>
-          <ul style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-            <li>AP列の評価テキストを解析し、Y〜AM／AQ〜ASに各観点の判定を自動展開。</li>
-          </ul>
-          <pre class="codebox"><code>// Part 2: 評価展開処理（AP列 → Y-AM, AQ-AS列へ）
-/* ・・・（中略：元の評価展開.gsのコードはそのまま）・・・ */
-</code></pre>
-        </details>
+  <!-- 評価展開.gs -->
+  <details>
+    <summary>評価展開.gs</summary>
+    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+      AP列の判定テキストを解析して各観点をY〜AM・AQ〜AS列に展開します。Minimum/Advanceを整形し主訴と併せて可視化します。
+    </p>
+    <pre class="codebox"><code>/* ・・・（元の 評価展開.gs のコードそのまま）・・・ */</code></pre>
+  </details>
 
-        <!-- ★ 追加1：実行制御.gs -->
-        <details>
-          <summary>実行制御.gs</summary>
-          <ul style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-            <li>ワンクリック実行・時間ベースのトリガー・失敗時の再実行を集中管理するランナー。</li>
-          </ul>
-          <pre class="codebox"><code>// 例：実行制御（ダミー雛形）
-function runAll() {
-  try {
-    runPipeline();              // GPT連携
-    expandJudgementDataOptimized(); // 評価展開
-    notifyEgAuditSuccess && notifyEgAuditSuccess();
-  } catch (e) {
-    notifyEgAuditError && notifyEgAuditError();
-    throw e;
-  }
-}
-</code></pre>
-        </details>
+  <!-- 実行制御.gs -->
+  <details>
+    <summary>実行制御.gs</summary>
+    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+      手動・時間トリガー双方から全処理を順次実行するランナーです。失敗時はSlack通知とリトライを担当します。
+    </p>
+    <pre class="codebox"><code>/* ・・・（元の 実行制御.gs のコードそのまま／雛形でも可）・・・ */</code></pre>
+  </details>
 
-        <!-- ★ 追加2：入力抽出.gs -->
-        <details>
-          <summary>入力抽出.gs</summary>
-          <ul style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-            <li>対象案件の入信/返信/テンプレを前処理し、欠損・異常行をスキップする抽出ユーティリティ。</li>
-          </ul>
-          <pre class="codebox"><code>// 例：抽出ユーティリティ（ダミー雛形）
-function validateRow_(row) {
-  return row && row.customer && row.reply && row.template;
-}
-</code></pre>
-        </details>
+  <!-- 入力抽出.gs -->
+  <details>
+    <summary>入力抽出.gs</summary>
+    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+      評価対象の欠損や形式不一致を検出し、安全な行のみを抽出します。前処理で署名/内部ログなどの不要行も除去します。
+    </p>
+    <pre class="codebox"><code>/* ・・・（元の 入力抽出.gs のコードそのまま／雛形でも可）・・・ */</code></pre>
+  </details>
 
-        <!-- ★ 追加3：共通ユーティリティ.gs -->
-        <details>
-          <summary>共通ユーティリティ.gs</summary>
-          <ul style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-            <li>ログ/バックオフ/共通型定義などを集約し、各スクリプトから再利用。</li>
-          </ul>
-          <pre class="codebox"><code>// 例：バックオフ（ダミー雛形）
-function sleepWithJitter_(ms) {
-  Utilities.sleep(ms + Math.floor(Math.random() * 500));
-}
-</code></pre>
-        </details>
-
-      </div>
+  <!-- 共通ユーティリティ.gs -->
+  <details>
+    <summary>共通ユーティリティ.gs</summary>
+    <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+      バックオフ・ログ・定数を集約し各スクリプトから再利用します。処理の安定性と保守性を高める共通関数群です。
+    </p>
+    <pre class="codebox"><code>/* ・・・（元の 共通ユーティリティ.gs のコードそのまま／雛形でも可）・・・ */</code></pre>
+  </details>
+</div>
+<!-- ▲▲▲ ここまで：スプシ用ブロックのみ差し替え ▲▲▲ -->
 
       <!-- （以下、Slack通知のパネル以降は原文そのまま） -->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
