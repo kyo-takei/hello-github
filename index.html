@@ -34,23 +34,17 @@
   <main>
     <h1 class="reveal">スクロールに合わせて“ちょい動き”＋影</h1>
     <p class="lead reveal">GitHub Pagesでも、JS少量とCSSだけでこの程度の動きは十分いける。</p>
-    <section class="reveal">
-      <h2>画像ギャラリー（影＋hover浮き上がり）</h2>
-      <div class="grid">
-        <figure class="card">
-          <img class="shot parallax" src="https://images.unsplash.com/photo-1520975922284-5f7f2b1d0b66?q=80&w=1600&auto=format&fit=crop" alt="">
-          <figcaption class="caption">やわらかい影＋hoverで少しだけ拡大</figcaption>
-        </figure>
-        <figure class="card">
-          <img class="shot parallax" src="https://images.unsplash.com/photo-1520975979643-84d3c1b0a1a5?q=80&w=1600&auto=format&fit=crop" alt="">
-          <figcaption class="caption">ドロップシャドウで立体感</figcaption>
-        </figure>
-        <figure class="card">
-          <img class="shot parallax" src="https://images.unsplash.com/photo-1520975730019-4f3b6f8b9d1c?q=80&w=1600&auto=format&fit=crop" alt="">
-          <figcaption class="caption">微パララックス（scroll依存で数pxだけ移動）</figcaption>
-        </figure>
-      </div>
-    </section>
+  <section class="reveal">
+  <h2>漫画ギャラリー</h2>
+  <div style="display:flex; flex-direction:column; gap:16px; align-items:center;">
+    <img src="images/1.png" alt="comic1" style="width:90%; max-width:600px; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.1);">
+    <img src="images/2.png" alt="comic2" style="width:90%; max-width:600px; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.1);">
+    <img src="images/3.png" alt="comic3" style="width:90%; max-width:600px; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.1);">
+    <img src="images/4.png" alt="comic4" style="width:90%; max-width:600px; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.1);">
+    <img src="images/5.png" alt="comic5" style="width:90%; max-width:600px; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.1);">
+    <img src="images/6.png" alt="comic6" style="width:90%; max-width:600px; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.1);">
+  </div>
+</section>  
     <section class="reveal">
       <h2>テキストブロック（ふわっと表示）</h2>
       <p>IntersectionObserverで、ビューポートに入った要素だけ <code>.is-in</code> を付与。CSSトランジションで“ふわっ”と表示する。JSは十数行で済む。</p>
