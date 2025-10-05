@@ -444,19 +444,21 @@
       </div>
     </section>
 
-    <!-- ってか、実際AIで何をしたん？？（スタイル統一） -->
+    <!-- 実際AIで何をしたん？？（スタイル統一） -->
     <section class="reveal" id="what-ai-did" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
-        AIで何をしたの？？
+       ってか、実際AIで何をしたん？？
       </h2>
 
       <!-- ウィンドウ1 -->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">chatGPTに相談（壁打ち）</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-          <li>「入信の品質管理を自動化するアイデア」をブレスト。</li>
-          <li>現行ツール・制約（スプシ/GAS/Slack 等）を前提に可否と代替案を洗い出し。</li>
-          <li>ヒアリングに答える形で要件を具体化（I/O・例外処理・通知先 など）。</li>
+          <li>「入信の品質管理を自動化するアイデア」を提案してもらう。</li>
+          <li>使えないツールの提案が出たら代替案を出してもらう。</li>
+          <li>GPTからのヒアリングにひたすら回答し、抽象的な内容を具体的な方向性にもっていく。</li>
+          <li>わからないことや、やりたくないことは、そのままストレートに伝える。</li>
+
         </ul>
       </div>
 
@@ -464,19 +466,49 @@
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">実作業フェーズ（指示は具体的に）</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-          <li>GASスクリプトを要件化して生成（抽出/整形/判定/書き戻し/通知）。</li>
-          <li>A列テキストを基準に、セクションごとに D〜L 列へ展開ロジック作成。</li>
-          <li>ワーディングルール準拠で chatGPT 判定 → スプシへ結果反映。</li>
+          <li>壁打ちで方向性が決まったら、GASや関数の要件整理と生成をしてもらう。</li>
+          <li>CSのワーディングルールやAudit判定基準を読ませ、判定できるPromptを生成してもらう</li>
+          <li>スプシに実際にGASを仕込み、出力される場所や内容など細かい調整やFBをして修正してもらう</li>
+          <li>修正箇所の説明がわからない時は「フルコードで出して」といって全てを上書きするとラク</li>
         </ul>
       </div>
 
       <!-- ウィンドウ3 -->
+  
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">補足：会話の使い分け</h3>
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">ちょっとしたコツ</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-          <li>壁打ち（発散）と実装依頼（収束）で会話を分けると精度UP。</li>
+          <li>AIとの会話は、壁打ち（発散）と実装依頼（収束）で分けると精度UP。</li>
           <li>要件が固まっている内容は、具体的に伝えるほどブレが減る。</li>
-          <li>chatGPT は発想力、Gemini はコード最適化に強み → 役割分担が効く。</li>
+          <li>chatGPT は柔軟性と発想力、Geminiはコード最適化や堅実性に強み → 役割分担が効く。</li>
+          <ul><li>chatGPTが出してきたPromptやscriptをGeminiで最適化するとスムーズだった</li></ul>
+          
+        </ul>
+      </div>
+
+        <!-- ウィンドウ4 -->
+  
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">参考にした資料</h3>
+        <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
+          <li>Udemyの動画講座</li>
+            <ul><li><strong>
+              <a href="https://www.udemy.com/course/chatgpt_gas/learn/lecture/47087587?start=255#content"
+                 target="_blank" rel="noopener noreferrer"
+                 style="color:#0070f3;text-decoration:none;border-bottom:1px solid rgba(0,112,243,0.4);">
+                 chatGPTをフル活用してGASをレベルアップする方法
+              </a>
+            </strong></li></ul>
+
+          <li>購入書籍</li>
+            <ul><li><strong>
+              <a href="https://www.amazon.co.jp/dp/4866367296"
+                 target="_blank" rel="noopener noreferrer"
+                 style="color:#0070f3;text-decoration:none;border-bottom:1px solid rgba(0,112,243,0.4);">
+                 ChatGPT はじめてのプロンプトエンジニアリング
+              </a>
+            </strong></li></ul>
+          
         </ul>
       </div>
     </section>
@@ -573,19 +605,24 @@
             </strong></li></ul>
         </ul>
       </div>
+      
       <div style="background:linear-gradient(180deg, #dff3ff 0%, #ffffff 40%, #dff3ff 70%, #ffffff 100%);
-                  border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;color:#10324a;">
+                  border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
+                  padding:28px 36px;margin-bottom:28px;color:#10324a;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #10324a;padding-left:10px;">漫画画像：Gemini（🍌Nano Banana）</h3>
         <ul style="margin:8px 0 0 18px;line-height:1.8;">
           <li><strong>プロンプト</strong>
-           <ul><li>以下のプロット、コマ割りで、LP風に漫画を作って</ul></li>
+          <ul><li>以下のプロット、コマ割りで、LP風に漫画を作って</li></ul>
+          <li><strong>添付資料</strong>
+             <ul><li>漫画草案ででてきた内容を貼る</li></ul>
         </ul>
       </div>
+      
       <div style="background:linear-gradient(180deg, #dff3ff 0%, #ffffff 40%, #dff3ff 70%, #ffffff 100%);
                   border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;color:#10324a;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #10324a;padding-left:10px;">webページ作成：chatGPT5</h3>
         <ul style="margin:8px 0 0 18px;line-height:1.8;">
-          <li><strong>プロンプト：</strong>githubでのLP風の、動きのある社内向けwebページを作りたい。内容は添付資料をサマって。github使えないから、画面操作も1つずつ中学生にもわかるレベルで教えて。</li>
+          <li><strong>プロンプト：</strong>添付資料をサマった内容で、githubでLP風の動きのある社内向けwebページを作りたい。私はgithub使えないから、中学生にもわかるレベルで画面操作も1つずつ教えて。</li>
 　　　　　　　<li><strong>添付資料</strong>
             <ul><li>WBRでシェアした<strong>
               <a href="https://docs.google.com/document/d/1zL3uZXtRJPiMMKFFoAGGeVkFOkcjWCr_24WnRkq1iIk/edit?tab=t.0"
@@ -593,7 +630,7 @@
                  style="color:#0070f3;text-decoration:none;border-bottom:1px solid rgba(0,112,243,0.4);">
                  Google Docs
               </a>
-            </strong><ul><li>
+            </strong></li></ul>
         </ul>
       </div>
       
