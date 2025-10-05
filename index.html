@@ -337,7 +337,7 @@
         <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
           <li>PaymentでのPoC完了→<strong>KYC、FR領域にも横展開</strong>し、改善サイクルを推進</li>
           <li>正しいAccuracy実績に基づく<strong>誤対応分析 → テンプレ/フロー改善案</strong>推進をOpsと協業。</li>
-          <li><strong>クリックなし、毎日完全自動化</strong>の検証完了、前日入信全件チェック→全領域のAccuracyをチャンネル配信の仕組み化検討中</li>
+          <li><strong>クリックなし自動化かつ、10,000件自動処理</strong>の検証完了、前日入信全件チェック→全領域のAccuracyをチャンネル配信の仕組み化検討中</li>
         </ul>
       </div>
     </section>
@@ -422,16 +422,17 @@
 <!-- GASコード（主要スニペット：スタイル維持/微整形） -->
  <section class="reveal" id="gas-codes" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
   <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
-    利用GAS&Prompt一覧
+    参考：作成GAS一覧
   </h2>
 
   <!-- カード1：スプシ用（〜slack連携まで） -->
   <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
-    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">スプシ用</h3>
+    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">Auditシート用</h3>
     <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
       <li>スプシ上の入信、返信、デフォテンプレをchatGPTで判定→結果出力</li>
       <ul><li>GASのscript内に、chatGPT用のPromptが入ってる</li></ul>
       <li>出力結果を、判定項目ごとの列に評価展開</li>
+      <li>全ての処理完了後にslack通知</li>
     </ul>
 
     <!-- GPT連携.gs -->
@@ -466,35 +467,9 @@
     <details>
       <summary>slack連携.gs</summary>
       <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-        Auditの前後でチャンネルに通知を送るGAS。Webhook URLはスクリプトプロパティから読み込み。
+        Audit完了 or エラー 時に通知を送るGAS。Webhook URLはスクリプトプロパティから読み込み。
       </p>
       <pre class="codebox"><code>/* ・・・（元の slack 連携コード）・・・ */</code></pre>
-    </details>
-  </div>
-
-  <!-- カード2：スプシ用（GPT用＋評価展開だけをまとめるボックス） -->
-  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
-    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">スプシ用（GPT用セット）</h3>
-    <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
-      <li>上記のうち、GPT処理と評価展開に関わる主要スクリプトを抜粋。</li>
-    </ul>
-
-    <!-- GPT用 -->
-    <details>
-      <summary>GPT用</summary>
-      <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-        GPT API連携の土台（モデル/温度/バックオフ/並列化など）をまとめたモジュール。各処理から共通で呼び出す。
-      </p>
-      <pre class="codebox"><code>/* ・・・（GPT連携の共通モジュール部）・・・ */</code></pre>
-    </details>
-
-    <!-- 評価展開.gs（再掲：このカードに属する形で） -->
-    <details>
-      <summary>GPT用.gs</summary>
-      <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-        判定テキスト（AP列）を解析し、Minimum/Advance/主訴を各列へ整形出力。可視化用の基盤。
-      </p>
-      <pre class="codebox"><code>/* ・・・（元の 評価展開.gs のコードそのまま）・・・ */</code></pre>
     </details>
   </div>
 </section>
@@ -532,7 +507,13 @@
             </strong></li>
         </ul>
       </div>
-
+      <div style="background:linear-gradient(180deg, #dff3ff 0%, #ffffff 40%, #dff3ff 70%, #ffffff 100%);
+                  border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;color:#10324a;">
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #10324a;padding-left:10px;">漫画画像：Gemini</h3>
+        <ul style="margin:8px 0 0 18px;line-height:1.8;">
+          <li><strong>プロンプト：</strong>以下のプロット、コマ割りで、LP風に漫画を作って</li>
+        </ul>
+      </div>
       <div style="background:linear-gradient(180deg, #dff3ff 0%, #ffffff 40%, #dff3ff 70%, #ffffff 100%);
                   border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;color:#10324a;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #10324a;padding-left:10px;">webページ作成：chatGPT5</h3>
@@ -548,13 +529,6 @@
         </ul>
       </div>
       
-      <div style="background:linear-gradient(180deg, #dff3ff 0%, #ffffff 40%, #dff3ff 70%, #ffffff 100%);
-                  border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;color:#10324a;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #10324a;padding-left:10px;">漫画画像：Gemini</h3>
-        <ul style="margin:8px 0 0 18px;line-height:1.8;">
-          <li><strong>プロンプト：</strong>以下のプロット、コマ割りで、LP風に漫画を作って</li>
-        </ul>
-      </div>
     </section>
   </main>
 
