@@ -96,7 +96,7 @@
   }
   img{ display:block; width:100%; height:auto; user-select:none; pointer-events:none; }
 
-  /* ===== 画像スタック ===== */
+  /* ===== 画像スタック（実行フロー用） ===== */
   .stack-box{
     background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
     padding:28px 36px;margin-bottom:28px;
@@ -192,9 +192,7 @@
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">AI活用概要</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
           <li>サンプルチェック用の案件の入信/返信文を<strong>個人情報保護フォルダへ毎日自動抽出</strong>する仕組みを構築。</li>
-           <ul>
-             <li><strong>Special Thanks @UcchiYさん</strong>のご協力により実現。</li>
-           </ul>
+          <ul><li><strong>Special Thanks @UcchiYさん</strong>のご協力により実現。</li></ul>
           <li>委託先には<strong>プロセスチェックのみ</strong>依頼（1件3分）。ツール処理やフロー判断はAIではなく人が担当。</li>
           <li>AIに相談し、<strong>案件→chatGPT取り込み→スプシ転記→slack通知</strong>をGAS連携で<strong>ワンクリック放置運用</strong>実現。</li>
         </ul>
@@ -237,106 +235,99 @@
       </div>
     </section>
 
-    <!-- 実行フロー（1080px） -->
+    <!-- 実行フロー（1080px：画像スタックはそのまま） -->
     <section class="reveal" id="flow-explain" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
         実行フローのイメージ
       </h2>
+
       <div class="stack-box">
-        <ul class="stack-caption">
-        <strong>Auditシートの準備</strong>
-          <li>案件を抽出しているシートを開く</li>
-           <ul>
-             <li>「GPT連携」を押したら、そのまま放置。シートは閉じても可</li>
-           </ul>
-        </ul>
+        <div class="stack-caption">
+          <strong>Auditシートの準備</strong>
+          <ul>
+            <li>案件を抽出しているシートを開く</li>
+            <li>「GPT連携」を押したら、そのまま放置。シートは閉じても可</li>
+          </ul>
+        </div>
         <img src="flow1.png" alt="ステップ1の画面" class="stack-img">
       </div>
-    <div class="stack-box">
-        <ul class="stack-caption">
-        <strong>判定結果のアウトプット</strong>
-          <li>以下の内容が、案件1件ごとに、スプシにアウトプットされます</li>
-           <ul>
-             <li>1) Audit判定一覧</li>
-             <li>2) 主訴の特定</li>
-             <li>3) 評価サマリ</li>
-             <li>4) Modify診断</li>
-             <li>5) 問題の指摘</li>
-             <li>6)改善後の送信メールの提案</li>
-           </ul>
-        </ul>
-        <img src="flow2.png" alt="ステップ1の画面" class="stack-img">
-        <img src="flow3.png" alt="ステップ1の画面" class="stack-img">
 
-      </div>
       <div class="stack-box">
-        <ul class="stack-caption">
-        <strong>Audit完了通知</strong>
-          <li>GAL上司のtoshi botが、Teamチャンネルに登場！</li>
-        <img src="flow4.png" alt="ステップ2の画面" class="stack-img">
+        <div class="stack-caption">
+          <strong>判定結果のアウトプット</strong>
+          <ul>
+            <li>以下の内容が案件ごとにスプシへ出力されます</li>
+            <li>1) Audit判定一覧 / 2) 主訴の特定 / 3) 評価サマリ / 4) Modify診断 / 5) 問題の指摘 / 6) 改善メール案</li>
+          </ul>
+        </div>
+        <img src="flow2.png" alt="判定結果の画面1" class="stack-img">
+        <img src="flow3.png" alt="判定結果の画面2" class="stack-img">
+      </div>
+
+      <div class="stack-box">
+        <div class="stack-caption">
+          <strong>Audit完了通知</strong>
+          <ul>
+            <li>GAL上司のtoshi botがTeamチャンネルに通知</li>
+          </ul>
+        </div>
+        <img src="flow4.png" alt="Slack通知の画面" class="stack-img">
       </div>
     </section>
     
-     <!-- 実行フロー（1080px） -->
-    <section class="reveal" id="flow-explain" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+    <!-- ▼▼ ここから下を“取り組み”と同じスタイルに統一 ▼▼ -->
+
+    <!-- 具体的にAIで何をしたの？？（スタイル統一） -->
+    <section class="reveal" id="what-ai-did" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
         具体的にAIで何をしたの？？
       </h2>
-      <div class="stack-box">
-        <ul class="stack-caption">
-        <strong>chatGPTに相談をした（ただの壁打ち）</strong>
-          <li>入信の品質管理を自動化させるアイデアちょうだい</li>
-          <li>使ってるツールはhogehogeだよ</li>
-          <li></li>
-           <ul>
-             <li>etc...あとは聞かれたことに答えるだけ</li>
-           </ul>
-        </ul>
-        <img src="flow1.png" alt="ステップ1の画面" class="stack-img">
-      </div>
-    <div class="stack-box">
-        <ul class="stack-caption">
-        <strong>実際の作業フェーズ</strong>
-          <li>方向性とやることが決まったら、具体的に指示を出す</li>
-           <ul>
-             <li>1) GASのスクリプトを以下の要件にそって書いて</li>
-             <li>2) A列の内容を、セクション毎に、D〜L列に展開して</li>
-             <li>3) ワーディングルールにそって、chatGPTで判定させたい</li>
-           <ul>
-             <li>etc...あとは聞かれたことに答えるだけ</li>
-           </ul>
+
+      <!-- ウィンドウ1 -->
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">chatGPTに相談（壁打ち）</h3>
+        <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
+          <li>「入信の品質管理を自動化するアイデア」をブレスト。</li>
+          <li>現行ツール・制約（スプシ/GAS/Slack 等）を前提に可否と代替案を洗い出し。</li>
+          <li>ヒアリングに答える形で要件を具体化（I/O・例外処理・通知先 など）。</li>
         </ul>
       </div>
-      <div class="stack-box">
-        <ul class="stack-caption">
-        <strong>補足</strong>
-          <li>壁打ちの際の会話と、具体作業の時の会話は使い分ける</li>
-           <ul>
-             <li>要件などが決まってる内容は、具体的に伝えたほうがアウトプットの品質があがる</li>
-             <ul>
-            　 <li>AIも人間と同じで、明確な指示があったほうが余計な提案や混乱を回避できる</li>
-           </ul>
-             <li>cahtGPTのほうが柔軟なアイデアを出すが、ハルシネーションも多いので、chatGPTのアイデアをもとに、GeimniでFIXさせるような使い分けをするとうまくいく</li>
-           <ul>
-             <li>etc...あとは聞かれたことに答えるだけ</li>
-           </ul>
+
+      <!-- ウィンドウ2 -->
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">実作業フェーズ（指示は具体的に）</h3>
+        <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
+          <li>GASスクリプトを要件化して生成（抽出/整形/判定/書き戻し/通知）。</li>
+          <li>A列テキストを基準に、セクションごとに D〜L 列へ展開ロジック作成。</li>
+          <li>ワーディングルール準拠で chatGPT 判定 → スプシへ結果反映。</li>
+        </ul>
+      </div>
+
+      <!-- ウィンドウ3 -->
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">補足：会話の使い分け</h3>
+        <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
+          <li>壁打ち（発散）と実装依頼（収束）で会話を分けると精度UP。</li>
+          <li>要件が固まっている内容は、具体的に伝えるほどブレが減る。</li>
+          <li>chatGPT は発想力、Gemini はコード最適化に強み → 役割分担が効く。</li>
         </ul>
       </div>
     </section>
 
-
-    <!-- GASコード（1080px） -->
+    <!-- GASコード（主要スニペット：スタイル維持/微整形） -->
     <section class="reveal" id="gas-codes" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
         運用GAS（主要スニペット）
       </h2>
 
-      <ul style="margin:0 0 0 18px;color:#333;line-height:1.8;">
-        <li><strong>抽出バッチ：</strong> 前日の入信/返信文をPII保護フォルダへ自動抽出。</li>
-      </ul>
-      <details>
-        <summary>抽出バッチ（dailyExtract.gs）</summary>
-        <pre class="codebox"><code>// 前日のメッセージを抽出し、保護フォルダへ保存
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">抽出バッチ</h3>
+        <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
+          <li>前日の入信/返信文を PII 保護フォルダへ自動抽出。</li>
+        </ul>
+        <details>
+          <summary>dailyExtract.gs</summary>
+          <pre class="codebox"><code>// 前日のメッセージを抽出し、保護フォルダへ保存
 function dailyExtract() {
   const folderId = 'YOUR_SECURE_FOLDER_ID';
   const sheetId  = 'YOUR_SHEET_ID';
@@ -355,14 +346,17 @@ function dailyExtract() {
                               JSON.stringify(out), MimeType.JSON);
   Logger.log('saved: ' + file.getName());
 }</code></pre>
-      </details>
+        </details>
+      </div>
 
-      <ul style="margin:16px 0 0 18px;color:#333;line-height:1.8;">
-        <li><strong>LLM判定ワーカー：</strong> 事前整形 → API投げ → スプシへ結果書き戻し。</li>
-      </ul>
-      <details>
-        <summary>判定ワーカー（judgeWorker.gs）</summary>
-        <pre class="codebox"><code>// テキスト整形 → LLM呼び出し → 結果をシートへ反映
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">LLM判定ワーカー</h3>
+        <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
+          <li>事前整形 → API 呼び出し → スプシへ結果書き戻し。</li>
+        </ul>
+        <details>
+          <summary>judgeWorker.gs</summary>
+          <pre class="codebox"><code>// テキスト整形 → LLM呼び出し → 結果をシートへ反映
 function judgeWorker() {
   const sheet = SpreadsheetApp.openById('YOUR_SHEET_ID').getSheetByName('inbox');
   const rows  = sheet.getDataRange().getValues();
@@ -400,14 +394,17 @@ function callLLM_(content) {
   // 返却例は環境に合わせて整形
   return { score: json.choices?.[0]?.message?.content ?? '', summary:'...', modidy:'...' };
 }</code></pre>
-      </details>
+        </details>
+      </div>
 
-      <ul style="margin:16px 0 0 18px;color:#333;line-height:1.8;">
-        <li><strong>Slack通知：</strong> 完了時にチャンネルへカード通知。</li>
-      </ul>
-      <details>
-        <summary>Slack通知（notifySlack.gs）</summary>
-        <pre class="codebox"><code>// Incoming Webhookで通知
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">Slack通知</h3>
+        <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
+          <li>完了時にチャンネルへカード通知。</li>
+        </ul>
+        <details>
+          <summary>notifySlack.gs</summary>
+          <pre class="codebox"><code>// Incoming Webhookで通知
 function notifySlack_(text) {
   const url = PropertiesService.getScriptProperties().getProperty('SLACK_WEBHOOK');
   const payload = { text: ':robot_face: *EG PaymentのAudit 完了* :tada:\n' + text };
@@ -417,8 +414,11 @@ function notifySlack_(text) {
     payload: JSON.stringify(payload)
   });
 }</code></pre>
-      </details>
+        </details>
+      </div>
     </section>
+
+    <!-- ▼▼ ここまで ▼▼ -->
 
     <!-- おまけ（1080px） -->
     <section class="reveal" id="how-made" style="width:100%;max-width:1080px;
