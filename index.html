@@ -25,34 +25,25 @@
     font-weight: 600; letter-spacing: .05em;
   }
 
-  /* ===== LP風ヒーロー画像セクション ===== */
+  /* ===== LP風ヒーロー（画像タグで“切れない”表示） ===== */
   .hero{
     width:100%;
-    min-height:85vh; /* 高さを大きめに */
-    background-image: url('title.png'); /* main直下の画像 */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
     border-bottom: 6px solid #111;
-    box-shadow: inset 0 -60px 60px rgba(0,0,0,0.25);
+    box-shadow: inset 0 -40px 40px rgba(0,0,0,0.18);
+    background:#111;         /* 端の余白用のベース色（画像が細い画面でも綺麗） */
   }
-  /* 下に自然なグラデーションを敷く */
-  .hero::before{
-    content:""; position:absolute; inset:0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.35) 100%);
-    pointer-events:none;
+  .hero-img{
+    display:block;
+    width:100%;
+    height:auto;             /* ← これでトリミングなしで全体表示 */
   }
-  /* アクセシビリティ用の非表示タイトル */
+  /* アクセシビリティ用の非表示タイトル（SEO/読み上げ） */
   .visually-hidden{
     position:absolute !important; width:1px; height:1px; margin:-1px; border:0; padding:0;
     white-space:nowrap; clip-path:inset(50%); clip:rect(0 0 0 0); overflow:hidden;
   }
 
-  /* ===== 自己紹介セクション ===== */
+  /* ===== 自己紹介セクション（重ねず下に配置） ===== */
   .profile{
     max-width:800px; width:90%;
     background:#fff;
@@ -60,38 +51,31 @@
     box-shadow:0 12px 40px rgba(0,0,0,0.12);
     padding:40px 28px;
     text-align:center;
-    margin:-100px auto 0;
+    margin:24px auto 0;      /* ← ここをプラスに変更（重ねない） */
     position:relative; z-index:5;
   }
   .profile img{
-    width:100px; height:100px;
-    border-radius:50%; object-fit:cover; margin-bottom:12px;
+    width:100px; height:100px; border-radius:50%; object-fit:cover; margin-bottom:12px;
   }
-  .profile h2{
-    margin:0 0 8px; font-size:24px;
-  }
-  .profile p{
-    color:#555; line-height:1.8; margin:4px 0;
-  }
+  .profile h2{ margin:0 0 8px; font-size:24px; }
+  .profile p{ color:#555; line-height:1.8; margin:4px 0; }
 
-  /* ===== 1行スライドアニメーション ===== */
-  .ticker{
-    height:1.8em; overflow:hidden; display:inline-block;
-  }
+  /* ===== 1行スライドアニメ ===== */
+  .ticker{ height:1.8em; overflow:hidden; display:inline-block; }
   .ticker .track{
     display:flex; flex-direction:column;
     line-height:1.8em;
     animation:tick 9s steps(3) infinite;
   }
   @keyframes tick{
-    0%{transform:translateY(0);}
-    100%{transform:translateY(-5.4em);} /* 1.8em×3行 */
+    0%{ transform:translateY(0); }
+    100%{ transform:translateY(-5.4em); } /* 1.8em × 3行 */
   }
 
   /* ===== 共通セクション（漫画・QA） ===== */
   main{
     display:flex; flex-direction:column; align-items:center;
-    gap:70px; padding:80px 0 140px;
+    gap:70px; padding:40px 0 140px;   /* ↑自己紹介の下なので少し詰める */
   }
   section{
     width:100%; max-width:760px; background:#fff;
@@ -112,27 +96,24 @@
       0 25px 70px rgba(0,0,0,0.28),
       0 10px 20px rgba(0,0,0,0.15);
   }
-  img{
-    display:block; width:100%; height:auto;
-    vertical-align:middle; user-select:none; pointer-events:none;
-  }
+  img{ display:block; width:100%; height:auto; vertical-align:middle; user-select:none; pointer-events:none; }
 
   @media (max-width:768px){
-    main{gap:50px; padding:60px 0 100px;}
-    section, .profile{border-radius:12px;}
-    .hero{min-height:65vh;}
+    main{ gap:50px; padding:30px 0 100px; }
+    section, .profile{ border-radius:12px; }
   }
 </style>
 </head>
 <body>
   <header>QA・品質管理のAI活用</header>
 
-  <!-- ヒーロー（LP風全幅画像） -->
+  <!-- ヒーロー（トリミングなしで全体を画面幅にフィット） -->
   <div class="hero">
+    <img src="title.png" alt="非エンジニアでもAIここまでできる！" class="hero-img">
     <h1 class="visually-hidden">QA・品質管理のAI活用</h1>
   </div>
 
-  <!-- 自己紹介 -->
+  <!-- 自己紹介（画像に被せず下に） -->
   <div class="profile reveal">
     <!-- <img src="your-photo.jpg" alt="きょーちゃん"> -->
     <h2>きょーちゃん</h2>
@@ -157,11 +138,11 @@
     <section class="reveal"><img src="5.png" alt="comic5" loading="lazy"></section>
     <section class="reveal"><img src="6.png" alt="comic6" loading="lazy"></section>
 
-    <!-- QA・品質管理のAI活用セクション（前回の内容） -->
+    <!-- QA・品質管理のAI活用（内容は前回のまま） -->
     <section class="reveal" id="ai-qa" style="background:#fff;border-radius:16px;padding:28px;box-shadow:0 10px 30px rgba(0,0,0,.1);margin-top:60px;">
       <h2 style="margin:0 0 6px;font-size:24px;">QA・品質管理のAI活用</h2>
       <p style="margin:0 0 18px;color:#555;">「AIでここまで自動化できる。業務に活かせる。」— 見た人が今日から試せる再現手順つき。</p>
-      <!-- KPIなどはここに残してOK -->
+      <!-- KPI等ここに -->
     </section>
   </main>
 
