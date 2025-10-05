@@ -1600,22 +1600,31 @@ function notifySlack_(text) {
     </section>
   </main>
 
-  <script>
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting && e.intersectionRatio >= 0.2) {
-          e.target.classList.add('is-in');
-        } else {
-          if (e.intersectionRatio < 0.1) {
-            e.target.classList.remove('is-in');
-          }
-        }
-      });
-    }, {
-      threshold: [0, 0.1, 0.2, 0.6],
-      rootMargin: "0px 0px -5% 0px"
+<script>
+  // 一度可視になったら .is-in を外さない版
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-in');
+        // もう監視しない（チラつき防止）
+        io.unobserve(e.target);
+      }
     });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  </script>
+  }, {
+    threshold: 0.15,
+    rootMargin: "0px 0px -10% 0px"
+  });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // details の開閉で高さが変わっても沈まないよう保険
+  document.querySelectorAll('details').forEach(d => {
+    d.addEventListener('toggle', () => {
+      const sec = d.closest('section');
+      if (sec) sec.classList.add('is-in');
+    });
+  });
+</script>
+
 </body>
 </html>
