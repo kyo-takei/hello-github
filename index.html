@@ -10,7 +10,7 @@
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
-    background: #e4e4e4; /* グレー背景 */
+    background: #e5e5e5; /* 背景：おしゃれなグレー */
     color: #222;
     overflow-x: hidden;
   }
@@ -32,37 +32,43 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px; /* コマ間の隙間 */
-    padding-bottom: 100px;
+    gap: 60px; /* コマ間の距離を広めにして呼吸感 */
+    padding: 60px 0 120px;
   }
 
   section {
     width: 100%;
     max-width: 760px;
-    background: #f9f9f9;
-    box-shadow: 0 8px 30px rgba(0,0,0,.08);
-    border-radius: 12px;
+    background: #fff;
+    border-radius: 14px;
     overflow: hidden;
-    transform: translateY(20px);
+    box-shadow: 0 0 0 rgba(0,0,0,0); /* 初期は影なし */
+    transform: translateY(40px) scale(0.98); /* 初期位置を少し下＆縮小 */
     opacity: 0;
-    transition: transform 0.8s var(--ease), opacity 0.8s var(--ease);
+    transition:
+      transform 0.9s var(--ease),
+      opacity 0.9s var(--ease),
+      box-shadow 0.6s var(--ease);
   }
+
   section.is-in {
-    transform: translateY(0);
+    transform: translateY(0) scale(1); /* 浮き上がる */
     opacity: 1;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15); /* 影をふわっと出す */
   }
 
   img {
     display: block;
     width: 100%;
     height: auto;
-    user-select: none;
     vertical-align: middle;
+    user-select: none;
+    pointer-events: none;
   }
 
   @media (max-width: 768px) {
-    main { gap: 18px; }
-    section { border-radius: 8px; box-shadow: 0 4px 18px rgba(0,0,0,.1); }
+    main { gap: 40px; padding: 40px 0 80px; }
+    section { border-radius: 10px; max-width: 100%; }
   }
 </style>
 </head>
@@ -80,9 +86,11 @@
 <script>
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
-      if(e.isIntersecting){ e.target.classList.add('is-in'); }
+      if(e.isIntersecting){
+        e.target.classList.add('is-in');
+      }
     });
-  },{threshold:0.2});
+  },{threshold:0.15}); // 画面に15%見えたら発火
 
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
