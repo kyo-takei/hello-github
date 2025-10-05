@@ -434,7 +434,8 @@
     <li>1) Audit判定一覧 / 2) 主訴の特定 / 3) 評価サマリ / 4) Modify診断 / 5) 問題の指摘 / 6) 改善メール案</li>
   </ul>
   <img src="flow2.png" alt="判定結果の画面1" class="stack-img">
-  <img src="flow3.png" alt="判定結果の画面2" class="stack-img">
+  <br>
+  <img src="flow3.png" alt="判定結果の画面2" class="stack-img"></br>
 </div>
 
 <!-- Audit完了通知 -->
@@ -645,12 +646,13 @@
   </main>
 
 <script>
-  // 一度可視になったら .is-in を外さない版
+  // スクロールのたびに再度ふわっと出る版
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (e.isIntersecting) {
-        e.target.classList.add('is-in');
-        io.unobserve(e.target);
+        e.target.classList.add('is-in');     // 画面に入ったら付与
+      } else {
+        e.target.classList.remove('is-in');  // 画面から出たら外す
       }
     });
   }, {
@@ -660,7 +662,7 @@
 
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // details の開閉で高さが変わっても沈まないよう保険
+  // details 開閉で高さが変わっても沈まないよう保険（そのままでOK）
   document.querySelectorAll('details').forEach(d => {
     d.addEventListener('toggle', () => {
       const sec = d.closest('section');
@@ -668,6 +670,7 @@
     });
   });
 </script>
+
 
 </body>
 </html>
