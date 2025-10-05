@@ -198,16 +198,98 @@
         </ul>
       </div>
 
-      <!-- 成果 -->
-      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;margin-bottom:32px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">成果</h3>
-        <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
-          <li>サンプルチェックの時間を、<strong>約1000分の1に爆速化！！</strong></li>
-          <ul><li><strong>500件</strong>のAudit＋評価記載を<strong>15分</strong>で完了（従来約<strong>250h</strong>）。</li></ul>
-          <li>委託先でのAccuracy：80% → AI分析で<strong>実測：30%</strong>が発覚、品質可視化に前進。</li>
-          <li>品質評価をAIに任せることで、一貫性かつ再現性あるAudit運用を確立。</li>
-        </ul>
-      </div>
+<!-- 成果（派手版：ここだけ差し替え） -->
+<style>
+  /* ===== 成果カード専用（他には影響しません） ===== */
+  .results-card{
+    position:relative;
+    background: radial-gradient(1200px 400px at -10% -40%, #fff7d6 0%, #ffffff 42%) ,
+                linear-gradient(180deg,#ffffff 0%,#fffdf6 100%);
+    border-radius:18px;
+    padding:32px 40px;
+    box-shadow:
+      0 18px 45px rgba(0,0,0,.12),
+      0 6px 14px rgba(0,0,0,.08),
+      inset 0 0 0 1px rgba(255,188,52,.20);
+    overflow:hidden;
+    isolation:isolate;
+  }
+  /* うっすら回るグロー */
+  .results-card::before{
+    content:"";
+    position:absolute; inset:-60% -40% auto -40%;
+    height:260px;
+    background: conic-gradient(from 120deg,
+      #ffd773 0deg, #fff0b1 60deg, #ffd773 120deg, transparent 180deg);
+    filter: blur(40px); opacity:.25;
+    animation:rc-spin 14s linear infinite;
+    pointer-events:none; z-index:-1;
+  }
+  @keyframes rc-spin{ to{ transform: rotate(360deg); } }
+
+  .results-badge{
+    position:absolute; top:-16px; right:-16px;
+    background:#111; color:#fff; font-weight:800; letter-spacing:.06em;
+    padding:10px 14px; border-radius:999px;
+    box-shadow:0 10px 22px rgba(0,0,0,.25);
+    transform: rotate(10deg);
+  }
+
+  .results-title{
+    margin:0 0 14px;
+    font-size:22px; font-weight:800; line-height:1;
+    padding-left:12px; border-left:6px solid #111;
+    background: linear-gradient(90deg,#111 0%, #6b4b00 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+
+  .results-list{ margin:0; padding-left:20px; color:#333; line-height:1.85; }
+  .results-list > li{ margin:8px 0; }
+
+  .results-sub{ margin:6px 0 0 18px; padding-left:16px; list-style:circle; color:#222; }
+
+  /* 目立たせたい数値用のピル */
+  .kpi{
+    display:inline-block; font-weight:900;
+    padding:.12em .55em; border-radius:999px;
+    background:linear-gradient(90deg,#ffe08a 0%,#ffd24d 40%,#ffce3a 100%);
+    color:#3a2a00; box-shadow:0 2px 0 rgba(255,190,60,.9), 0 8px 18px rgba(255,190,60,.35);
+    position:relative; overflow:hidden;
+  }
+  /* きらりアニメ */
+  .kpi::after{
+    content:""; position:absolute; inset:-120% 80% auto -120%;
+    width:60%; height:300%;
+    background:linear-gradient(90deg, transparent, rgba(255,255,255,.9), transparent);
+    transform: rotate(18deg);
+    animation:kira 2.4s ease-in-out infinite;
+  }
+  @keyframes kira{
+    0%{ transform:translateX(-20%) rotate(18deg); opacity:.0; }
+    45%{ opacity:.0; }
+    60%{ transform:translateX(140%) rotate(18deg); opacity:.9; }
+    100%{ transform:translateX(160%) rotate(18deg); opacity:.0; }
+  }
+  /* アウトライン版（サブ数値用） */
+  .kpi--outline{
+    background: #fff7d6;
+    border:2px solid #ffd155; color:#5a4100;
+    box-shadow: 0 6px 14px rgba(255,190,60,.25) inset;
+  }
+</style>
+
+<div class="results-card">
+  <div class="results-badge">🏆 RESULTS</div>
+  <h3 class="results-title">成果</h3>
+  <ul class="results-list">
+    <li>サンプルチェックの時間を、<span class="kpi">約1000分の1に爆速化</span>！！</li>
+    <ul class="results-sub">
+      <li><span class="kpi kpi--outline">500件</span> のAudit＋評価記載を <span class="kpi kpi--outline">15分</span> で完了（従来 約 <span class="kpi kpi--outline">250h</span>）。</li>
+    </ul>
+    <li>委託先でのAccuracy：80% → AI分析で <span class="kpi kpi--outline">実測：30%</span> が発覚、品質可視化に前進。</li>
+    <li>品質評価をAIに任せることで、一貫性かつ再現性あるAudit運用を確立。</li>
+  </ul>
+</div>
 
       <!-- 課題点-->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;">
@@ -274,13 +356,11 @@
         <img src="flow4.png" alt="Slack通知の画面" class="stack-img">
       </div>
     </section>
-    
-    <!-- ▼▼ ここから下を“取り組み”と同じスタイルに統一 ▼▼ -->
 
     <!-- 具体的にAIで何をしたの？？（スタイル統一） -->
     <section class="reveal" id="what-ai-did" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
-        具体的にAIで何をしたの？？
+        AIで何をしたの？？
       </h2>
 
       <!-- ウィンドウ1 -->
