@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Webtoon Gallery</title>
 <style>
-  :root { --ease: cubic-bezier(.25,.1,.25,1); } /* 柔らかい動きのカーブ */
+  :root { --ease: cubic-bezier(.25,.1,.25,1); }
   * { box-sizing: border-box; }
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
-    background: #e3e3e3; /* 落ち着いたグレー背景 */
+    background: #e3e3e3;
     color: #222;
     overflow-x: hidden;
   }
@@ -32,7 +32,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 70px; /* コマ間を広めにとる */
+    gap: 70px;
     padding: 80px 0 140px;
   }
 
@@ -54,7 +54,10 @@
   section.is-in {
     transform: translateY(0) scale(1);
     opacity: 1;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.18); /* やわらかい広めの影 */
+    /* 👇ここで影を濃くして立体感を出す */
+    box-shadow:
+      0 25px 70px rgba(0,0,0,0.28),
+      0 10px 20px rgba(0,0,0,0.15);
   }
 
   img {
@@ -68,7 +71,12 @@
 
   @media (max-width: 768px) {
     main { gap: 50px; padding: 60px 0 100px; }
-    section { border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
+    section {
+      border-radius: 10px;
+      box-shadow:
+        0 15px 40px rgba(0,0,0,0.25),
+        0 6px 12px rgba(0,0,0,0.15);
+    }
   }
 </style>
 </head>
@@ -90,8 +98,7 @@
         e.target.classList.add('is-in');
       }
     });
-  },{threshold:0.2}); // 少し画面に入ったら発火
-
+  },{threshold:0.2});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body>
