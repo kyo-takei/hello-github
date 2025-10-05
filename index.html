@@ -140,48 +140,60 @@
 
     <!-- QA・品質管理のAI活用（内容は前回のまま） -->
 <!-- MP CTMの課題と取り組み背景 -->
-<section class="reveal" id="ai-qa" style="width:100%;max-width:960px;background:transparent;margin-top:80px;margin-bottom:40px;text-align:center;">
+<!-- MP CTMの課題と取り組み背景 -->
+<section class="reveal" id="ai-qa" style="width:100%;max-width:1080px;background:#f5f5f5;border-radius:20px;padding:60px 40px;margin-top:80px;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
   <!-- 見出し -->
-  <h2 style="font-size:38px;font-weight:800;margin:0 0 40px;color:#111;">
+  <h2 style="font-size:36px;font-weight:800;margin:0 0 40px;text-align:center;color:#111;">
     MP CTMの課題と取り組み背景
   </h2>
 
-  <!-- 白いウィンドウ（中身カード風） -->
-  <div style="background:#fff;border-radius:18px;box-shadow:0 6px 32px rgba(0,0,0,0.08);padding:40px 32px;text-align:left;line-height:1.8;color:#333;">
-    
-    <h3 style="margin:0 0 10px;font-size:22px;border-left:6px solid #111;padding-left:10px;">背景と課題</h3>
-    <p style="margin:8px 0 18px;">
+  <!-- ウィンドウ：背景と課題 -->
+  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;margin-bottom:32px;">
+    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">背景と課題</h3>
+    <p style="margin:8px 0 0;color:#333;line-height:1.8;">
       委託先に入信対応のサンプリングチェックを依頼し、IHでダブルチェックを実施していたが、チェック項目が多く、双方で1件あたり2〜30分の工数になっていた。<br>
       7月のSuccessでシェアした <strong>Template Quality Checker</strong> を一部でAI活用していたが、入信や返信文を手作業でコピーする手間が残っていた。<br>
       委託先とIH間で品質基準の認識にギャップがあり、正しいAccuracyが可視化できず、CalibrationやFBでは安定化に限界。<br>
       より効率的で再現性のある仕組み構築が必要だった。
     </p>
+  </div>
 
-    <h3 style="margin:26px 0 10px;font-size:22px;border-left:6px solid #111;padding-left:10px;">取り組みの概要</h3>
-    <p style="margin:8px 0 18px;">
+  <!-- ウィンドウ：取り組みの概要 -->
+  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;margin-bottom:32px;">
+    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">取り組みの概要</h3>
+    <p style="margin:8px 0 0;color:#333;line-height:1.8;">
       Audit案件の入信/返信文を個人情報保護フォルダに毎日自動抽出する仕組みを構築。<br>
       こちらは <strong>UcchiYさん</strong> の協力で実現。<br>
       委託先にはプロセスチェックのみ依頼（1件3分）。ツールの処理やフロー判断はAIではなく人が担当。<br>
       <strong>GAS連携</strong>によりAI判定〜出力までをワンクリック＋放置で完結する運用を実現。
     </p>
+  </div>
 
-    <h3 style="margin:26px 0 10px;font-size:22px;border-left:6px solid #111;padding-left:10px;">成果</h3>
-    <ul style="margin:0 0 18px 18px;">
+  <!-- ウィンドウ：成果 -->
+  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;margin-bottom:32px;">
+    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">成果</h3>
+    <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
       <li>500件のAudit＋評価記載をワンクリック＋15分で完了（従来約250h）</li>
       <li>委託先Accuracy 80% → AI分析で実測30%を発見、品質可視化に前進</li>
       <li>品質評価 × 改善サイクルを自動化し、再現性あるAudit運用を確立</li>
     </ul>
+  </div>
 
-    <h3 style="margin:26px 0 10px;font-size:22px;border-left:6px solid #111;padding-left:10px;">苦労 &amp; 工夫ポイント</h3>
-    <ul style="margin:0 0 18px 18px;">
+  <!-- ウィンドウ：苦労 & 工夫ポイント -->
+  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;margin-bottom:32px;">
+    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">苦労 &amp; 工夫ポイント</h3>
+    <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
       <li>GASタイムアウト多発 → モデル最適化（GPT-5→4o）＋前処理で効率化</li>
       <li>Template Quality Checker改修 → 判定基準や資料をMarkdown内に内包</li>
       <li>AI適材適所：ChatGPT（心情理解）× Gemini（コード最適化）で相互最適化</li>
       <li>プロンプト冒頭で役割指定（CS責任者／エンジニア）による思考誘導</li>
     </ul>
+  </div>
 
-    <h3 style="margin:26px 0 10px;font-size:22px;border-left:6px solid #111;padding-left:10px;">課題とNext Action</h3>
-    <ul style="margin:0 0 10px 18px;">
+  <!-- ウィンドウ：課題とNext Action -->
+  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;">
+    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">課題とNext Action</h3>
+    <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
       <li>誤対応件数の増加に伴う委託先の負荷対策</li>
       <li>AI誤判定（精度約85%）への再学習／チューニング</li>
       <li>Rebuttal起点でのプロンプト調整（hiikichiさん協力）</li>
@@ -192,6 +204,7 @@
     </ul>
   </div>
 </section>
+
 
 
   </main>
