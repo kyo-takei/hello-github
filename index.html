@@ -228,6 +228,43 @@
   }
   @keyframes rc-spin{ to{ transform: rotate(360deg); } }
 
+/* ===== 黄色い発光ボーダーアニメ ===== */
+.results-card {
+  border: 3px solid transparent; /* ベース枠 */
+  background-clip: padding-box;  /* 中の背景は除外 */
+  position: relative;
+  z-index: 0;
+}
+
+/* 光るリングを回す */
+.results-card::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  padding: 2px;
+  background: conic-gradient(
+    from 0deg,
+    #ffda44 0deg,
+    #fff89c 90deg,
+    #ffd43b 180deg,
+    #fff89c 270deg,
+    #ffda44 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: spin-border 6s linear infinite;
+  z-index: -1;
+}
+
+@keyframes spin-border {
+  to { transform: rotate(360deg); }
+}
+
+  
   .results-badge{
   position:absolute;
   top:-24px;                 
@@ -310,7 +347,7 @@
     <ul class="results-sub">
       <li><span class="kpi kpi--outline">500件</span> のAudit＋評価記載を <span class="kpi kpi--outline">15分</span> で完了（従来では約 <span class="kpi kpi--outline">250h</span>）。</li>
     </ul>
-    <li>委託先でのAccuracy：80% → AI分析で <span class="kpi kpi--outline">実際は30%</span> だと発覚、より確度の高い品質評価へ前進。</li>
+    <li>委託先でのAccuracy：80% → AI分析で <span class="kpi kpi--outline">実際は約30%程度</span> だと発覚、より確度の高い品質評価へ前進。</li>
     <li>品質評価をAIに任せることで、一貫性かつ再現性あるAudit運用を確立。</li>
   </ul>
 </div>
@@ -319,7 +356,7 @@
       
       <!-- 課題点-->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">課題</h3>
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">新たな課題</h3>
         <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
           <li>誤対応件数の増加に伴う委託先の<strong>管理者負荷</strong>対策。</li>
           <li>AIの判定精度は<strong>現状約85%</strong>のため、委託先からのRebuttal起点プロンプト調整が必要</li>
@@ -382,7 +419,7 @@
       </div>
     </section>
 
-    <!-- 具体的にAIで何をしたの？？（スタイル統一） -->
+    <!-- ってか、実際AIで何をしたん？？（スタイル統一） -->
     <section class="reveal" id="what-ai-did" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
         AIで何をしたの？？
