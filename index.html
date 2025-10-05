@@ -3,77 +3,88 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Scroll & Shadow Demo</title>
+<title>Webtoon Gallery</title>
 <style>
   :root { --ease: cubic-bezier(.22,.61,.36,1); }
   * { box-sizing: border-box; }
-  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans JP", sans-serif; line-height:1.6; color:#222; background:#fafafa; }
-  header { position: sticky; top:0; z-index:50; backdrop-filter: blur(8px); background: rgba(255,255,255,0.6); border-bottom: 1px solid rgba(0,0,0,.06); }
-  header .wrap { display:flex; gap:12px; align-items:center; padding:12px 20px; }
-  main { max-width: 1000px; margin: 0 auto; padding: 24px 16px 120px; }
-  h1 { font-size: clamp(22px, 3.5vw, 36px); margin: 14px 0; }
-  p.lead { font-size: clamp(14px, 2.3vw, 18px); color:#555; margin: 0 0 18px; }
-  .reveal { opacity: 0; transform: translateY(18px) scale(.98); filter: saturate(.9); transition: opacity .7s var(--ease), transform .7s var(--ease), filter .7s var(--ease); will-change: transform, opacity, filter; }
-  .reveal.is-in { opacity: 1; transform: none; filter: saturate(1); }
-  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:18px; margin-top:18px; }
-  .card { background:#fff; border-radius:18px; padding:12px; overflow:hidden; box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 10px 30px -12px rgba(0,0,0,.18); transition: transform .35s var(--ease), box-shadow .35s var(--ease), filter .35s var(--ease); }
-  .card:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 2px 0 rgba(0,0,0,.05), 0 18px 40px -14px rgba(0,0,0,.28); filter: drop-shadow(0 6px 18px rgba(0,0,0,.1)); }
-  .shot { width:100%; height:220px; object-fit: cover; border-radius:12px; display:block; transform: translateZ(0); }
-  .caption { font-size:14px; color:#666; margin:10px 2px 2px; }
-  .parallax { transform: translateY(var(--offset, 0px)); transition: transform .12s linear; will-change: transform; }
-  section { background:#fff; border-radius:20px; padding:22px; margin-top:18px; box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 8px 22px -12px rgba(0,0,0,.16); }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
+    background: #e4e4e4; /* グレー背景 */
+    color: #222;
+    overflow-x: hidden;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(240,240,240,0.6);
+    border-bottom: 1px solid rgba(0,0,0,.08);
+    text-align: center;
+    padding: 10px 0;
+    font-weight: 600;
+    letter-spacing: .05em;
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px; /* コマ間の隙間 */
+    padding-bottom: 100px;
+  }
+
+  section {
+    width: 100%;
+    max-width: 760px;
+    background: #f9f9f9;
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+    border-radius: 12px;
+    overflow: hidden;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.8s var(--ease), opacity 0.8s var(--ease);
+  }
+  section.is-in {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    vertical-align: middle;
+  }
+
+  @media (max-width: 768px) {
+    main { gap: 18px; }
+    section { border-radius: 8px; box-shadow: 0 4px 18px rgba(0,0,0,.1); }
+  }
 </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <strong>Demo</strong>
-      <span style="font-size:13px;color:#666">スクロール表示 / 影 / 微パララックス</span>
-    </div>
-  </header>
+  <header>Webtoon Style Gallery</header>
   <main>
-    <h1 class="reveal">スクロールに合わせて“ちょい動き”＋影</h1>
-    <p class="lead reveal">GitHub Pagesでも、JS少量とCSSだけでこの程度の動きは十分いける。</p>
-  <section class="reveal">
-  <h2>漫画ギャラリー</h2>
-  <div style="display:flex; flex-direction:column; gap:16px; align-items:center;">
-    <img src="1.png" alt="comic1" loading="lazy" style="width:92%;max-width:720px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1);">
-　  <img src="2.png" alt="comic2" loading="lazy" style="width:92%;max-width:720px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1);">
-    <img src="3.png" alt="comic3" loading="lazy" style="width:92%;max-width:720px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1);">
-    <img src="4.png" alt="comic4" loading="lazy" style="width:92%;max-width:720px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1);">
-    <img src="5.png" alt="comic5" loading="lazy" style="width:92%;max-width:720px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1);">
-    <img src="6.png" alt="comic6" loading="lazy" style="width:92%;max-width:720px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1);">
-
-  </div>
-</section>  
-    <section class="reveal">
-      <h2>テキストブロック（ふわっと表示）</h2>
-      <p>IntersectionObserverで、ビューポートに入った要素だけ <code>.is-in</code> を付与。CSSトランジションで“ふわっ”と表示する。JSは十数行で済む。</p>
-    </section>
+    <section class="reveal"><img src="1.png" alt="comic1" loading="lazy"></section>
+    <section class="reveal"><img src="2.png" alt="comic2" loading="lazy"></section>
+    <section class="reveal"><img src="3.png" alt="comic3" loading="lazy"></section>
+    <section class="reveal"><img src="4.png" alt="comic4" loading="lazy"></section>
+    <section class="reveal"><img src="5.png" alt="comic5" loading="lazy"></section>
+    <section class="reveal"><img src="6.png" alt="comic6" loading="lazy"></section>
   </main>
+
 <script>
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('is-in'); });
-  }, { threshold: 0.18 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  const parallaxEls = Array.from(document.querySelectorAll('.parallax'));
-  let ticking = false;
-  const onScroll = () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        const top = window.scrollY || document.documentElement.scrollTop;
-        parallaxEls.forEach((el, i) => {
-          const strength = (i % 3 === 0) ? 0.06 : (i % 3 === 1) ? 0.04 : 0.03;
-          const offset = Math.max(-6, Math.min(6, (top - el.offsetTop) * strength));
-          el.style.setProperty('--offset', offset.toFixed(2) + 'px');
-        });
-        ticking = false;
-      });
-      ticking = true;
-    }
-  };
-  document.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('is-in'); }
+    });
+  },{threshold:0.2});
+
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>
