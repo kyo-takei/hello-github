@@ -13,7 +13,7 @@
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
-    background: #eaf6ff; /* 単色に戻す */
+    background: #eaf6ff;
     color: #222;
     overflow-x: hidden;
   }
@@ -96,6 +96,32 @@
   }
   img{ display:block; width:100%; height:auto; user-select:none; pointer-events:none; }
 
+  /* ===== 画像スタック（新規） ===== */
+  .stack-box{
+    background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
+    padding:28px 36px;margin-bottom:28px;
+  }
+  .stack-img{
+    border-radius:12px; box-shadow:0 10px 24px rgba(0,0,0,0.12);
+    margin:10px 0 12px;
+  }
+  .stack-caption{ color:#444; margin:8px 0 0; }
+
+  /* ===== コード折りたたみ（新規） ===== */
+  details{
+    background:#fff; border-radius:12px; box-shadow:0 4px 18px rgba(0,0,0,.06);
+    padding:12px 14px; margin:12px 0;
+  }
+  details summary{
+    cursor:pointer; list-style:none; font-weight:700; color:#10324a;
+  }
+  details summary::-webkit-details-marker { display:none; }
+  .codebox{
+    background:#0f172a; color:#e5e7eb; border-radius:10px; padding:14px;
+    overflow:auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size:13px; line-height:1.6; margin-top:10px; white-space:pre-wrap; word-break:break-word;
+  }
+
   @media (max-width:768px){
     main{ gap:50px; padding:30px 0 100px; }
     section, .profile{ border-radius:12px; }
@@ -135,7 +161,7 @@
     <section class="reveal"><img src="5.png" alt="comic5" loading="lazy"></section>
     <section class="reveal"><img src="6.png" alt="comic6" loading="lazy"></section>
 
-    <!-- MP CTMの課題と取り組み背景（外枠は白系でそのまま） -->
+    <!-- MP CTMの課題と取り組み背景 -->
     <section class="reveal" id="ai-qa" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:80px;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:36px;font-weight:800;margin:0 0 40px;text-align:center;color:#111;">
         MP CTMの課題と取り組み背景
@@ -206,6 +232,135 @@
           <li>正しい実績に基づく<strong>誤対応分析 → テンプレ/フロー改善案</strong>をOpsと共創。</li>
         </ul>
       </div>
+    </section>
+
+    <!-- ★ 新セクション①：スクショ縦積み＋箇条書き説明 -->
+    <section class="reveal" id="flow-explain" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+      <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
+        実行フローのイメージ
+      </h2>
+
+      <!-- ステップ1 -->
+      <div class="stack-box">
+        <img src="flow-1.png" alt="ステップ1の画面" class="stack-img">
+        <ul class="stack-caption">
+          <li>AI判定の出力をスプシに自動反映（個人情報保護フォルダ内）。</li>
+          <li>各行に <strong>pass/fail</strong> と補足テキストを記載。</li>
+        </ul>
+      </div>
+
+      <!-- ステップ2 -->
+      <div class="stack-box">
+        <img src="flow-2.png" alt="ステップ2の画面" class="stack-img">
+        <ul class="stack-caption">
+          <li>集計・サマリを自動生成。</li>
+          <li>Modify診断や評価サマリを一括で確認可能。</li>
+        </ul>
+      </div>
+
+      <!-- ステップ3 -->
+      <div class="stack-box">
+        <img src="flow-3.png" alt="ステップ3の画面" class="stack-img">
+        <ul class="stack-caption">
+          <li>完了時は <strong>bot</strong> がSlackへ通知。</li>
+          <li>ワンクリック実行 → 放置でOK。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ★ 新セクション②：GASコード（折りたたみ） -->
+    <section class="reveal" id="gas-codes" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+      <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
+        運用GAS（主要スニペット）
+      </h2>
+
+      <ul style="margin:0 0 0 18px;color:#333;line-height:1.8;">
+        <li><strong>抽出バッチ：</strong> 前日の入信/返信文をPII保護フォルダへ自動抽出。</li>
+      </ul>
+      <details>
+        <summary>抽出バッチ（dailyExtract.gs）</summary>
+        <pre class="codebox"><code>// 前日のメッセージを抽出し、保護フォルダへ保存
+function dailyExtract() {
+  const folderId = 'YOUR_SECURE_FOLDER_ID';
+  const sheetId  = 'YOUR_SHEET_ID';
+  const rangeA1  = 'A:F';
+
+  const sheet = SpreadsheetApp.openById(sheetId).getActiveSheet();
+  const values = sheet.getRange(rangeA1).getDisplayValues().slice(1);
+
+  const today = new Date();
+  const yday  = new Date(today.getFullYear(), today.getMonth(), today.getDate()-1);
+
+  const dst = DriveApp.getFolderById(folderId);
+  const out = values.filter(r => r[0] && new Date(r[0]).toDateString() === yday.toDateString());
+
+  const file = dst.createFile(`extract_${Utilities.formatDate(yday, Session.getScriptTimeZone(), 'yyyyMMdd')}.json`,
+                              JSON.stringify(out), MimeType.JSON);
+  Logger.log('saved: ' + file.getName());
+}</code></pre>
+      </details>
+
+      <ul style="margin:16px 0 0 18px;color:#333;line-height:1.8;">
+        <li><strong>LLM判定ワーカー：</strong> 事前整形 → API投げ → スプシへ結果書き戻し。</li>
+      </ul>
+      <details>
+        <summary>判定ワーカー（judgeWorker.gs）</summary>
+        <pre class="codebox"><code>// テキスト整形 → LLM呼び出し → 結果をシートへ反映
+function judgeWorker() {
+  const sheet = SpreadsheetApp.openById('YOUR_SHEET_ID').getSheetByName('inbox');
+  const rows  = sheet.getDataRange().getValues();
+  const header = rows.shift();
+
+  rows.forEach((r, idx) => {
+    const input = preProcess_(r[1] + '\n' + r[2]); // 入信+返信文
+    const resp  = callLLM_(input);
+    const line  = idx + 2;
+    sheet.getRange(line, 7).setValue(resp.score);     // 例: スコア
+    sheet.getRange(line, 8).setValue(resp.summary);   // 例: サマリ
+    sheet.getRange(line, 9).setValue(resp.modidy);    // 例: Modify診断
+  });
+}
+
+function preProcess_(text) {
+  return text.replace(/\s+/g,' ').trim().slice(0, 12000); // 送信前圧縮
+}
+
+function callLLM_(content) {
+  const url = 'https://api.openai.com/v1/chat/completions';
+  const payload = {
+    model: 'gpt-4o-mini',
+    messages: [{role:'system', content:'あなたはCS品質の判定者です。'},
+               {role:'user',   content}]
+  };
+  const res = UrlFetchApp.fetch(url, {
+    method:'post',
+    contentType:'application/json',
+    payload: JSON.stringify(payload),
+    headers:{ Authorization:'Bearer ' + PropertiesService.getScriptProperties().getProperty('OPENAI_API_KEY') },
+    muteHttpExceptions:true
+  });
+  const json = JSON.parse(res);
+  // 返却例は環境に合わせて整形
+  return { score: json.choices?.[0]?.message?.content ?? '', summary:'...', modidy:'...' };
+}</code></pre>
+      </details>
+
+      <ul style="margin:16px 0 0 18px;color:#333;line-height:1.8;">
+        <li><strong>Slack通知：</strong> 完了時にチャンネルへカード通知。</li>
+      </ul>
+      <details>
+        <summary>Slack通知（notifySlack.gs）</summary>
+        <pre class="codebox"><code>// Incoming Webhookで通知
+function notifySlack_(text) {
+  const url = PropertiesService.getScriptProperties().getProperty('SLACK_WEBHOOK');
+  const payload = { text: ':robot_face: *EG PaymentのAudit 完了* :tada:\n' + text };
+  UrlFetchApp.fetch(url, {
+    method: 'post',
+    contentType:'application/json',
+    payload: JSON.stringify(payload)
+  });
+}</code></pre>
+      </details>
     </section>
 
     <!-- おまけ（このページの作り方） -->
