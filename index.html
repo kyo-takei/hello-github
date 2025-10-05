@@ -251,32 +251,46 @@
 
   .results-sub{ margin:6px 0 0 18px; padding-left:16px; list-style:circle; color:#222; }
 
-  /* 目立たせたい数値用のピル */
-  .kpi{
-    display:inline-block; font-weight:900;
-    padding:.12em .55em; border-radius:999px;
-    background:linear-gradient(90deg,#ffe08a 0%,#ffd24d 40%,#ffce3a 100%);
-    color:#3a2a00; box-shadow:0 2px 0 rgba(255,190,60,.9), 0 8px 18px rgba(255,190,60,.35);
-    position:relative; overflow:hidden;
-  }
-  /* きらり（左→右へ確実に走る） */
-  .kpi::after{
-    content:"";
-    position:absolute;
-    top:-40%;
-    left:-150%;
-    width:120%;
-    height:180%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
-    transform: skewX(-20deg);
-    opacity:.9;
-    animation: kira 2.2s linear infinite;
-    pointer-events:none;
-    will-change:left;
-  }
-  @keyframes kira{
-    to { left: 150%; }
-  }
+/* 目立たせたい数値用のピル：ベースライン調整済み */
+.kpi{
+  display:inline-block;
+  font-weight:900;
+  padding:.18em .60em;          /* 文字高さベースの余白 */
+  line-height:1;                /* 自身の行高を1に固定 */
+  border-radius:999px;
+  background:linear-gradient(90deg,#ffe08a 0%,#ffd24d 40%,#ffce3a 100%);
+  color:#3a2a00;
+  box-shadow:0 2px 0 rgba(255,190,60,.9), 0 8px 18px rgba(255,190,60,.35);
+  position:relative; overflow:hidden;
+  vertical-align:-0.12em;       /* ← テキストに馴染むよう少し下げる */
+}
+
+/* アウトライン版（ボーダーの分だけ上がりやすいので同じく下げる） */
+.kpi--outline{
+  background:#fff7d6;
+  border:2px solid #ffd155;
+  color:#5a4100;
+  box-shadow:0 6px 14px rgba(255,190,60,.25) inset;
+  vertical-align:-0.12em;       /* ← ここも追加 */
+}
+
+/* きらり（現状のままでOK。参考） */
+.kpi::after{
+  content:"";
+  position:absolute;
+  top:-40%;
+  left:-150%;
+  width:120%;
+  height:180%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
+  transform: skewX(-20deg);
+  opacity:.9;
+  animation:kira 2.2s linear infinite;
+  pointer-events:none;
+  will-change:left;
+}
+@keyframes kira{ to { left:150%; } }
+
 
   /* アウトライン版（サブ数値用） */
   .kpi--outline{
