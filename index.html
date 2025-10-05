@@ -211,7 +211,8 @@
       0 18px 45px rgba(0,0,0,.12),
       0 6px 14px rgba(0,0,0,.08),
       inset 0 0 0 1px rgba(255,188,52,.20);
-    overflow:hidden;
+    /* バッジが見切れないように */
+    overflow: visible;
     isolation:isolate;
   }
   /* うっすら回るグロー */
@@ -228,11 +229,13 @@
   @keyframes rc-spin{ to{ transform: rotate(360deg); } }
 
   .results-badge{
-    position:absolute; top:-16px; right:-16px;
+    position:absolute; top:-14px; right:-14px;
     background:#111; color:#fff; font-weight:800; letter-spacing:.06em;
     padding:10px 14px; border-radius:999px;
     box-shadow:0 10px 22px rgba(0,0,0,.25);
     transform: rotate(10deg);
+    z-index:2;                 /* 重なり保証 */
+    pointer-events:none;
   }
 
   .results-title{
@@ -256,20 +259,25 @@
     color:#3a2a00; box-shadow:0 2px 0 rgba(255,190,60,.9), 0 8px 18px rgba(255,190,60,.35);
     position:relative; overflow:hidden;
   }
-  /* きらりアニメ */
+  /* きらり（左→右へ確実に走る） */
   .kpi::after{
-    content:""; position:absolute; inset:-120% 80% auto -120%;
-    width:60%; height:300%;
-    background:linear-gradient(90deg, transparent, rgba(255,255,255,.9), transparent);
-    transform: rotate(18deg);
-    animation:kira 2.4s ease-in-out infinite;
+    content:"";
+    position:absolute;
+    top:-40%;
+    left:-150%;
+    width:120%;
+    height:180%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
+    transform: skewX(-20deg);
+    opacity:.9;
+    animation: kira 2.2s linear infinite;
+    pointer-events:none;
+    will-change:left;
   }
   @keyframes kira{
-    0%{ transform:translateX(-20%) rotate(18deg); opacity:.0; }
-    45%{ opacity:.0; }
-    60%{ transform:translateX(140%) rotate(18deg); opacity:.9; }
-    100%{ transform:translateX(160%) rotate(18deg); opacity:.0; }
+    to { left: 150%; }
   }
+
   /* アウトライン版（サブ数値用） */
   .kpi--outline{
     background: #fff7d6;
