@@ -429,13 +429,12 @@
     <!-- GASコード（主要スニペット：スタイル維持/微整形） -->
     <section class="reveal" id="gas-codes" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
-        運用GAS（主要スニペット）
+        利用GAS&Prompt一覧
       </h2>
 
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">抽出バッチ</h3>
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">スプシ用</h3>
         <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
-          <li>スプシ上の入信、返信、デフォテンプレをchatGPTで判定→結果出力</li>
         </ul>
         <details>
           <summary>GPT連携.gs</summary>
@@ -1179,13 +1178,11 @@ first_conclusion_sentence_no: ${meta.first_conclusion_sentence_no}
     return lines.join('\n');
   }
 };
-</code></pre>
-        </details>
-      </div>
 
-      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">LLM判定ワーカー</h3>
-        <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
+          <li>スプシ上の入信、返信、デフォテンプレをchatGPTで判定→結果出力</li>
+          <ul><li>GASのscript内に、chatGPT用のPromptが入ってる</li></ul>
+
+          
           <li>出力結果を、判定項目ごとの列に評価展開</li>
         </ul>
         <details>
