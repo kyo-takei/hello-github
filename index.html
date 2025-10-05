@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Scroll & Shadow Demo</title>
+<style>
+  :root { --ease: cubic-bezier(.22,.61,.36,1); }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans JP", sans-serif; line-height:1.6; color:#222; background:#fafafa; }
+  header { position: sticky; top:0; z-index:50; backdrop-filter: blur(8px); background: rgba(255,255,255,0.6); border-bottom: 1px solid rgba(0,0,0,.06); }
+  header .wrap { display:flex; gap:12px; align-items:center; padding:12px 20px; }
+  main { max-width: 1000px; margin: 0 auto; padding: 24px 16px 120px; }
+  h1 { font-size: clamp(22px, 3.5vw, 36px); margin: 14px 0; }
+  p.lead { font-size: clamp(14px, 2.3vw, 18px); color:#555; margin: 0 0 18px; }
+  .reveal { opacity: 0; transform: translateY(18px) scale(.98); filter: saturate(.9); transition: opacity .7s var(--ease), transform .7s var(--ease), filter .7s var(--ease); will-change: transform, opacity, filter; }
+  .reveal.is-in { opacity: 1; transform: none; filter: saturate(1); }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:18px; margin-top:18px; }
+  .card { background:#fff; border-radius:18px; padding:12px; overflow:hidden; box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 10px 30px -12px rgba(0,0,0,.18); transition: transform .35s var(--ease), box-shadow .35s var(--ease), filter .35s var(--ease); }
+  .card:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 2px 0 rgba(0,0,0,.05), 0 18px 40px -14px rgba(0,0,0,.28); filter: drop-shadow(0 6px 18px rgba(0,0,0,.1)); }
+  .shot { width:100%; height:220px; object-fit: cover; border-radius:12px; display:block; transform: translateZ(0); }
+  .caption { font-size:14px; color:#666; margin:10px 2px 2px; }
+  .parallax { transform: translateY(var(--offset, 0px)); transition: transform .12s linear; will-change: transform; }
+  section { background:#fff; border-radius:20px; padding:22px; margin-top:18px; box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 8px 22px -12px rgba(0,0,0,.16); }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <strong>Demo</strong>
+      <span style="font-size:13px;color:#666">スクロール表示 / 影 / 微パララックス</span>
+    </div>
+  </header>
+  <main>
+    <h1 class="reveal">スクロールに合わせて“ちょい動き”＋影</h1>
+    <p class="lead reveal">GitHub Pagesでも、JS少量とCSSだけでこの程度の動きは十分いける。</p>
+    <section class="reveal">
+      <h2>画像ギャラリー（影＋hover浮き上がり）</h2>
+      <div class="grid">
+        <figure class="card">
+          <img class="shot parallax" src="https://images.unsplash.com/photo-1520975922284-5f7f2b1d0b66?q=80&w=1600&auto=format&fit=crop" alt="">
+          <figcaption class="caption">やわらかい影＋hoverで少しだけ拡大</figcaption>
+        </figure>
+        <figure class="card">
+          <img class="shot parallax" src="https://images.unsplash.com/photo-1520975979643-84d3c1b0a1a5?q=80&w=1600&auto=format&fit=crop" alt="">
+          <figcaption class="caption">ドロップシャドウで立体感</figcaption>
+        </figure>
+        <figure class="card">
+          <img class="shot parallax" src="https://images.unsplash.com/photo-1520975730019-4f3b6f8b9d1c?q=80&w=1600&auto=format&fit=crop" alt="">
+          <figcaption class="caption">微パララックス（scroll依存で数pxだけ移動）</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section class="reveal">
+      <h2>テキストブロック（ふわっと表示）</h2>
+      <p>IntersectionObserverで、ビューポートに入った要素だけ <code>.is-in</code> を付与。CSSトランジションで“ふわっ”と表示する。JSは十数行で済む。</p>
+    </section>
+  </main>
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('is-in'); });
+  }, { threshold: 0.18 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  const parallaxEls = Array.from(document.querySelectorAll('.parallax'));
+  let ticking = false;
+  const onScroll = () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const top = window.scrollY || document.documentElement.scrollTop;
+        parallaxEls.forEach((el, i) => {
+          const strength = (i % 3 === 0) ? 0.06 : (i % 3 === 1) ? 0.04 : 0.03;
+          const offset = Math.max(-6, Math.min(6, (top - el.offsetTop) * strength));
+          el.style.setProperty('--offset', offset.toFixed(2) + 'px');
+        });
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+</body>
+</html>
