@@ -105,3 +105,97 @@
 </script>
 </body>
 </html>
+
+<!-- ====== QA・品質管理のAI活用 セクション ====== -->
+<section class="reveal" id="ai-qa" style="background:#fff;border-radius:16px;padding:28px;box-shadow:0 10px 30px rgba(0,0,0,.1);margin-top:60px;">
+  <h2 style="margin:0 0 6px;font-size:24px;">QA・品質管理のAI活用</h2>
+  <p style="margin:0 0 18px;color:#555;">「AIでここまで自動化できる。業務に活かせる。」— 見た人が今日から試せる再現手順つき。</p>
+
+  <!-- KPI -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:16px 0 8px;">
+    <div style="background:#f6f6f6;border-radius:12px;padding:12px 14px;">
+      <div style="font-size:14px;color:#666;">処理時間</div>
+      <div style="font-size:22px;font-weight:700;">250h → 15min</div>
+      <div style="font-size:12px;color:#777;">500件ワンクリック自動完了</div>
+    </div>
+    <div style="background:#f6f6f6;border-radius:12px;padding:12px 14px;">
+      <div style="font-size:14px;color:#666;">精度</div>
+      <div style="font-size:22px;font-weight:700;">~85%</div>
+      <div style="font-size:12px;color:#777;">基準に沿った自動判定</div>
+    </div>
+    <div style="background:#f6f6f6;border-radius:12px;padding:12px 14px;">
+      <div style="font-size:14px;color:#666;">運用</div>
+      <div style="font-size:22px;font-weight:700;">ワンクリック</div>
+      <div style="font-size:12px;color:#777;">放置で完了／Slack通知</div>
+    </div>
+  </div>
+
+  <!-- 何ができる -->
+  <h3 style="margin:18px 0 8px;font-size:18px;">何ができる？</h3>
+  <ul style="margin:0 0 16px 16px;color:#444;line-height:1.8;">
+    <li>各項目の <strong>pass / fail</strong>＋補足解説</li>
+    <li><strong>主訴 / 副訴</strong> の特定、<strong>評価サマリ</strong>、<strong>Modify診断</strong></li>
+    <li><strong>問題指摘リスト</strong>、<strong>改善メール案の自動生成</strong></li>
+    <li><strong>スプシ出力 → Slack完了通知</strong> まで自動</li>
+  </ul>
+
+  <!-- どう動く -->
+  <h3 style="margin:18px 0 8px;font-size:18px;">どう動く？</h3>
+  <ol style="margin:0 0 16px 18px;color:#444;line-height:1.8;">
+    <li>入信/返信文を <strong>自動抽出</strong>（個人情報保護フォルダ）</li>
+    <li><strong>GAS前処理 → LLM判定</strong>（ChatGPT/Gemini）</li>
+    <li><strong>スプシ出力</strong>（6項目＋サマリ等）</li>
+    <li><strong>Slack通知</strong>（完了・要対応）</li>
+    <li>委託先は <strong>プロセス3分チェック</strong></li>
+  </ol>
+
+  <!-- 背景/概要/成果 -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;">
+    <div style="background:#f9f9f9;border-radius:12px;padding:14px;">
+      <h4 style="margin:0 0 8px;">背景と課題</h4>
+      <ul style="margin:0 0 0 16px;color:#444;line-height:1.7;">
+        <li>1件20〜30分のダブルチェックで人手は限界</li>
+        <li>コピペ作業がボトルネック／基準の認識差</li>
+        <li>正しいAccuracyが見えずキャリブ難</li>
+      </ul>
+    </div>
+    <div style="background:#f9f9f9;border-radius:12px;padding:14px;">
+      <h4 style="margin:0 0 8px;">取り組みの概要</h4>
+      <ul style="margin:0 0 0 16px;color:#444;line-height:1.7;">
+        <li>自動抽出パイプライン構築（Thanks: UcchiYさん）</li>
+        <li>GAS連携でワンクリック運用</li>
+        <li>委託先はプロセスチェックに特化</li>
+      </ul>
+    </div>
+    <div style="background:#f9f9f9;border-radius:12px;padding:14px;">
+      <h4 style="margin:0 0 8px;">成果</h4>
+      <ul style="margin:0 0 0 16px;color:#444;line-height:1.7;">
+        <li>500件が<strong>放置15分</strong>で完了（人手なら約<strong>250h</strong>）</li>
+        <li>委託80% vs 実測30%のギャップ可視化 → 改善土台</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 苦労＆工夫 -->
+  <h3 style="margin:18px 0 8px;font-size:18px;">苦労 &amp; 工夫</h3>
+  <ul style="margin:0 0 16px 16px;color:#444;line-height:1.8;">
+    <li>GASタイムアウト対策：モデル選定（5→4o）／前処理で圧縮</li>
+    <li>Prompt最適化：テンプレ改修／基準・資料をMarkdown内包／日次チューニング</li>
+    <li>AI適材適所：ChatGPT（心情/文案）× Gemini（コード/速度）</li>
+  </ul>
+
+  <!-- 課題とNext -->
+  <h3 style="margin:18px 0 8px;font-size:18px;">課題とNext Action</h3>
+  <ul style="margin:0 0 16px 16px;color:#444;line-height:1.8;">
+    <li>誤判定（~15%）／連投入信・画像のみケースの強化</li>
+    <li>Rebuttal起点のPrompt改善（Thanks: hiikichiさん）</li>
+    <li>500件超の安定稼働・毎朝自動実行</li>
+    <li>他領域へ横展開 → MP全体のAccuracy可視化＆改善</li>
+  </ul>
+
+  <!-- CTA -->
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+    <a href="#" style="text-decoration:none;background:#111;color:#fff;padding:10px 14px;border-radius:10px;">雛形で試す（スプシ/GAS/Slack）</a>
+    <a href="#" style="text-decoration:none;background:#eaeaea;color:#222;padding:10px 14px;border-radius:10px;">伴走支援を相談する</a>
+  </div>
+</section>
