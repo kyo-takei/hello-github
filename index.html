@@ -1829,26 +1829,32 @@ function notifyEgAuditError() {
   </main>
 
 <script>
-  // 一度入ったら固定（外に出ても .is-in を外さない）
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
+      const el = e.target;
       if (e.isIntersecting) {
-        e.target.classList.add('is-in');
-        io.unobserve(e.target);        // ← 監視を終了して再アニメ防止
+        // 画面に入ったら付与（ふわっと表示）
+        el.classList.add('is-in');
+      } else {
+        // 完全に画面外へ出たときだけ外す（detailsの開閉で外さない）
+        const rect = e.boundingClientRect;
+        const vh = (e.rootBounds && e.rootBounds.height) || window.innerHeight;
+        const fullyOut = rect.bottom <= 0 || rect.top >= vh;
+        if (fullyOut) el.classList.remove('is-in');
       }
     });
   }, {
-    threshold: 0.15,
-    rootMargin: "0px 0px -10% 0px"
+    threshold: 0.2,
+    rootMargin: "0px 0px -30% 0px"  // 下側に余裕を持たせてチラつき抑制
   });
 
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // details の開閉で高さが変わっても沈まない保険（そのまま/あってOK）
+  // detailsは「付け足し」だけにして沈み込み防止
   document.querySelectorAll('details').forEach(d => {
     d.addEventListener('toggle', () => {
-      const sec = d.closest('section');
-      if (sec) sec.classList.add('is-in');
+      const sec = d.closest('section.reveal');
+      if (sec) sec.classList.add('is-in'); // 外さない
     });
   });
 </script>
