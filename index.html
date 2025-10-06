@@ -74,7 +74,8 @@
   /* ===== 共通セクション ===== */
   main{
     display:flex; flex-direction:column; align-items:center;
-    gap:35px; padding:40px 0 140px;
+    gap:35px;                   /* ← 70px から半分に */
+    padding:40px 0 140px;
   }
   section{
     width:100%; max-width:760px; background:#fff;
@@ -124,7 +125,7 @@
   }
 
   @media (max-width:768px){
-    main{ gap:50px; padding:30px 0 100px; }
+    main{ gap:25px; padding:30px 0 100px; }  /* ← 50px から半分に */
     section, .profile{ border-radius:12px; }
   }
 </style>
@@ -163,7 +164,7 @@
     <section class="reveal"><img src="6.png" alt="comic6" loading="lazy"></section>
 
     <!-- 品質管理AI化の取り組み（1080px） -->
-    <section class="reveal" id="ai-qa" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:80px;margin-bottom:30px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+    <section class="reveal" id="ai-qa" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:40px;margin-bottom:30px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:36px;font-weight:800;margin:0 0 40px;text-align:center;color:#111;">
         品質管理AI化の取り組み
       </h2>
@@ -212,11 +213,9 @@
       0 18px 45px rgba(0,0,0,.12),
       0 6px 14px rgba(0,0,0,.08),
       inset 0 0 0 1px rgba(255,188,52,.20);
-    /* バッジが見切れないように */
     overflow: visible;
     isolation:isolate;
   }
-  /* うっすら回るグロー */
   .results-card::before{
     content:"";
     position:absolute; inset:-60% -40% auto -40%;
@@ -229,140 +228,55 @@
   }
   @keyframes rc-spin{ to{ transform: rotate(360deg); } }
 
-/* ===== 黄色い発光ボーダーアニメ ===== */
-.results-card {
-  border: 3px solid transparent; /* ベース枠 */
-  background-clip: padding-box;  /* 中の背景は除外 */
-  position: relative;
-  z-index: 0;
-}
+  /* 回転ボーダーは無効化し、黄色の静的枠＋薄い黄背景に */
+  .results-card::after { content: none !important; }
+  .results-card{
+    border: 3.5px solid #ffd155;
+    background:
+      radial-gradient(1200px 400px at -10% -20%, #fff4bf 0%, #ffffff 45%) ,
+      linear-gradient(180deg, #fffef6 0%, #fff9e8 100%);
+    box-shadow:
+      0 18px 45px rgba(0,0,0,.12),
+      0 6px 14px rgba(0,0,0,.08),
+      inset 0 0 0 1.5px rgba(255, 209, 85, .30),
+      0 12px 28px rgba(255, 209, 85, .22);
+  }
 
-/* 光るリングを回す */
-.results-card::after {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 18px;
-  padding: 2px;
-  background: conic-gradient(
-    from 0deg,
-    #ffda44 0deg,
-    #fff89c 90deg,
-    #ffd43b 180deg,
-    #fff89c 270deg,
-    #ffda44 360deg
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: spin-border 6s linear infinite;
-  z-index: -1;
-}
-
-@keyframes spin-border {
-  to { transform: rotate(360deg); }
-}
-
-  /* ===== 成果カード：黄色い静的ボーダー＆うっすら黄み背景 ===== */
-
-/* 以前追加した ::after の回転ボーダーを無効化 */
-.results-card::after { content: none !important; }
-
-/* 枠を黄色に・背景をほんのり黄みにして強調（他の効果は維持） */
-.results-card{
-  /* 黄色い枠（少し太め） */
-  border: 3.5px solid #ffd155;
-
-  /* 背景をわずかに黄味がかったグラデに変更（既存背景を上書き） */
-  background:
-    radial-gradient(1200px 400px at -10% -20%, #fff4bf 0%, #ffffff 45%) ,
-    linear-gradient(180deg, #fffef6 0%, #fff9e8 100%);
-
-  /* 既存の影に、内側の薄い黄色ハイライト＆外側の淡い黄色グローを足す */
-  box-shadow:
-    0 18px 45px rgba(0,0,0,.12),
-    0 6px 14px rgba(0,0,0,.08),
-    /* 内側のやわらかい黄色ハイライト */
-    inset 0 0 0 1.5px rgba(255, 209, 85, .30),
-    /* 外側のごく淡い黄色グロー */
-    0 12px 28px rgba(255, 209, 85, .22);
-}
-
-  
   .results-badge{
-  position:absolute;
-  top:-24px;                 
-  right:-24px;               
-  background:#111;
-  color:#fff;
-  font-weight:900;
-  letter-spacing:.08em;
-  font-size:1.25rem;         
-  padding:14px 20px;
-  border-radius:999px;
-  box-shadow:0 12px 28px rgba(0,0,0,.35);
-  transform: rotate(8deg);
-  z-index:3;
-  pointer-events:none;
-}
-
+    position:absolute;
+    top:-24px; right:-24px;
+    background:#111; color:#fff; font-weight:900; letter-spacing:.08em;
+    font-size:1.25rem; padding:14px 20px; border-radius:999px;
+    box-shadow:0 12px 28px rgba(0,0,0,.35); transform: rotate(8deg);
+    z-index:3; pointer-events:none;
+  }
   .results-title{
-    margin:0 0 14px;
-    font-size:22px; font-weight:800; line-height:1;
+    margin:0 0 14px; font-size:22px; font-weight:800; line-height:1;
     padding-left:12px; border-left:6px solid #111;
     background: linear-gradient(90deg,#111 0%, #6b4b00 100%);
     -webkit-background-clip:text; background-clip:text; color:transparent;
   }
-
   .results-list{ margin:0; padding-left:20px; color:#333; line-height:1.85; }
   .results-list > li{ margin:8px 0; }
-
   .results-sub{ margin:6px 0 0 18px; padding-left:16px; list-style:circle; color:#222; }
 
-.kpi{
-  display:inline-block;
-  font-weight:900;
-  padding:.18em .60em;          
-  line-height:1;                
-  border-radius:999px;
-  background:linear-gradient(90deg,#ffe08a 0%,#ffd24d 40%,#ffce3a 100%);
-  color:#3a2a00;
-  box-shadow:0 2px 0 rgba(255,190,60,.9), 0 8px 18px rgba(255,190,60,.35);
-  position:relative; overflow:hidden;
-  vertical-align:-0.12em;       
-}
-
-.kpi--outline{
-  background:#fff7d6;
-  border:2px solid #ffd155;
-  color:#5a4100;
-  box-shadow:0 6px 14px rgba(255,190,60,.25) inset;
-  vertical-align:-0.09em;       
-}
-
-.kpi::after{
-  content:"";
-  position:absolute;
-  top:-40%;
-  left:-150%;
-  width:120%;
-  height:180%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
-  transform: skewX(-20deg);
-  opacity:.9;
-  animation:kira 2.2s linear infinite;
-  pointer-events:none;
-  will-change:left;
-}
-@keyframes kira{ to { left:150%; } }
-
-  .kpi--outline{
-    background: #fff7d6;
-    border:2px solid #ffd155; color:#5a4100;
-    box-shadow: 0 6px 14px rgba(255,190,60,.25) inset;
+  .kpi{
+    display:inline-block; font-weight:900; padding:.18em .60em; line-height:1;
+    border-radius:999px; background:linear-gradient(90deg,#ffe08a 0%,#ffd24d 40%,#ffce3a 100%);
+    color:#3a2a00; box-shadow:0 2px 0 rgba(255,190,60,.9), 0 8px 18px rgba(255,190,60,.35);
+    position:relative; overflow:hidden; vertical-align:-0.12em;
   }
+  .kpi--outline{
+    background:#fff7d6; border:2px solid #ffd155; color:#5a4100;
+    box-shadow:0 6px 14px rgba(255,190,60,.25) inset; vertical-align:-0.09em;
+  }
+  .kpi::after{
+    content:""; position:absolute; top:-40%; left:-150%; width:120%; height:180%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
+    transform: skewX(-20deg); opacity:.9; animation:kira 2.2s linear infinite;
+    pointer-events:none; will-change:left;
+  }
+  @keyframes kira{ to { left:150%; } }
 </style>
 
 <div class="results-card">
@@ -378,8 +292,8 @@
   </ul>
 </div>
 
-      <div style="height:32px;"></div>
-      
+      <div style="height:16px;"></div>  <!-- ← 32px から半分に -->
+
       <!-- 課題点-->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">新たな課題</h3>
@@ -392,8 +306,8 @@
         </ul>
       </div>
 
-      <div style="height:32px;"></div>
-      
+      <div style="height:16px;"></div>  <!-- ← 半分に -->
+
       <!-- Next Action-->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">Next Action</h3>
@@ -466,7 +380,6 @@
           <li>使えないツールの提案が出たら代替案を出してもらう。</li>
           <li>GPTからのヒアリングにひたすら回答し、抽象的な内容を具体的な方向性にもっていく。</li>
           <li>わからないことや、やりたくないことは、そのままストレートに伝える。</li>
-
         </ul>
       </div>
 
@@ -482,7 +395,6 @@
       </div>
 
       <!-- ウィンドウ3 -->
-  
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">ちょっとしたコツ</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
@@ -490,12 +402,10 @@
           <li>要件が固まっている内容は、具体的に伝えるほどブレが減る。</li>
           <li>chatGPT は柔軟性と発想力、Geminiはコード最適化や堅実性に強み → 役割分担が効く。</li>
           <ul><li>chatGPTが出してきたPromptやscriptをGeminiで最適化するとスムーズだった</li></ul>
-          
         </ul>
       </div>
 
-        <!-- ウィンドウ4 -->
-  
+      <!-- ウィンドウ4 -->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">参考にした資料</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
@@ -516,70 +426,64 @@
                  ChatGPT はじめてのプロンプトエンジニアリング
               </a>
             </strong></li></ul>
-          
         </ul>
       </div>
     </section>
 
-<!-- GASコード（主要スニペット：スタイル維持/微整形） -->
- <section class="reveal" id="gas-codes" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:30px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
-  <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
-    参考：作成GAS一覧
-  </h2>
+    <!-- GASコード（主要スニペット：スタイル維持/微整形） -->
+    <section class="reveal" id="gas-codes" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:30px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+      <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
+        参考：作成GAS一覧
+      </h2>
 
-  <!-- カード1：スプシ用（〜slack連携まで） -->
-  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
-    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">Auditシート用</h3>
-    <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
-      <li>スプシ上の入信、返信、デフォテンプレをchatGPTで判定→結果出力</li>
-      <ul><li>GASのscript内に、chatGPT用のPromptが入ってる</li></ul>
-      <li>出力結果を、判定項目ごとの列に評価展開</li>
-      <li>全ての処理完了後にslack通知</li>
-    </ul>
+      <!-- カード1：スプシ用（〜slack連携まで） -->
+      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
+        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">Auditシート用</h3>
+        <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
+          <li>スプシ上の入信、返信、デフォテンプレをchatGPTで判定→結果出力</li>
+          <ul><li>GASのscript内に、chatGPT用のPromptが入ってる</li></ul>
+          <li>出力結果を、判定項目ごとの列に評価展開</li>
+          <li>全ての処理完了後にslack通知</li>
+        </ul>
 
-    <!-- GPT連携.gs -->
-    <details>
-      <summary>GPT連携.gs</summary>
-      <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-        入信/返信/テンプレの3ブロックをchatGPTに連携、品質評価を実施し、判定結果をスプシに書き戻すメイン処理。
-        <br>（scriptの中にchatGPT用のPromptも内包）</br>
-      </p>
-      <pre class="codebox"><code>/* ・・・（元の GPT連携.gs のコードそのまま）・・・ */</code></pre>
-    </details>
+        <details>
+          <summary>GPT連携.gs</summary>
+          <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+            入信/返信/テンプレの3ブロックをchatGPTに連携、品質評価を実施し、判定結果をスプシに書き戻すメイン処理。
+            <br>（scriptの中にchatGPT用のPromptも内包）</br>
+          </p>
+          <pre class="codebox"><code>/* ・・・（元の GPT連携.gs のコードそのまま）・・・ */</code></pre>
+        </details>
 
-    <!-- 評価展開.gs -->
-    <details>
-      <summary>評価展開.gs</summary>
-      <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-        スプシに吐き戻された判定結果を解析し、入信の主訴と、各判定項目をスプシの列ごとに展開。
-      </p>
-      <pre class="codebox"><code>/* ・・・（元の 評価展開.gs のコードそのまま）・・・ */</code></pre>
-    </details>
+        <details>
+          <summary>評価展開.gs</summary>
+          <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+            スプシに吐き戻された判定結果を解析し、入信の主訴と、各判定項目をスプシの列ごとに展開。
+          </p>
+          <pre class="codebox"><code>/* ・・・（元の 評価展開.gs のコードそのまま）・・・ */</code></pre>
+        </details>
 
-    <!-- GPT&展開.gs（ランナー） -->
-    <details>
-      <summary>GPT&展開.gs</summary>
-      <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-        スプシのメニューバーに「GPT連携ボタン」を追加し、GPT連携→評価展開→Slack通知までを一括実行するランナー。失敗時のSlack通知／リトライも担当。
-      </p>
-      <pre class="codebox"><code>/* ・・・（元の 実行制御/ランナー のコード）・・・ */</code></pre>
-    </details>
+        <details>
+          <summary>GPT&展開.gs</summary>
+          <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+            スプシのメニューバーに「GPT連携ボタン」を追加し、GPT連携→評価展開→Slack通知までを一括実行するランナー。失敗時のSlack通知／リトライも担当。
+          </p>
+          <pre class="codebox"><code>/* ・・・（元の 実行制御/ランナー のコード）・・・ */</code></pre>
+        </details>
 
-    <!-- slack連携.gs -->
-    <details>
-      <summary>slack連携.gs</summary>
-      <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
-        Audit完了 or エラー 時に通知を送るGAS。Webhook URLはスクリプトプロパティから読み込み。
-      </p>
-      <pre class="codebox"><code>/* ・・・（元の slack 連携コード）・・・ */</code></pre>
-    </details>
-  </div>
-</section>
-
+        <details>
+          <summary>slack連携.gs</summary>
+          <p style="margin:6px 0 8px 18px;color:#333;line-height:1.8;">
+            Audit完了 or エラー 時に通知を送るGAS。Webhook URLはスクリプトプロパティから読み込み。
+          </p>
+          <pre class="codebox"><code>/* ・・・（元の slack 連携コード）・・・ */</code></pre>
+        </details>
+      </div>
+    </section>
 
     <!-- おまけ（1080px） -->
     <section class="reveal" id="how-made" style="width:100%;max-width:1080px;
-      background:#ffffff; border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:60px;
+      background:#ffffff; border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:30px;
       box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:32px;font-weight:800;margin:0 0 40px;text-align:center;color:#111;">
         おまけ（このページの作り方）
@@ -642,7 +546,6 @@
             </strong></li></ul>
         </ul>
       </div>
-      
     </section>
   </main>
 
@@ -663,7 +566,7 @@
 
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // details 開閉で高さが変わっても沈まないよう保険（そのままでOK）
+  // details 開閉で高さが変わっても沈まないよう保険
   document.querySelectorAll('details').forEach(d => {
     d.addEventListener('toggle', () => {
       const sec = d.closest('section');
@@ -671,7 +574,6 @@
     });
   });
 </script>
-
 
 </body>
 </html>
