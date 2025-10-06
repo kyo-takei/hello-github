@@ -1791,13 +1791,12 @@ function notifyEgAuditError() {
   </main>
 
 <script>
-  // スクロールのたびに再度ふわっと出る版
+  // 一度入ったら固定（外に出ても .is-in を外さない）
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       if (e.isIntersecting) {
-        e.target.classList.add('is-in');     // 画面に入ったら付与
-      } else {
-        e.target.classList.remove('is-in');  // 画面から出たら外す
+        e.target.classList.add('is-in');
+        io.unobserve(e.target);        // ← 監視を終了して再アニメ防止
       }
     });
   }, {
@@ -1807,7 +1806,7 @@ function notifyEgAuditError() {
 
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  // details 開閉で高さが変わっても沈まないよう保険
+  // details の開閉で高さが変わっても沈まない保険（そのまま/あってOK）
   document.querySelectorAll('details').forEach(d => {
     d.addEventListener('toggle', () => {
       const sec = d.closest('section');
@@ -1815,6 +1814,7 @@ function notifyEgAuditError() {
     });
   });
 </script>
+
 
 </body>
 </html>
