@@ -182,8 +182,8 @@
                  style="color:#0070f3;text-decoration:none;border-bottom:1px solid rgba(0,112,243,0.4);">Template Quality Checker（カスタムGPT）
               </a>
             </strong> 
-            を導入し一部AI化、工数は約50%削減したが、入信・返信文の手動コピーが残存。委託先とIHで品質基準の認識にずれがあり、Accuracyが可視化できなかった。</li>
-          <li>委託先とのweekly Quality MeetingでのCalibrationやFeedbackでは認識のGapを埋めることが出来ず、より効率的で再現性と品質を担保出来る仕組み構築が必要だった。</li>
+            を導入し一部AI化、工数は約50%削減したが、入信・返信文の手動コピーが残存。委託先とIHでの品質判定基準の認識にズレがあり、Accuracyが可視化できなかった。</li>
+          <li>委託先との定例MTG内でのCalibrationやFeedbackでは認識のズレを埋めることが出来ず、より効率的で再現性と品質を担保出来る仕組み構築が必要だった。</li>
         </ul>
       </div>
 
@@ -295,13 +295,17 @@
       <!-- 課題点-->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">新たな課題</h3>
-        <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
-          <li>誤対応件数の増加に伴う委託先の<strong>管理者負荷</strong>対策。</li>
-          <li>現時点でのAIの判定精度は<strong>約85%</strong>程度。</li> 
-          <ul><li>連投入信／画像のみ入信など、<strong>AI判定不可</strong>な案件や、ハルシネーション発生もあり。</li>
-            <li>判定結果に対する委託先からのFBデータを元に、定期的にPromptの調整が必要</li></ul> 
-            <ul><li><strong>Special Thanks @Hikichiさん</strong>（の日々のご協力により実現。）</li></ul>
-        </ul>
+<ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
+  <li>誤対応件数の増加に伴う委託先の<strong>管理者負荷</strong>対策。</li>
+  <li>現時点でのAIの判定精度は<strong>約85%</strong>程度。
+    <ul>
+      <li>連投入信／画像のみ入信など、<strong>AI判定不可</strong>な案件や、ハルシネーション発生もあり。</li>
+      <li>判定結果に対する委託先からのFBデータを元に、定期的にPromptの調整が必要。</li>
+    </ul>
+  </li>
+  <li><strong>Special Thanks @Hikichiさん</strong>（の日々のご協力により実現。）</li>
+</ul>
+
       </div>
 
       <div style="height:8px;"></div>  <!-- ← 半分に -->
