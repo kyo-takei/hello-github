@@ -342,30 +342,30 @@ section#ai-qa {
   z-index: 1;
 }
 
-/* ===== 左→右に流れる強めのシアー効果（幅2倍・光を濃く） ===== */
+/* ===== 左→右に流れる強めのシアー効果（枠にぴったり収める） ===== */
 .results-card::before{
   content: "";
   position: absolute;
-  top: 0;
+  top: 0;                     /* ← カード上端に合わせる */
   left: 0;
-  width: 80%;              /* ← 幅を倍（前回40%→80%） */
-  height: 130%;            /* 少し縦も広げて滑らかに */
+  width: 80%;                 /* 光の帯の幅（今のまま広め） */
+  height: 100%;               /* ← カードの高さに完全フィット */
   transform: translateX(-120%);
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 230, 120, 0.25) 25%,   /* ← 黄色寄りの柔光 */
-    rgba(255, 210, 60, 0.6) 50%,     /* ← 中心の強い光 */
+    rgba(255, 230, 120, 0.25) 25%,   /* 柔らかい光 */
+    rgba(255, 210, 60, 0.6) 50%,     /* 中心の強い黄色光 */
     rgba(255, 230, 120, 0.25) 75%,
     rgba(255, 255, 255, 0) 100%
   );
   filter: blur(8px);
-  opacity: 0.9;            /* ← より強調 */
-  mix-blend-mode: screen;  /* 明るく馴染ませる */
+  opacity: 0.9;
+  mix-blend-mode: screen;
   pointer-events: none;
   z-index: 0;
-  border-radius: 18px;     /* カード角丸にフィット */
-  animation: shear-slide 3s linear infinite; /* 左→右へ流れる */
+  border-radius: inherit;     /* ← カードの角丸に沿う */
+  animation: shear-slide 3s linear infinite;
 }
 
 @keyframes shear-slide {
