@@ -30,12 +30,6 @@
     font-size: 40px; 
   }
 
-/* ===== 白枠内の見出し共通 ===== */
-section h3 {
-  font-size:30px !important;  /* ←ここで一括指定 */
-  font-weight:700;
-}
-
   /* ===== セクションタイトル共通設定 ===== */
 section h2 {
   font-size:44px !important;   /* ← ここを好きなサイズに変更 */
@@ -45,9 +39,16 @@ section h2 {
   margin-bottom:40px;
 }
 
+/* ===== 白枠内の見出し共通 ===== */
+section h3 {
+  font-size:28px !important;  /* ←ここで一括指定 */
+  font-weight:700;
+  margin-bottom:18px;
+}
+  
 /* ===== セクション内のサブ見出し（h4）を一括調整 ===== */
 section h4 {
-  font-size:30px !important;   /* 好みの大きさに変えてOK（例: 20px→22px） */
+  font-size:28px !important;   /* 好みの大きさに変えてOK（例: 20px→22px） */
   font-weight:700 !important;
   margin:0 0 10px !important;
   border-left:6px solid #111 !important;
@@ -270,13 +271,13 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 
     <!-- 品質管理AI化の取り組み（1080px） -->
     <section class="reveal" id="ai-qa" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:40px;margin-bottom:30px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
-      <h2 style="font-size:36px;font-weight:800;margin:0 0 40px;text-align:center;color:#111;">
+      <h2 style="font-weight:800;margin:0 0 40px;text-align:center;color:#111;">
         品質管理AI化の取り組み
       </h2>
 
       <!-- 背景と課題 -->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;margin-bottom:32px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">背景と課題</h3>
+        <h3 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">背景と課題</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
           <li>入信対応のサンプリングチェックを委託先＋IHで実施しており、チェック項目が多く、<strong>1件あたり約30分の工数</strong>が発生。</li>
           <li>7月から
@@ -293,7 +294,7 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 
       <!-- 取り組み概要 -->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;margin-bottom:32px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">AI活用概要</h3>
+        <h3 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">AI活用概要</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
           <li>サンプルチェック用の案件の入信/返信文を<strong>個人情報保護フォルダへ毎日自動抽出</strong>する仕組みを構築。</li>
           <li>委託先には<strong>プロセスチェックのみ</strong>依頼（1件3分）。ツール処理やフロー判断はAIではなく人が担当。</li>
@@ -400,7 +401,7 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 
       <!-- 課題点-->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">新たな課題</h3>
+        <h3 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">新たな課題</h3>
 <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
   <li>誤対応件数の増加に伴う委託先の<strong>管理者負荷</strong>対策。</li>
   <li>現時点でのAIの判定精度は<strong>約85%</strong>程度。
@@ -421,7 +422,7 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 
       <!-- Next Action-->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">Next Action</h3>
+        <h3 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">Next Action</h3>
         <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
           <li>PaymentでのPoC完了→<strong>KYC、FR領域にも横展開</strong>し、改善サイクルを推進</li>
           <li>正しいAccuracy実績に基づく<strong>誤対応分析 → テンプレ/フロー改善案</strong>推進をOpsと協業。</li>
@@ -432,14 +433,14 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 
     <!-- 実行フロー（1080px：画像スタックはそのまま） -->
     <section class="reveal" id="flow-explain" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:30px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
-      <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
+      <h2 style="font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
         実行フローのイメージ
       </h2>
 
 <!-- Auditシートの準備 -->
 <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
             padding:32px 40px;margin-bottom:32px;">
-  <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+  <h3 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">
     Auditシートの準備
   </h3>
   <ul style="margin:8px 0 16px 18px;color:#333;line-height:1.8;">
@@ -452,7 +453,7 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 <!-- 判定結果のアウトプット -->
 <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
             padding:32px 40px;margin-bottom:32px;">
-  <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+  <h3 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">
     判定結果のアウトプット
   </h3>
   <ul style="margin:8px 0 16px 18px;color:#333;line-height:1.8;">
@@ -474,7 +475,7 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 <!-- Audit完了通知 -->
 <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
             padding:32px 40px;margin-bottom:32px;">
-  <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+  <h3 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">
     Audit完了通知
   </h3>
   <ul style="margin:8px 0 16px 18px;color:#333;line-height:1.8;">
@@ -486,19 +487,19 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 
     <!-- 実際AIで何をしたん？？（スタイル統一） -->
 <section class="reveal" id="what-ai-did" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:44px 28px;margin-top:0;margin-bottom:20px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
-  <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
+  <h2 style="font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
    AIと進めたプロセス
   </h2>
 
   <!-- 見出し1 -->
-  <h3 style="font-size:24px;font-weight:800;margin:40px 0 20px;color:#111;text-align:left;">
+  <h3 style="font-weight:800;margin:40px 0 20px;color:#111;text-align:left;">
     ① どんな相談をしたか？（きっかけフェーズ）
   </h3>
 
   <!-- ウィンドウ1 -->
   <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
               padding:28px 36px;margin-bottom:28px;">
-    <h4 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+    <h4 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">
       AI（GPT）との最初の会話 — “雑談”から始めてみた
     </h4>
     <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
@@ -510,14 +511,14 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
   </div>
 
   <!-- 見出し2 -->
-  <h3 style="font-size:24px;font-weight:800;margin:40px 0 20px;color:#111;text-align:left;">
+  <h3 style="font-weight:800;margin:40px 0 20px;color:#111;text-align:left;">
     ② 一緒に形にしたステップ（共創フェーズ）
   </h3>
 
   <!-- ウィンドウ2 -->
   <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
               padding:28px 36px;margin-bottom:28px;">
-    <h4 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+    <h4 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">
       壁打ちしながら、一緒に設計していく
     </h4>
     <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
@@ -529,14 +530,14 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
   </div>
 
   <!-- 見出し3 -->
-  <h3 style="font-size:24px;font-weight:800;margin:40px 0 20px;color:#111;text-align:left;">
+  <h3 style="font-weight:800;margin:40px 0 20px;color:#111;text-align:left;">
     ③ 効果的に使うコツ（学びフェーズ）
   </h3>
 
   <!-- ウィンドウ3 -->
   <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
               padding:28px 36px;margin-bottom:28px;">
-    <h4 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+    <h4 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">
       AIとの会話でわかった"ちょっとしたコツ"
     </h4>
     <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
@@ -558,7 +559,7 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
   <!-- ウィンドウ4 -->
   <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
               padding:28px 36px;">
-    <h4 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+    <h4 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">
       参考にした資料
     </h4>
     <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
@@ -587,13 +588,13 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 
     <!-- GASコード（主要スニペット：スタイル維持/微整形） -->
     <section class="reveal" id="gas-codes" style="width:100%;max-width:1080px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:30px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
-      <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
+      <h2 style="font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
         参考：作成GAS一覧
       </h2>
 
       <!-- カード1：スプシ用（〜slack連携まで） -->
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">Auditシート用（それぞれ押すとscriptが見れます）</h3>
+        <h3 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">Auditシート用（それぞれ押すとscriptが見れます）</h3>
         <ul style="margin:8px 0 10px 18px;color:#333;line-height:1.8;">
           <li>スプシ上の入信、返信、デフォテンプレをchatGPTで判定→結果出力</li>
           <ul><li>GASのscript内に、chatGPT用のPromptが入ってる</li></ul>
@@ -1882,7 +1883,7 @@ function notifyEgAuditError() {
   background:#ffc0cb;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:30px;
   box-shadow:0 6px 20px rgba(0,0,0,0.08);">
 
-  <h2 style="font-size:32px;font-weight:800;margin:0 0 40px;text-align:center;color:#ff1493
+  <h2 style="font-weight:800;margin:0 0 40px;text-align:center;color:#ff1493
 ;">
     おまけ（このページの作り方）
   </h2>
@@ -1890,7 +1891,7 @@ function notifyEgAuditError() {
   <!-- 1. タイトルバナー -->
   <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
               padding:28px 36px;margin-bottom:28px;color:#333;">
-    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+    <h3 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">
       タイトルバナー：Gemini（🍌Nano Banana）
     </h3>
     <ul style="margin:8px 0 0 18px;line-height:1.8;">
@@ -1910,7 +1911,7 @@ function notifyEgAuditError() {
   <!-- 2. 漫画草案 -->
   <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
               padding:28px 36px;margin-bottom:28px;color:#333;">
-    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+    <h3 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">
       漫画草案：chatGPT5
     </h3>
     <ul style="margin:8px 0 0 18px;line-height:1.8;">
@@ -1936,7 +1937,7 @@ function notifyEgAuditError() {
   <!-- 3. 漫画画像 -->
   <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
               padding:28px 36px;margin-bottom:28px;color:#333;">
-    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+    <h3 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">
       漫画画像：Gemini（🍌Nano Banana）
     </h3>
     <ul style="margin:8px 0 0 18px;line-height:1.8;">
@@ -1957,7 +1958,7 @@ function notifyEgAuditError() {
   <!-- 4. webページ作成 -->
   <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
               padding:28px 36px;margin-bottom:28px;color:#333;">
-    <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+    <h3 style="margin:0 0 10px;border-left:6px solid #111;padding-left:10px;">
       webページ作成：chatGPT5
     </h3>
     <ul style="margin:8px 0 0 18px;line-height:1.8;">
