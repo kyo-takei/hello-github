@@ -342,14 +342,16 @@ section#ai-qa {
   z-index: 1;
 }
 
-/* ---- 擬似要素：中央配置、直径560px、倍速回転 ---- */
+/* ---- 擬似要素：枠内に完全に収まるように調整 ---- */
 .results-card::before{
   content: "";
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 560px;
-  height: 560px;
+  width: calc(100% - 60px);    /* ← 枠の内側にフィット（560px固定から変更） */
+  height: calc(100% - 60px);   /* ← 同様に */
+  max-width: 560px;            /* サイズ上限：現状維持 */
+  max-height: 560px;
   transform: translate(-50%, -50%) rotate(0deg);
   transform-origin: 50% 50%;
   background: conic-gradient(from 120deg,
@@ -363,7 +365,9 @@ section#ai-qa {
   pointer-events: none;
   z-index: 0;
   border-radius: 50%;
+  overflow: hidden;             /* ← 安全策として擬似要素内も切る */
 }
+
 
 @keyframes rc-spin{
   to{ transform: translate(-50%, -50%) rotate(360deg); }
