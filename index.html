@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>QA・品質管理のAI活用</title>
 <style>
-  :root { --ease: cubic-bezier(.25,.1,.25,1); }
+  :root { --ease: cubic-bezier(.22,.61,.36,1); }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
 
@@ -86,9 +86,9 @@
     box-shadow:0 0 0 rgba(0,0,0,0);
     will-change:transform, opacity, box-shadow;
     transition:
-      transform 1.4s var(--ease),
-      opacity 1.4s var(--ease),
-      box-shadow 1.0s var(--ease) 0.25s;
+      transform 0.7s var(--ease),
+      opacity 0.7s var(--ease),
+      box-shadow 0.6s var(--ease) 0.25s;
   }
   section.is-in{
     transform:translateY(0) scale(1);
@@ -1846,7 +1846,7 @@ function notifyEgAuditError() {
     });
   }, {
     threshold: 0.2,
-    rootMargin: "0px 0px -30% 0px"  // 下側に余裕を持たせてチラつき抑制
+    rootMargin: "0px 0px 20% 0px"  // 下側に余裕を持たせてチラつき抑制
   });
 
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
