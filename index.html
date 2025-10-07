@@ -1837,16 +1837,13 @@ function notifyEgAuditError() {
         // 画面に入ったら付与（ふわっと表示）
         el.classList.add('is-in');
       } else {
-        // 完全に画面外へ出たときだけ外す（detailsの開閉で外さない）
-        const rect = e.boundingClientRect;
-        const vh = (e.rootBounds && e.rootBounds.height) || window.innerHeight;
-        const fullyOut = rect.bottom <= 0 || rect.top >= vh;
-        if (fullyOut) el.classList.remove('is-in');
+       // 再入場のたびに“ふわっ”を発火させるため、外れたら即リセット
+       el.classList.remove('is-in');
       }
     });
   }, {
-    threshold: 0.2,
-    rootMargin: "0px 0px 20% 0px"  // 下側に余裕を持たせてチラつき抑制
+    threshold: 0,                 // 当たった瞬間に入場判定
+    rootMargin: "0px 0px -35% 0px"// 下マージンをマイナスにしてチラつき抑制
   });
 
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
