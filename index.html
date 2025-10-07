@@ -415,6 +415,42 @@ section#ai-qa {
   pointer-events:none;
 }
 
+/* ===== RESULTSスタンプ：スクロールで飛び込むアニメ ===== */
+.results-badge {
+  opacity: 0;  /* 初期は非表示 */
+  transform: translate(200%, -40%) rotate(8deg) scale(0.9);
+  transition: none;
+}
+
+/* .fly-in が付いたら右外から飛び込む */
+.results-badge.fly-in {
+  animation: badgeFlyIn 1s cubic-bezier(.2,.9,.25,1) both;
+}
+
+@keyframes badgeFlyIn {
+  0% {
+    transform: translate(200%, -40%) rotate(8deg) scale(0.9);
+    opacity: 0;
+    filter: blur(6px);
+  }
+  60% {
+    transform: translate(-4%, 6%) rotate(6deg) scale(1.05);
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    transform: translate(0, 0) rotate(8deg) scale(1);
+    opacity: 1;
+    filter: none;
+  }
+}
+
+/* 動きを減らす設定の人向け（アクセシビリティ対応） */
+@media (prefers-reduced-motion: reduce) {
+  .results-badge { animation: none !important; opacity:1 !important; transform:none !important; }
+}
+
+  
 /* アクセシビリティ：動きを減らすユーザーにはアニメ無効 */
 @media (prefers-reduced-motion: reduce) {
   .results-badge { animation: none !important; transform: translate(0,0) rotate(8deg) scale(1); opacity:1; filter:none; }
@@ -2138,5 +2174,25 @@ function notifyEgAuditError() {
 })();
 </script>
 
+<script>
+(function(){
+  const target = document.querySelector('.results-card'); // 成果カード
+  const badge = document.querySelector('.results-badge'); // RESULTSスタンプ
+  if (!target || !badge || !('IntersectionObserver' in window)) return;
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        badge.classList.add('fly-in'); // クラス付与でアニメ開始
+        obs.unobserve(entry.target);   // 一度だけ動かす
+      }
+    });
+  }, { threshold: 0.2 }); // 20%見えたら発火
+
+  observer.observe(target);
+})();
+</script>
+
+   
 </body>
 </html>
