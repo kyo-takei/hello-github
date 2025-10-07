@@ -109,12 +109,18 @@
 
 /* 横スクロールのラッパー（ボタン群） */
 .toc-wrap {
-  /* 既存の overflow-x: auto はそのまま使う */
+  display: flex;                 /* ← ここが無いと横並びにならない */
+  gap: 24px;                     /* ボタン間のスペース */
+  align-items: center;
+  width: min(1100px, 96%);
   padding: 6px 12px;
-  box-shadow: none;     /* 白い枠が邪魔なら無効化 */
-  background: transparent; /* 白枠なくす */
+  overflow-x: auto;              /* ← 横スクロール */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(11,100,255,0.20) rgba(0,0,0,0.03);
+  box-shadow: none;
+  background: transparent;
 }
-
 /* Webkitスクロールバー見た目（任意） */
 .toc-wrap::-webkit-scrollbar { height: 10px; }
 .toc-wrap::-webkit-scrollbar-thumb {
@@ -150,9 +156,10 @@
 
 /* 重要: 何も触れていない時は active を付けない（CSS 側ではなく JS 側で制御）。 */
 
-/* マウスを合わせたとき：該当ボタンだけ青にする */
+/* マウスを合わせたとき：該当ボタンだけ青にする
+   ※ :focus はキーボード操作向けの focus-visible のみに限定する */
 .toc-btn:hover,
-.toc-btn:focus {
+.toc-btn:focus-visible {
   transform: translateY(-4px) scale(1.02);
   background: linear-gradient(90deg,#0b64ff,#00b0ff);
   color: #fff;
@@ -169,6 +176,9 @@
   z-index: 40;
 }
 
+/* マウスでクリックした時に outline が残るのが嫌ならこれで視覚的フォーカスを抑える */
+.toc-btn:focus { outline: none; }
+  
 /* 小さい画面で詰まらないようにリサイズ */
 @media (max-width: 900px) {
   .toc-wrap { gap: 12px; padding: 6px; }
