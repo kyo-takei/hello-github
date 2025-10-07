@@ -308,7 +308,8 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 
 
 <style>
-/* ===== 成果カード（更新版） ===== */
+
+/* ===== 成果カード（要求どおり調整済み） ===== */
 .results-card{
   position:relative;
   background:
@@ -321,26 +322,26 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
     0 6px 14px rgba(0,0,0,.08),
     inset 0 0 0 1.5px rgba(255, 209, 85, .30),
     0 12px 28px rgba(255,209,85,.12);
-  /* スタンプを枠外に出すため visible にする（擬似要素は中に収める調整済み） */
+  /* スタンプは枠外にはみ出してOKにする */
   overflow: visible;
   isolation:isolate;
   border: 3.5px solid #ffd155;
 }
 
-/* カード内コンテンツは擬似要素より上に */
+/* カード内コンテンツを擬似要素より上に出す */
 .results-card > * {
   position: relative;
   z-index: 1;
 }
 
-/* ---- 擬似要素：枠内中心に配置、サイズを大きめに、回転を速く ---- */
+/* ---- 擬似要素：カード中心に配置、直径を大きく、回転をさらに速く ---- */
 .results-card::before{
   content: "";
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 280px;              /* ← 幅を倍に（調整可） */
-  height: 280px;             /* ← 高さを幅に合わせる */
+  width: 560px;              /* ← 直径を倍（560px） */
+  height: 560px;             /* ← 同じく */
   transform: translate(-50%, -50%) rotate(0deg);
   transform-origin: 50% 50%;
   background: conic-gradient(from 120deg,
@@ -348,35 +349,38 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
     rgba(255,240,177,0.92) 60deg,
     rgba(255,215,115,0.98) 120deg,
     rgba(255,240,220,0) 180deg);
-  filter: blur(10px);        /* ぼかしは適度に */
-  opacity: .48;              /* 強調具合（調整可） */
-  animation: rc-spin 9s linear infinite; /* ← 倍速（短く） */
+  filter: blur(12px);        /* ぼかしは適度に（必要なら小さく） */
+  opacity: .42;              /* 強調具合（調整可） */
+  animation: rc-spin 4.5s linear infinite; /* ← 倍速（さらに速く） */
   pointer-events: none;
   z-index: 0;
-  border-radius: 50%;       /* 丸くして自然に見せる */
+  border-radius: 50%;
 }
 
-/* 回転アニメ（そのまま使用） */
-@keyframes rc-spin{ to{ transform: translate(-50%, -50%) rotate(360deg); } }
+/* 回転アニメ：中央基準の回転(translate込み) */
+@keyframes rc-spin{
+  to{ transform: translate(-50%, -50%) rotate(360deg); }
+}
 
-/* 既存の ::after 無効化（あれば） */
+/* 既存 ::after があれば無効化 */
 .results-card::after { content: none !important; }
 
-/* ===== RESULTS スタンプ（大きく＆枠外に出す） ===== */
+/* ===== RESULTS スタンプ：さらに大きく、色・位置調整、1cm下げる ===== */
 .results-badge{
   position:absolute;
-  top:-36px;                 /* 枠の外に少しはみ出す */
-  right:-36px;               /* 枠の外に少しはみ出す */
+  /* 一度はみ出してOKにしているので負の値で外側へ */
+  top: calc(-36px + 38px); /* 既存 top(-36px) に 1cm(≈38px) 下げた形 */
+  right:-48px;             /* 右外にはみ出す量をやや広めに（調整可） */
   background:#111; color:#fff; font-weight:900; letter-spacing:.08em;
-  font-size:1.25rem; padding:14px 20px; border-radius:999px;
-  box-shadow:0 12px 28px rgba(0,0,0,.35);
-  transform: rotate(8deg) scale(2); /* ← 倍の大きさ */
+  font-size:1.25rem; padding:20px 28px; border-radius:999px;
+  box-shadow:0 18px 40px rgba(0,0,0,.35);
+  transform: rotate(8deg) scale(2.2); /* ← 更に拡大（約2.2倍） */
   transform-origin: 50% 50%;
-  z-index: 4;                 /* 最前面に */
+  z-index: 9999;           /* 最前面にして見切れないように */
   pointer-events:none;
 }
 
-/* タイトルやリストはそのまま（必要なら微調整） */
+/* タイトルやリストはそのまま（必要なら微調整可） */
 .results-title{
   margin:0 0 14px; font-size:22px; font-weight:800; line-height:1;
   padding-left:12px; border-left:6px solid #111;
@@ -404,6 +408,7 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
   pointer-events:none; will-change:left;
 }
 @keyframes kira{ to { left:150%; } }
+
 
 </style>
 
