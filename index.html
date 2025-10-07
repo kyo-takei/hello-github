@@ -392,51 +392,53 @@
   <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
               padding:28px 36px;margin-bottom:28px;">
     <h4 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
-      chatGPTに相談（壁打ち）
+      AI（GPT）との最初の会話 — “雑談”から始めてみた
     </h4>
     <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-      <li>「入信の品質管理を自動化するアイデア出して」と相談。ふわっと抽象的な感じでOK！</li>
-      <li>あとは、GPTからのヒアリングにひたすら回答し、抽象的な内容を具体的な方向性にもっていく。</li>
-      <li>使えないツールの提案が出たら代替案を出してもらう。</li>
-      <li>わからないことや、やりたくないことは、そのままストレートに伝える。</li>
+      <li>「入信の品質管理を自動化したいんだけど、何から手をつければ良い？」</li>
+      <li>抽象的でもOK。ざっくりでもAIがヒアリングを重ねながら、具体化してくれる。</li>
+      <li>利用できないツールの提案が出たら代替案を出してもらう。</li>
+      <li>「最初から完璧に聞かなくていい」がコツ。</li>
     </ul>
   </div>
 
   <!-- 見出し2 -->
   <h3 style="font-size:24px;font-weight:800;margin:40px 0 20px;color:#111;text-align:left;">
-    ② 実装フェーズ（形にしていく段階）
+    ② 一緒に形にしたステップ（共創フェーズ）
   </h3>
 
   <!-- ウィンドウ2 -->
   <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
               padding:28px 36px;margin-bottom:28px;">
     <h4 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
-      実作業フェーズ（指示は具体的に）
+      壁打ちしながら、一緒に設計していく
     </h4>
     <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-      <li>壁打ちで方向性が決まったら、GASや関数の要件整理と生成をしてもらう。</li>
-      <li>CSのワーディングルールやAudit判定基準を読ませ、判定できるPromptを生成してもらう。</li>
-      <li>スプシに実際にGASを仕込み、出力される場所や内容など細かい調整やFBをして修正してもらう。</li>
-      <li>修正箇所の説明がわからない時は「フルコードで出して」といって全てを上書きするとラク。</li>
+      <li>GAS構造やチェック基準の整理はAIに任せて、「出力場所」「判断基準」などは人が指示</li>
+     <li>修正は何度でもOK。指示があいまいでもAIが補ってくれる。わからないことは「どういうこと？」って聞いたら教えてくれる</li>
+      <li>ワーディングルールやAudit判定基準などの資料を読ませ、判定できるPromptを生成してもらう。</li>
+      <li>人が考えるのは「正しい方向性」、AIが担うのは「具体化・自動化」</li>
+      <li>コードの修正箇所が不明確な際は「フルコードで出して」と伝え、全てを上書きするとラク。</li>
     </ul>
   </div>
 
   <!-- 見出し3 -->
   <h3 style="font-size:24px;font-weight:800;margin:40px 0 20px;color:#111;text-align:left;">
-    ③ 運用ノウハウ（AIとの付き合い方）
+    ③ 効果的に使うコツ（学びフェーズ）
   </h3>
 
   <!-- ウィンドウ3 -->
   <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
               padding:28px 36px;margin-bottom:28px;">
     <h4 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
-      ちょっとしたコツ
+      AIとの会話でわかった“ちょっとしたコツ
     </h4>
     <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-      <li>AIとの会話は、壁打ち（発散）と実装依頼（収束）で分けると精度UP。</li>
-      <li>要件が固まっている内容は、具体的に伝えるほどブレが減る。</li>
-      <li>chatGPT は柔軟性と発想力、Geminiはコード最適化や堅実性に強み → 役割分担が効く。</li>
-      <ul><li>chatGPTが出してきたPromptやscriptをGeminiで最適化するとスムーズだった。</li></ul>
+      <li>抽象的な相談 → ChatGPT（発想と柔軟性）</li>
+      <li>実装コードの最適化 → Gemini（堅実さ）</li>
+      <li>まずはラフに「こういうのがやりたい」と話しかけてOK。AIが設計図を描く。</li>
+      <li>AIをパートナーとして会話ができると良い。</li>
+      <li><ul>人間でも、まずブレストをしてから具体プランを検討するようなイメージ。</ul></li>
     </ul>
   </div>
 
