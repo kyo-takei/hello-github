@@ -2125,7 +2125,10 @@ function notifyEgAuditError() {
       threshold: [0, 0.05, 0.15, 0.3, 0.5]
     });
 
-    sections.forEach(s => tocObserver.observe(s));
+setTimeout(() => {
+  sections.forEach(s => tocObserver.observe(s));
+}, 800);
+
 
     // ページロードで hash があれば遅延スクロールして active を馴染ませる
     if (location.hash) {
