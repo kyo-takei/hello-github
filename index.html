@@ -342,36 +342,48 @@ section#ai-qa {
   z-index: 1;
 }
 
-/* ---- 擬似要素：枠内に完全に収まるように調整 ---- */
+/* ===== カード内を左→右に流れる「シアー（sheen）」 ===== */
+/* 置き換え対象：.results-card::before（回転円の代わりにこちらを使う） */
+
 .results-card::before{
   content: "";
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: calc(100% - 60px);    /* ← 枠の内側にフィット（560px固定から変更） */
-  height: calc(100% - 60px);   /* ← 同様に */
-  max-width: 560px;            /* サイズ上限：現状維持 */
-  max-height: 560px;
-  transform: translate(-50%, -50%) rotate(0deg);
-  transform-origin: 50% 50%;
-  background: conic-gradient(from 120deg,
-    rgba(255,215,115,0.98) 0deg,
-    rgba(255,240,177,0.92) 60deg,
-    rgba(255,215,115,0.98) 120deg,
-    rgba(255,240,220,0) 180deg);
-  filter: blur(12px);
-  opacity: .45;
-  animation: rc-spin 4.5s linear infinite;
+  top: 0;
+  left: 0;
+  /* カード全体を覆う高さ。幅は狭めの帯状にして左右へ流す */
+  width: 40%;             /* 光の“帯”の幅（カード幅の比率）。調整可 */
+  height: 120%;           /* 少し縦に大きめにして角丸含めてキレイに見える */
+  /* 初期はカードの左外へ置く（アニメで右に移動） */
+  transform: translateX(-110%);
+  /* 光の見た目：中央に強い白（ハイライト）、周囲は透明 */
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.95) 45%,
+    rgba(255,255,255,0.75) 50%,
+    rgba(255,255,255,0.95) 55%,
+    rgba(255,255,255,0) 100%
+  );
+  filter: blur(10px);     /* ふんわり感（キラッ） */
+  opacity: 0.55;          /* 強さ：0〜1で調整 */
   pointer-events: none;
   z-index: 0;
-  border-radius: 50%;
-  overflow: hidden;             /* ← 安全策として擬似要素内も切る */
+  border-radius: 16px;    /* カードの角丸に合わせておくと自然 */
+  mix-blend-mode: screen; /* 下層の色と馴染ませる（使えないブラウザは無視される） */
+
+  /* アニメーション：左外→右外を通過 */
+  animation: shear-slide 3s linear infinite;
 }
 
-
-@keyframes rc-spin{
-  to{ transform: translate(-50%, -50%) rotate(360deg); }
+/* アニメ定義（左→右） */
+@keyframes shear-slide {
+  0%   { transform: translateX(-110%); opacity: 0; }
+  8%   { opacity: 0.45; }    /* 入ってきたときに見える */
+  50%  { transform: translateX(50%); opacity: 0.7; }  /* 中央通過（もっと明るく） */
+  92%  { opacity: 0.45; }    /* 出ていくときに薄める */
+  100% { transform: translateX(210%); opacity: 0; }  /* 右外へ抜ける */
 }
+
 
 /* 既存の ::after は無効化 */
 .results-card::after { content: none !important; }
