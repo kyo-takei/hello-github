@@ -353,9 +353,10 @@ section#ai-qa {
 .results-card::before{
   content: "";
   position: absolute;
-  top: 0; left: 0;
+  top: -38px;
+  left: 0;
   width: 80%;             /* 光の幅：カード幅の約8割 */
-  height: 100%;           /* カードの高さにぴったり */
+  height: calc(100% + 76px); /* ← 上下で合計2cm分（38px×2）拡張 */
   transform: translateX(-120%);
   background: linear-gradient(
     90deg,
