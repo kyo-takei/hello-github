@@ -424,13 +424,13 @@ section#ai-qa {
 .results-badge {
   opacity: 0;
   /* 右上の外（Xは右方向に200%程度、Yは上にさらに300%で“画面上”っぽく） */
-  transform: translate(200%, -300%) rotate(8deg) scale(0.9);
+  transform: translate(200%, -400%) rotate(8deg) scale(0.9);
   pointer-events: none;
 }
 
 /* .fly-in が付いたらアニメ実行（右上→最終位置） */
 .results-badge.fly-in {
-  animation: badgeFlyInTopRight 900ms cubic-bezier(.2,.9,.25,1) both;
+  animation: badgeFlyInTopRight 1200ms cubic-bezier(.2,.9,.25,1) both;
 }
 
 /* キーフレーム：右上外側 -> 少しオーバーシュート -> 定位置 */
