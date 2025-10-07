@@ -405,11 +405,11 @@ section#ai-qa {
   color:#fff;
   font-weight:900;
   letter-spacing:.08em;
-  font-size:1.25rem;
+  font-size:calc(1.25rem * 1.5);
   padding:14px 20px;
   border-radius:999px;
   box-shadow:0 12px 28px rgba(0,0,0,.35);
-  transform: rotate(8deg) scale(1.4); /* ← 前回より小さいが存在感あり */
+  transform: rotate(8deg) scale(2); /* ← 前回より小さいが存在感あり */
   transform-origin: 50% 50%;
   z-index: 9999;             /* 最前面（背景より前） */
   pointer-events:none;
@@ -424,13 +424,13 @@ section#ai-qa {
 .results-badge {
   opacity: 0;
   /* 右上の外（Xは右方向に200%程度、Yは上にさらに300%で“画面上”っぽく） */
-  transform: translate(200%, -500%) rotate(8deg) scale(0.9);
+  transform: translate(200%, -700%) rotate(8deg) scale(0.9);
   pointer-events: none;
 }
 
 /* .fly-in が付いたらアニメ実行（右上→最終位置） */
 .results-badge.fly-in {
-  animation: badgeFlyInTopRight 2000ms cubic-bezier(.2,.9,.25,1) both;
+  animation: badgeFlyInTopRight 3000ms cubic-bezier(.2,.9,.25,1) both;
 }
 
 /* キーフレーム：右上外側 -> 少しオーバーシュート -> 定位置 */
