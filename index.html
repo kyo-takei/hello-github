@@ -99,30 +99,20 @@
   }
   img{ display:block; width:100%; height:auto; user-select:none; pointer-events:none; }
 
-/* ===== Contents トグル（横スクロール化 + hoverで青になる） ===== */
+/* toc 調整（既存のルールを上書き） */
 .toc-row {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 14px 8px;
-  margin: -8px 0 22px;   /* 上にはみ出す量を適度に抑える */
+  z-index: 10;          /* 低くしてコンテンツと被ったとき視認性確保 */
+  margin: -8px 0 30px;  /* 下部の余白を少し増やしてメインとの隙間を確保 */
   pointer-events: auto;
-  overflow: visible;
   position: relative;
-  z-index: 30;
 }
 
 /* 横スクロールのラッパー（ボタン群） */
 .toc-wrap {
-  display: flex;
-  gap: 24px;               /* ボタン間のスペース */
-  align-items: center;
-  width: min(1100px, 96%);
+  /* 既存の overflow-x: auto はそのまま使う */
   padding: 6px 12px;
-  overflow-x: auto;        /* ← 横スクロール化 */
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(11,100,255,0.20) rgba(0,0,0,0.03);
+  box-shadow: none;     /* 白い枠が邪魔なら無効化 */
+  background: transparent; /* 白枠なくす */
 }
 
 /* Webkitスクロールバー見た目（任意） */
@@ -2016,6 +2006,22 @@ function notifyEgAuditError() {
     });
   })();
 
+// === reveal のフォールバック ：IOが効かない/遅い場合に is-in を付与する ===
+setTimeout(() => {
+  try {
+    const anyIn = document.querySelector('.reveal.is-in');
+    if (!anyIn) {
+      // 最上位の 1〜2 セクションだけ早めに表示したければ slice(0,2)
+      document.querySelectorAll('.reveal').forEach((el, i) => {
+        // 画面外の要素全部を即座に出したくないなら i<2 などで制限
+        el.classList.add('is-in');
+      });
+      console.warn('reveal fallback applied: forced .is-in on .reveal elems');
+    }
+  } catch (e) { console.warn(e); }
+}, 550); // 400〜800ms の間で調整可（現在は 550ms）
+
+  
   /* ========================
      2) 軽量アクセスカウンタ（sendBeacon / fetch）
      ======================== */
