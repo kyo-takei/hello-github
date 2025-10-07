@@ -309,7 +309,15 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 
 <style>
 
-/* ===== 成果カード専用（他には影響しません） ===== */
+/* ===== 成果カード専用（薄水色背景までスタンプをはみ出す仕様） ===== */
+
+/* 親セクションにも overflow:visible を強制（見切れ防止） */
+section#ai-qa {
+  overflow: visible !important;
+  position: relative;
+  z-index: 1;
+}
+
 .results-card{
   position:relative;
   background:
@@ -322,9 +330,10 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
     0 6px 14px rgba(0,0,0,.08),
     inset 0 0 0 1.5px rgba(255, 209, 85, .30),
     0 12px 28px rgba(255,209,85,.12);
-  overflow: visible;   /* スタンプを背景外まで出せるように */
+  overflow: visible !important;   /* ← 見切れ防止 */
   isolation:isolate;
   border: 3.5px solid #ffd155;
+  z-index: 2;
 }
 
 /* コンテンツを擬似要素より上に */
@@ -333,13 +342,13 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
   z-index: 1;
 }
 
-/* ---- 擬似要素：中心配置、直径を倍（560px）、さらに倍速回転 ---- */
+/* ---- 擬似要素：中央配置、直径560px、倍速回転 ---- */
 .results-card::before{
   content: "";
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 560px;               /* ← 直径を倍（カード全体を照らす） */
+  width: 560px;
   height: 560px;
   transform: translate(-50%, -50%) rotate(0deg);
   transform-origin: 50% 50%;
@@ -350,7 +359,7 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
     rgba(255,240,220,0) 180deg);
   filter: blur(12px);
   opacity: .45;
-  animation: rc-spin 4.5s linear infinite; /* ← 前回の倍速回転 */
+  animation: rc-spin 4.5s linear infinite;
   pointer-events: none;
   z-index: 0;
   border-radius: 50%;
@@ -360,29 +369,30 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
   to{ transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* 回転ボーダーは無効化 */
+/* 既存の ::after は無効化 */
 .results-card::after { content: none !important; }
 
-/* ===== RESULTS スタンプ（前回より小さく、背景まではみ出す） ===== */
+/* ===== RESULTS スタンプ ===== */
 .results-badge{
   position:absolute;
-  top: calc(-36px + 38px);  /* ← 前回の位置＋約1cm下げる */
-  right:-60px;              /* ← 右方向にややはみ出す（薄水色背景まで） */
-  background:#111; 
-  color:#fff; 
-  font-weight:900; 
+  /* 白枠を越えてさらに薄水色背景まで出す位置 */
+  top: calc(-36px + 38px);   /* 1cm下げ（見た目調整済み） */
+  right:-80px;               /* ← はみ出し量を増加 */
+  background:#111;
+  color:#fff;
+  font-weight:900;
   letter-spacing:.08em;
-  font-size:1.25rem; 
-  padding:14px 20px; 
+  font-size:1.25rem;
+  padding:14px 20px;
   border-radius:999px;
   box-shadow:0 12px 28px rgba(0,0,0,.35);
-  transform: rotate(8deg) scale(1.4);  /* ← 小さく戻す（前回2.2倍→1.4倍） */
+  transform: rotate(8deg) scale(1.4); /* ← 前回より小さいが存在感あり */
   transform-origin: 50% 50%;
-  z-index: 9999; /* 背景より前、他要素より上 */
+  z-index: 9999;             /* 最前面（背景より前） */
   pointer-events:none;
 }
 
-/* タイトル＆リストなどは現行のまま */
+/* タイトル・リスト等は現行維持 */
 .results-title{
   margin:0 0 14px; 
   font-size:22px; 
