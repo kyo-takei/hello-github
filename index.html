@@ -2180,18 +2180,21 @@ function notifyEgAuditError() {
   const badge = document.querySelector('.results-badge'); // RESULTSスタンプ
   if (!target || !badge || !('IntersectionObserver' in window)) return;
 
-  const observer = new IntersectionObserver((entries, obs) => {
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        badge.classList.add('fly-in'); // クラス付与でアニメ開始
-        obs.unobserve(entry.target);   // 一度だけ動かす
+        // 一度アニメを消してから再付与することで毎回発火
+        badge.classList.remove('fly-in');
+        void badge.offsetWidth; // ← 再描画を強制してアニメリセット
+        badge.classList.add('fly-in');
       }
     });
-  }, { threshold: 0.2 }); // 20%見えたら発火
+  }, { threshold: 0.3 }); // 20%見えたら発火
 
   observer.observe(target);
 })();
 </script>
+
 
    
 </body>
