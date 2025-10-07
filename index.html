@@ -1863,6 +1863,36 @@ function notifyEgAuditError() {
   });
 </script>
 
+<script>
+(function(){
+  var API = "https://script.google.com/macros/s/https://script.google.com/a/macros/mercari.com/s/AKfycbyzCGR6-pWCKv7Tn0xXpbmQmbw7-Owq_VqHiaLtYhgogntUdiYlMatWZs3YIB9BpXXLfg/exec";
+
+  // ページID：パスをそのまま使う（必要なら固定文字列でも可）
+  var pid = (location.pathname || "/").replace(/\/+$/,'') || "/";
+
+  var payload = JSON.stringify({
+    pid: pid,
+    ref: document.referrer || ""
+  });
+
+  try {
+    if (navigator.sendBeacon) {
+      // 非同期で送ってページの描画をブロックしない
+      navigator.sendBeacon(API, new Blob([payload], {type: 'application/json'}));
+    } else {
+      // sendBeacon非対応ブラウザ用
+      fetch(API, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: payload,
+        keepalive: true
+      }).catch(function(){});
+    }
+  } catch(e) {
+    // 失敗してもUIは変えない
+  }
+})();
+</script>
 
 </body>
 </html>
