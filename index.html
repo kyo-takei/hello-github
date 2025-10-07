@@ -2047,7 +2047,6 @@ function notifyEgAuditError() {
     const buttons = Array.from(document.querySelectorAll(TOC_BTN_SELECTOR));
     if (!buttons.length) return;
 
-    // --- helper: 指定ボタンが指すセクション要素を返す ---
     function getTargetFromButton(btn){
       const dt = btn.getAttribute('data-target');
       if (dt && dt[0] === '#') return document.querySelector(dt);
@@ -2056,7 +2055,6 @@ function notifyEgAuditError() {
       return null;
     }
 
-    // --- スムーススクロール（ヘッダー分を考慮） ---
     function scrollToSection(sec){
       if (!sec) return;
       const header = document.querySelector('header');
@@ -2065,7 +2063,7 @@ function notifyEgAuditError() {
       window.scrollTo({ top, behavior: 'smooth' });
     }
 
-    // クリック処理
+    // クリック処理（既存の挙動を維持）
     buttons.forEach(btn => {
       btn.addEventListener('click', function(e){
         if (e.preventDefault) e.preventDefault();
@@ -2073,11 +2071,9 @@ function notifyEgAuditError() {
         if (!sec) return;
         scrollToSection(sec);
 
-        // 一時的に active-temp を付ける（IOで本当の active が入ったら上書き）
         buttons.forEach(b => b.classList.remove('active-temp'));
         btn.classList.add('active-temp');
 
-        // TOCラッパーがある場合、押したボタンを中央に寄せる（横スクロールの見た目を良くする）
         const wrap = document.querySelector(TOC_WRAP_SELECTOR);
         if (wrap && typeof wrap.scrollTo === 'function') {
           const wrapRect = wrap.getBoundingClientRect();
@@ -2089,40 +2085,89 @@ function notifyEgAuditError() {
       });
     });
 
-    // IntersectionObserver: 見えているセクションに対応するボタンに .active を付与
+    // 対象セクションを集める
     const sections = SECTION_IDS.map(id => document.getElementById(id)).filter(Boolean);
     if (!sections.length) return;
 
-    // まず読み込み時に既存の active をクリア（最重要：これで「デフォで青い」問題を解消）
-    buttons.forEach(b => b.classList.remove('active'));
+    // 1) 初期ロードで既に付いている active をクリア（重要）
+    buttons.forEach(b => b.classList.remove('active', 'active-temp'));
 
+    // フラグ / タイムスタンプ（読み込み直後の誤検出を避ける）
+    const startTime = Date.now();
+    const IGNORE_MS = 800; // 読み込み直後はIOの初回判定を保留する時間
+    let delayedSetPerformed = false;
+
+    // IntersectionObserver のコールバック
     const tocObserver = new IntersectionObserver((entries) => {
-      // visible の中で最も intersectionRatio が高いセクションを chosen とする
+      // entries の中で最も intersectionRatio が高いものを選ぶ
       const visible = entries.filter(e => e.isIntersecting);
       let chosen = null;
       if (visible.length) {
         visible.sort((a,b) => b.intersectionRatio - a.intersectionRatio);
         chosen = visible[0].target;
       } else {
-        // 交差していない場合はウィンドウ上部に近いセクションを代替選択
+        // 交差していない場合は上寄りのセクションを代替として選ぶ
         const positives = entries.filter(e => e.boundingClientRect.top >= 0).sort((a,b) => a.boundingClientRect.top - b.boundingClientRect.top);
         if (positives.length) chosen = positives[0].target;
       }
       if (!chosen) return;
 
+      // --- 重要ガード ---
+      // ページ読み込み直後（指定ミリ秒未満）かつユーザーがほとんどスクロールしていない場合は
+      // 即時で active を付けずに保留する（Chrome の初期微交差による誤判定防止）
+      if ((Date.now() - startTime) < IGNORE_MS && window.scrollY < 40) {
+        // 保留（遅延処理がまだ行われていなければ 2 回目で強制的に評価）
+        if (!delayedSetPerformed) {
+          delayedSetPerformed = true;
+          setTimeout(() => {
+            // 800ms 後に改めて最も画面上に近いセクションを判定して active を付ける
+            let best = null;
+            let bestTop = Infinity;
+            sections.forEach(s => {
+              const r = s.getBoundingClientRect();
+              // ウィンドウ内の最上位に近いセクションを選ぶ（正負含む）
+              if (Math.abs(r.top) < Math.abs(bestTop)) { bestTop = r.top; best = s; }
+            });
+            if (best) {
+              buttons.forEach(b => {
+                const sec = getTargetFromButton(b);
+                if (sec === best) {
+                  b.classList.add('active');
+                  b.classList.remove('active-temp');
+                  // 中央寄せ
+                  const wrap = document.querySelector(TOC_WRAP_SELECTOR);
+                  if (wrap && typeof wrap.scrollTo === 'function') {
+                    const wrapRect = wrap.getBoundingClientRect();
+                    const btn = b.getBoundingClientRect ? b : null;
+                    const btnRect = b.getBoundingClientRect();
+                    const currentScroll = wrap.scrollLeft;
+                    const targetScroll = currentScroll + (btnRect.left - wrapRect.left) - (wrapRect.width / 2) + (btnRect.width / 2);
+                    wrap.scrollTo({ left: targetScroll, behavior: 'smooth' });
+                  }
+                } else {
+                  b.classList.remove('active');
+                  b.classList.remove('active-temp');
+                }
+              });
+            }
+          }, IGNORE_MS + 80);
+        }
+        return;
+      }
+
+      // 正常ケース：IO が示した chosen を active にする
       buttons.forEach(b => {
         const sec = getTargetFromButton(b);
         if (sec === chosen) {
           b.classList.add('active');
           b.classList.remove('active-temp');
-          // 追加（UX向上）: 中央に来るように横スクロールを補正
+          // 中央寄せ（軽くスクロール）
           const wrap = document.querySelector(TOC_WRAP_SELECTOR);
           if (wrap && typeof wrap.scrollTo === 'function') {
             const wrapRect = wrap.getBoundingClientRect();
             const btnRect = b.getBoundingClientRect();
             const currentScroll = wrap.scrollLeft;
             const targetScroll = currentScroll + (btnRect.left - wrapRect.left) - (wrapRect.width / 2) + (btnRect.width / 2);
-            // 小さなスクロールだけ行う（過度なジャンプ防止）
             wrap.scrollTo({ left: targetScroll, behavior: 'smooth' });
           }
         } else {
@@ -2130,16 +2175,17 @@ function notifyEgAuditError() {
           b.classList.remove('active-temp');
         }
       });
+
     }, {
       root: null,
       rootMargin: '0px 0px -40% 0px',
       threshold: [0, 0.05, 0.15, 0.3, 0.5]
     });
 
-    // 少し遅延して observe（読み込み中のレイアウトズレを抑える）
-    setTimeout(() => { sections.forEach(s => tocObserver.observe(s)); }, 400);
+    // 少し遅延して observe（読み込み直後のリフロー問題を軽減）
+    setTimeout(() => { sections.forEach(s => tocObserver.observe(s)); }, 300);
 
-    // ハッシュでの初期遷移対応（あれば 120ms でスクロール）
+    // ハッシュ対応（ある場合は少し遅延してスクロール）
     if (location.hash) {
       try {
         const el = document.querySelector(location.hash);
@@ -2147,11 +2193,10 @@ function notifyEgAuditError() {
       } catch(e){}
     }
 
-    // デバッグ用（必要ならコンソールで参照）
+    // デバッグ参照を残す（必要なら devtools で見て）
     try { window.__toc_debug = { buttons, sections }; } catch(e) {}
   })();
 
-})();
 </script>
 
 </body>
