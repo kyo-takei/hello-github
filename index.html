@@ -2201,9 +2201,10 @@ setTimeout(() => {
 
     // デバッグ参照を残す（必要なら devtools で見て）
     try { window.__toc_debug = { buttons, sections }; } catch(e) {}
-  })();
-
+  })(); // ← 関数をちゃんと閉じる
+})();   // ← 最後のIIFE全体を閉じる
 </script>
 
 </body>
 </html>
+
