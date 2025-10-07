@@ -174,19 +174,16 @@
       <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:32px 40px;margin-bottom:32px;">
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">背景と課題</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-          <li>委託先に入信対応のサンプリングチェックを依頼し、IHでダブルチェックを実施していたが、チェック項目が多く、1件あたり約30分の工数になっていた。</li>
-          <li>7月にAIチャンネルやWBRでシェアした
+          <li>入信対応のサンプリングチェックを委託先＋IHで実施しており、チェック項目が多く、<strong>1件あたり約30分の工数</strong>strong>が発生。</li>
+          <li>7月から
             <strong>
               <a href="https://chatgpt.com/g/g-6875b677f42c81b8a8bfe0ed6c477b94-tenhurepin-zhi-tietuka"
                  target="_blank" rel="noopener noreferrer"
-                 style="color:#0070f3;text-decoration:none;border-bottom:1px solid rgba(0,112,243,0.4);">
-                 Template Quality Checker
+                 style="color:#0070f3;text-decoration:none;border-bottom:1px solid rgba(0,112,243,0.4);">Template Quality Checker（カスタムGPT）
               </a>
-            </strong>
-            というカスタムGPTを利用することで、一部AI化していたが、工数としては50%程度の削減かつ、入信や返信文を手作業でコピーする手間が残っていた。
-          </li>
-          <li>委託先とIH間で品質基準の認識にギャップがあり、正しいAccuracyが可視化できておらず、CalibrationやFBでは安定化に限界。</li>
-          <li>より効率的で再現性と品質を担保出来る仕組み構築が必要だった。</li>
+            </strong> 
+            を導入し一部AI化、工数は約50%削減したが、入信・返信文の手動コピーが残存。委託先とIHで品質基準の認識にずれがあり、Accuracyが可視化できなかった。</li>
+          <li>委託先とのweekly Quality MeetingでのCalibrationやFeedbackでは認識のGapを埋めることが出来ず、より効率的で再現性と品質を担保出来る仕組み構築が必要だった。</li>
         </ul>
       </div>
 
@@ -195,9 +192,9 @@
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">AI活用概要</h3>
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
           <li>サンプルチェック用の案件の入信/返信文を<strong>個人情報保護フォルダへ毎日自動抽出</strong>する仕組みを構築。</li>
-          <ul><li><strong>Special Thanks @UcchiYさん</strong>のご協力により実現。</li></ul>
           <li>委託先には<strong>プロセスチェックのみ</strong>依頼（1件3分）。ツール処理やフロー判断はAIではなく人が担当。</li>
-          <li>AIに相談し、<strong>案件→chatGPT取り込み→スプシ転記→slack通知</strong>をGAS連携で<strong>ワンクリック放置運用</strong>実現。</li>
+          <li><strong>スプシ上の案件 → chatGPT取り込み判定 → 結果を元のスプシに出力 → slack通知</strong>をGAS連携で<strong>ワンクリック放置運用</strong>実現。</li>
+          <ul><li><strong>Special Thanks @UcchiYさん</strong>（のご協力により実現。）</li></ul>
         </ul>
       </div>
 
@@ -300,10 +297,10 @@
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">新たな課題</h3>
         <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
           <li>誤対応件数の増加に伴う委託先の<strong>管理者負荷</strong>対策。</li>
-          <li>AIの判定精度は<strong>現状約85%</strong>のため、委託先からのRebuttal起点プロンプト調整が必要</li>
-          <ul><li><strong>Special Thanks @Hikichiさん</strong>の日々のご協力により推進中。</li></ul>
-          <li>連投入信／画像のみ入信など、<strong>AI判定不可</strong>な案件もある</li>
-          <li><strong>500件超</strong>の安定稼働 → <strong>毎朝自動実行</strong>フローへ拡張。</li>
+          <li>現時点でのAIの判定精度は<strong>約85%</li>程度   
+          <ul><li>連投入信／画像のみ入信など、<strong>AI判定不可</strong>な案件や、ハルシネーション発生もあり。</li>/<ul> 
+            <ul><li>判定結果に対する委託先からのFBデータを元に、定期的にPromptの調整が必要</li>/<ul>
+            <ul><li><strong>Special Thanks @Hikichiさん</strong>（の日々のご協力により実現。）</li></ul>
         </ul>
       </div>
 
@@ -315,7 +312,7 @@
         <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
           <li>PaymentでのPoC完了→<strong>KYC、FR領域にも横展開</strong>し、改善サイクルを推進</li>
           <li>正しいAccuracy実績に基づく<strong>誤対応分析 → テンプレ/フロー改善案</strong>推進をOpsと協業。</li>
-          <li><strong>クリックなし自動化かつ、10,000件自動処理</strong>の検証完了、前日入信全件チェック→全領域のAccuracyをチャンネル配信の仕組み化検討中</li>
+          <li><strong>手動実行なし、毎日定時での自動実行化と、10,000件連続処理</strong>の検証が完了したので、MP全領域の入信全件チェック&slack配信の仕組み化を検討中</li>
         </ul>
       </div>
     </section>
@@ -376,7 +373,7 @@
     <!-- 実際AIで何をしたん？？（スタイル統一） -->
     <section class="reveal" id="what-ai-did" style="width:100%;max-width:960px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:30px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
       <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
-       で、実際AIで何をやったん？？
+       AIと進めたプロセス
       </h2>
 
       <!-- ウィンドウ1 -->
