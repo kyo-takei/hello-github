@@ -99,6 +99,65 @@
   }
   img{ display:block; width:100%; height:auto; user-select:none; pointer-events:none; }
 
+  /* ===== 目次（TOC） ===== */
+.toc {
+  max-width: 800px;
+  width: 90%;
+  margin: 20px auto;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 14px 18px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  position: relative;
+  z-index: 6;
+}
+.toc .toc-title {
+  font-weight:800;
+  font-size:16px;
+  color:#111;
+  margin-right:12px;
+  white-space:nowrap;
+}
+.toc .toc-links {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.toc .toc-links a {
+  text-decoration:none;
+  padding:8px 12px;
+  border-radius:999px;
+  background: linear-gradient(180deg,#f6fbff 0%, #ffffff 100%);
+  border:1px solid rgba(0,0,0,0.05);
+  box-shadow:0 4px 12px rgba(0,0,0,0.04);
+  font-weight:700;
+  font-size:14px;
+  color:#10324a;
+  transition: transform .18s var(--ease), box-shadow .18s var(--ease);
+}
+.toc .toc-links a:hover,
+.toc .toc-links a:focus {
+  transform: translateY(-3px);
+  box-shadow:0 12px 24px rgba(0,0,0,0.08);
+  outline: none;
+}
+.toc .toc-links a.active {
+  background:#111;
+  color:#fff;
+  box-shadow:0 12px 26px rgba(0,0,0,0.22);
+}
+@media (max-width:640px){
+  .toc { padding:12px; gap:8px; }
+  .toc .toc-title { font-size:14px; }
+  .toc .toc-links a { font-size:13px; padding:8px 10px; }
+}
+
+
   /* ===== 画像スタック（実行フロー用） ===== */
   .stack-box{
     background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
@@ -155,6 +214,19 @@
     <p>「AIと人の強みを融合して、MP全体の品質を次のステージへ」</p>
   </div>
 
+<!-- 目次（TOC） -->
+<nav class="toc" aria-label="このページの目次">
+  <div class="toc-title">Contents</div>
+  <div class="toc-links" role="navigation">
+    <a href="#ai-qa">品質管理AI化の取り組み</a>
+    <a href="#flow-explain">実行フローのイメージ</a>
+    <a href="#what-ai-did">AIと進めたプロセス</a>
+    <a href="#gas-codes">参考：作成GAS一覧</a>
+    <a href="#how-made">おまけ（作り方）</a>
+  </div>
+</nav>
+
+  
   <main>
     <!-- 漫画コマ（760px） -->
     <section class="reveal"><img src="1.png" alt="comic1" loading="lazy"></section>
