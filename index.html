@@ -16,7 +16,7 @@
     background: #eaf6ff;
     color: #222;
     overflow-x: hidden;
-    font-size: 16px; /* 調整: 20px -> 16px */
+    font-size: 20px;
   }
 
   header {
@@ -31,21 +31,15 @@
   /* ===== ヒーロー（画像タグで“切れない”表示） ===== */
   .hero{
     width:100%;
-    min-height:42vh;           /* 変更: 高さの確保 */
-    display:block;
-    position:relative;
-    overflow:hidden;
-    border-bottom: 0;
-    box-shadow: inset 0 -20px 40px rgba(0,0,0,0.12);
-    background: transparent;
+    border-bottom: 2px solid #111;
+    box-shadow: inset 0 -40px 40px rgba(0,0,0,0.18);
+    background:#111;
   }
-  .hero-img{
-    display:block;
-    width:100%;
-    height:100%;
-    object-fit: cover;         /* 重要: cover 表示 */
-    object-position: center;
-  }
+ .hero-img{
+  display:block;
+  width:100%;
+  height:auto;
+}
 
   .visually-hidden{
     position:absolute !important; width:1px; height:1px; margin:-1px; border:0; padding:0;
@@ -67,40 +61,34 @@
   .profile p{ color:#555; line-height:1.8; margin:4px 0; }
 
   /* ===== 1行スライドアニメ ===== */
-  .ticker{ --row-h:1.8em; --rows:3; height:var(--row-h); overflow:hidden; display:inline-block; }
+  .ticker{ height:1.8em; overflow:hidden; display:inline-block; }
   .ticker .track{
     display:flex; flex-direction:column;
-    line-height:var(--row-h);
-    animation: tick calc(var(--rows) * 3s) steps(var(--rows)) infinite;
+    line-height:1.8em;
+    animation:tick 9s steps(3) infinite;
   }
   @keyframes tick{
     0%{ transform:translateY(0); }
-    100%{ transform:translateY(calc(var(--row-h) * var(--rows) * -1)); }
+    100%{ transform:translateY(-5.4em); }
   }
 
   /* ===== 共通セクション ===== */
   main{
     display:flex; flex-direction:column; align-items:center;
-    gap:16px;
+    gap:16px;                   /* ← 70px から半分に */
     padding:30px 0 90px;
   }
-
   section{
-    width: 100%;
-    max-width: 900px;    /* 拡大: 760px -> 900px */
-    margin-left: auto;
-    margin-right: auto;
-    background:#fff;
+    width:100%; max-width:760px; background:#fff;
     border-radius:16px; overflow:hidden;
-    /* アニメーション開始値は控えめに */
-    transform:translateY(40px) scale(0.985);
+    transform:translateY(80px) scale(0.95);
     opacity:0;
     box-shadow:0 0 0 rgba(0,0,0,0);
     will-change:transform, opacity, box-shadow;
     transition:
-      transform 0.6s var(--ease),
-      opacity 0.6s var(--ease),
-      box-shadow 0.45s var(--ease) 0.15s;
+      transform 0.7s var(--ease),
+      opacity 0.7s var(--ease),
+      box-shadow 0.6s var(--ease) 0.25s;
   }
   section.is-in{
     transform:translateY(0) scale(1);
@@ -110,97 +98,6 @@
       0 10px 20px rgba(0,0,0,0.15);
   }
   img{ display:block; width:100%; height:auto; user-select:none; pointer-events:none; }
-
-  /* toc 調整（既存のルールを上書き） */
-  .toc-row {
-    z-index: 10;
-    margin: -8px 0 30px;
-    pointer-events: auto;
-    position: relative;
-  }
-
-  /* 横スクロールのラッパー（ボタン群） - 中央寄せ */
-  .toc-wrap{
-    width: 100%;
-    max-width: 1200px;        /* 必要に応じて調整 */
-    margin: 0 auto;           /* ラッパー自体をセンタリング */
-    display: flex;
-    justify-content: center;  /* ボタン群が小さいとき中央揃えに */
-    gap: 20px;
-    align-items: center;
-    padding: 8px 12px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(11,100,255,0.20) rgba(0,0,0,0.03);
-    box-shadow: none;
-    background: transparent;
-    box-sizing: border-box;
-  }
-  .toc-wrap::-webkit-scrollbar { height: 10px; }
-  .toc-wrap::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(11,100,255,0.20), rgba(11,100,255,0.08));
-    border-radius: 999px;
-  }
-  .toc-wrap::-webkit-scrollbar-track { background: transparent; }
-
-  /* トグルボタン本体（調整済み） */
-  .toc-btn {
-    flex: 0 0 auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    font-size: 1.05rem;
-    padding: 10px 20px;
-    border-radius: 999px;
-    border: 1px solid rgba(10,40,80,0.06);
-    background: linear-gradient(180deg,#ffffff 0%, #f3f9ff 100%);
-    color: #07243f;
-    box-shadow: 0 8px 20px rgba(8,24,48,0.06);
-    cursor: pointer;
-    transition: transform .18s cubic-bezier(.2,.9,.3,1),
-                box-shadow .18s,
-                background .18s,
-                color .18s;
-    transform: none;
-    outline: none;
-    position: relative;
-    z-index: 10;
-  }
-
-  /* 初期レンダリングのフラッシュ防止（JS起動前の青化を抑える） */
-  .toc-btn.active {
-    background: linear-gradient(180deg,#ffffff 0%, #f3f9ff 100%) !important;
-    color: #07243f !important;
-    box-shadow: 0 8px 20px rgba(8,24,48,0.06) !important;
-    transform: none !important;
-  }
-
-  .toc-btn:hover,
-  .toc-btn:focus-visible {
-    transform: translateY(-4px) scale(1.02);
-    background: linear-gradient(90deg,#0b64ff,#00b0ff);
-    color: #fff;
-    box-shadow: 0 22px 40px rgba(11,100,255,0.14);
-    z-index: 30;
-  }
-
-  .toc-btn.active {
-    transform: translateY(-6px) scale(1.04);
-    background: linear-gradient(90deg,#0b64ff,#00b0ff);
-    color: #fff;
-    box-shadow: 0 26px 48px rgba(11,100,255,0.18);
-    z-index: 40;
-  }
-
-  .toc-btn:focus { outline: none; }
-    
-  /* 小さい画面で詰まらないようにリサイズ */
-  @media (max-width: 900px) {
-    .toc-wrap { gap: 12px; padding: 6px 10px; max-width: 96%; }
-    .toc-btn { font-size: 0.95rem; padding: 8px 14px; }
-  }
 
   /* ===== 画像スタック（実行フロー用） ===== */
   .stack-box{
@@ -229,7 +126,7 @@
   }
 
   @media (max-width:768px){
-    main{ gap:25px; padding:30px 0 100px; }
+    main{ gap:25px; padding:30px 0 100px; }  /* ← 50px から半分に */
     section, .profile{ border-radius:12px; }
   }
 </style>
@@ -258,17 +155,6 @@
     <p>「AIと人の強みを融合して、MP全体の品質を次のステージへ」</p>
   </div>
 
-<!-- Contents（目次） -->
-<nav class="toc-row" aria-label="ページ内目次">
-  <div class="toc-wrap">
-    <button class="toc-btn" data-target="#ai-qa">品質管理AI化の取り組み</button>
-    <button class="toc-btn" data-target="#flow-explain">実行フローのイメージ</button>
-    <button class="toc-btn" data-target="#what-ai-did">AIと進めたプロセス</button>
-    <button class="toc-btn" data-target="#gas-codes">参考：作成GAS一覧</button>
-    <button class="toc-btn" data-target="#how-made">おまけ（作り方）</button>
-  </div>
-</nav>
-
   <main>
     <!-- 漫画コマ（760px） -->
     <section class="reveal"><img src="1.png" alt="comic1" loading="lazy"></section>
@@ -296,7 +182,7 @@
                  style="color:#0070f3;text-decoration:none;border-bottom:1px solid rgba(0,112,243,0.4);">Template Quality Checker（カスタムGPT）
               </a>
             </strong> 
-            を導入し一部AI化、工数は<strong>約50%削減</strong>したが、入信・返信文の転記が残存。委託先とIHでの<strong>品質判定基準の認識にズレ</strong>があり、Accuracyが可視化できなかった。</li>
+            を導入し一部AI化、工数は<strong>約50%削減</strong>したが、入信・返信文の手動コピーが残存。委託先とIHでの<strong>品質判定基準の認識にズレ</strong>があり、Accuracyが可視化できなかった。</li>
           <li>委託先との定例MTG内でのCalibrationやFeedbackでは認識のズレを埋めることが出来ず、より効率的で再現性と判定基準を<strong>担保出来る仕組み構築</strong>が必要だった。</li>
         </ul>
       </div>
@@ -547,7 +433,7 @@
   <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
               padding:28px 36px;margin-bottom:28px;">
     <h4 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
-      AIとの会話でわかった "ちょっとしたコツ"
+      AIとの会話でわかった“ちょっとしたコツ
     </h4>
     <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
       <li>抽象的な相談 → ChatGPT（発想と柔軟性）</li>
@@ -1993,235 +1879,62 @@ function notifyEgAuditError() {
   </main>
 
 <script>
-(function(){
-  /* ========================
-     設定
-     ======================== */
-  const HEADER_EXTRA_SPACING = 12; // ヘッダとの隙間調整（必要に応じて増減）
-  const SECTION_IDS = ['ai-qa','flow-explain','what-ai-did','gas-codes','how-made']; // TOC対象セクションID
-  const TOC_BTN_SELECTOR = '.toc-btn'; // TOCボタンのセレクタ
-  const TOC_WRAP_SELECTOR = '.toc-wrap'; // 横スクロールするラッパー（あれば）
-  const BEACON_API = null; // 無効化：元のGASは CORS により外部から叩けないため
-
-  /* ========================
-     1) reveal 用 IntersectionObserver（ふわっと表示）
-     ======================== */
-  (function initRevealObserver(){
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        const el = e.target;
-        if (e.isIntersecting) {
-          el.classList.add('is-in');
-        } else {
-          el.classList.remove('is-in');
-        }
-      });
-    }, {
-      threshold: 0,
-      rootMargin: "0px 0px -30% 0px" // 少し敏感に（以前 -35%）
-    });
-
-    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-    // details 開閉で is-in を残す（既存の挙動を維持）
-    document.querySelectorAll('details').forEach(d => {
-      d.addEventListener('toggle', () => {
-        const sec = d.closest('section.reveal');
-        if (sec) sec.classList.add('is-in');
-      });
-    });
-  })();
-
-// === reveal のフォールバック ：IOが効かない/遅い場合に is-in を付与する ===
-setTimeout(() => {
-  try {
-    const anyIn = document.querySelector('.reveal.is-in');
-    if (!anyIn) {
-      document.querySelectorAll('.reveal').forEach((el, i) => {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      const el = e.target;
+      if (e.isIntersecting) {
+        // 画面に入ったら付与（ふわっと表示）
         el.classList.add('is-in');
-      });
-      console.warn('reveal fallback applied: forced .is-in on .reveal elems');
-    }
-  } catch (e) { console.warn(e); }
-}, 550);
-
-  
-  /* ========================
-     2) 軽量アクセスカウンタ（sendBeacon / fetch）
-     - 注意: BEACON_API が null の場合は送信しない（CORSエラー回避）
-     ======================== */
-  (function sendPageviewBeacon(){
-    if (!BEACON_API) return; // 無効化ガード
-    try {
-      const pid = (location.pathname || "/").replace(/\/+$/,'') || "/";
-      const payload = JSON.stringify({ pid: pid, ref: document.referrer || "" });
-
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon(BEACON_API, new Blob([payload], {type: 'application/json'}));
-      } else if (window.fetch) {
-        fetch(BEACON_API, {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: payload,
-          keepalive: true
-        }).catch(()=>{ /* swallow */ });
-      }
-    } catch(e) {
-      console.warn('beacon error', e);
-    }
-  })();
-
-  /* ========================
-     3) TOC（目次）: クリックで smooth scroll、IntersectionObserver で .active 切替
-     - 重要: 初期ロード時に active を付けない（ここで明示的に解除）
-     ======================== */
-  (function initToc(){
-    const buttons = Array.from(document.querySelectorAll(TOC_BTN_SELECTOR));
-    if (!buttons.length) return;
-
-    // ★ 初期化時に active / active-temp を完全にクリア（JS起動前の状態をリセット）
-    buttons.forEach(b => b.classList.remove('active', 'active-temp'));
-
-    function getTargetFromButton(btn){
-      const dt = btn.getAttribute('data-target');
-      if (dt && dt[0] === '#') return document.querySelector(dt);
-      const href = btn.getAttribute('href');
-      if (href && href[0] === '#') return document.getElementById(href.slice(1));
-      return null;
-    }
-
-    function scrollToSection(sec){
-      if (!sec) return;
-      const header = document.querySelector('header');
-      const headerOffset = (header ? header.offsetHeight : 0) + HEADER_EXTRA_SPACING;
-      const top = window.scrollY + sec.getBoundingClientRect().top - headerOffset;
-      window.scrollTo({ top, behavior: 'smooth' });
-    }
-
-    // クリック処理（既存の挙動を維持）
-    buttons.forEach(btn => {
-      btn.addEventListener('click', function(e){
-        if (e.preventDefault) e.preventDefault();
-        const sec = getTargetFromButton(btn);
-        if (!sec) return;
-        scrollToSection(sec);
-
-        buttons.forEach(b => b.classList.remove('active-temp'));
-        btn.classList.add('active-temp');
-
-        const wrap = document.querySelector(TOC_WRAP_SELECTOR);
-        if (wrap && typeof wrap.scrollTo === 'function') {
-          const wrapRect = wrap.getBoundingClientRect();
-          const btnRect = btn.getBoundingClientRect();
-          const currentScroll = wrap.scrollLeft;
-          const targetScroll = currentScroll + (btnRect.left - wrapRect.left) - (wrapRect.width / 2) + (btnRect.width / 2);
-          wrap.scrollTo({ left: targetScroll, behavior: 'smooth' });
-        }
-      });
-    });
-
-    // 対象セクションを集める
-    const sections = SECTION_IDS.map(id => document.getElementById(id)).filter(Boolean);
-    if (!sections.length) return;
-
-    // 1) 初期ロードで既に付いている active をクリア（安全措置: 重複）
-    buttons.forEach(b => b.classList.remove('active', 'active-temp'));
-
-    // フラグ / タイムスタンプ（読み込み直後の誤検出を避ける）
-    const startTime = Date.now();
-    const IGNORE_MS = 800; // 読み込み直後はIOの初回判定を保留する時間
-    let delayedSetPerformed = false;
-
-    // IntersectionObserver のコールバック
-    const tocObserver = new IntersectionObserver((entries) => {
-      const visible = entries.filter(e => e.isIntersecting);
-      let chosen = null;
-      if (visible.length) {
-        visible.sort((a,b) => b.intersectionRatio - a.intersectionRatio);
-        chosen = visible[0].target;
       } else {
-        const positives = entries.filter(e => e.boundingClientRect.top >= 0).sort((a,b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (positives.length) chosen = positives[0].target;
+       // 再入場のたびに“ふわっ”を発火させるため、外れたら即リセット
+       el.classList.remove('is-in');
       }
-      if (!chosen) return;
-
-      // 初期ロード直後かつほとんどスクロールしていない時は保留
-      if ((Date.now() - startTime) < IGNORE_MS && window.scrollY < 40) {
-        if (!delayedSetPerformed) {
-          delayedSetPerformed = true;
-          setTimeout(() => {
-            let best = null;
-            let bestTop = Infinity;
-            sections.forEach(s => {
-              const r = s.getBoundingClientRect();
-              if (Math.abs(r.top) < Math.abs(bestTop)) { bestTop = r.top; best = s; }
-            });
-            if (best) {
-              buttons.forEach(b => {
-                const sec = getTargetFromButton(b);
-                if (sec === best) {
-                  b.classList.add('active');
-                  b.classList.remove('active-temp');
-                  const wrap = document.querySelector(TOC_WRAP_SELECTOR);
-                  if (wrap && typeof wrap.scrollTo === 'function') {
-                    const wrapRect = wrap.getBoundingClientRect();
-                    const btnRect = b.getBoundingClientRect();
-                    const currentScroll = wrap.scrollLeft;
-                    const targetScroll = currentScroll + (btnRect.left - wrapRect.left) - (wrapRect.width / 2) + (btnRect.width / 2);
-                    wrap.scrollTo({ left: targetScroll, behavior: 'smooth' });
-                  }
-                } else {
-                  b.classList.remove('active');
-                  b.classList.remove('active-temp');
-                }
-              });
-            }
-          }, IGNORE_MS + 80);
-        }
-        return;
-      }
-
-      // 通常ケース
-      buttons.forEach(b => {
-        const sec = getTargetFromButton(b);
-        if (sec === chosen) {
-          b.classList.add('active');
-          b.classList.remove('active-temp');
-          const wrap = document.querySelector(TOC_WRAP_SELECTOR);
-          if (wrap && typeof wrap.scrollTo === 'function') {
-            const wrapRect = wrap.getBoundingClientRect();
-            const btnRect = b.getBoundingClientRect();
-            const currentScroll = wrap.scrollLeft;
-            const targetScroll = currentScroll + (btnRect.left - wrapRect.left) - (wrapRect.width / 2) + (btnRect.width / 2);
-            wrap.scrollTo({ left: targetScroll, behavior: 'smooth' });
-          }
-        } else {
-          b.classList.remove('active');
-          b.classList.remove('active-temp');
-        }
-      });
-
-    }, {
-      root: null,
-      rootMargin: '0px 0px -30% 0px', // 調整: -40% -> -30%
-      threshold: [0, 0.1, 0.25, 0.5]   // 調整
     });
+  }, {
+    threshold: 0,                 // 当たった瞬間に入場判定
+    rootMargin: "0px 0px -35% 0px"// 下マージンをマイナスにしてチラつき抑制
+  });
 
-    // 少し遅延して observe（読み込み直後のリフロー問題を軽減）
-    setTimeout(() => { sections.forEach(s => tocObserver.observe(s)); }, 300);
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // ハッシュ対応（ある場合は少し遅延してスクロール）
-    if (location.hash) {
-      try {
-        const el = document.querySelector(location.hash);
-        if (el) setTimeout(() => scrollToSection(el), 120);
-      } catch(e){}
+  // detailsは「付け足し」だけにして沈み込み防止
+  document.querySelectorAll('details').forEach(d => {
+    d.addEventListener('toggle', () => {
+      const sec = d.closest('section.reveal');
+      if (sec) sec.classList.add('is-in'); // 外さない
+    });
+  });
+</script>
+
+<script>
+(function(){
+  var API = "https://script.google.com/a/macros/mercari.com/s/AKfycbxwx1i_ApbPA-jzX5PIGGA5PGjBifCUY37aIELdM4CrxgozTffN_soRY9p84AWbb45H-w/exec";
+
+  // ページID：パスをそのまま使う（必要なら固定文字列でも可）
+  var pid = (location.pathname || "/").replace(/\/+$/,'') || "/";
+
+  var payload = JSON.stringify({
+    pid: pid,
+    ref: document.referrer || ""
+  });
+
+  try {
+    if (navigator.sendBeacon) {
+      // 非同期で送ってページの描画をブロックしない
+      navigator.sendBeacon(API, new Blob([payload], {type: 'application/json'}));
+    } else {
+      // sendBeacon非対応ブラウザ用
+      fetch(API, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: payload,
+        keepalive: true
+      }).catch(function(){});
     }
-
-    // デバッグ参照を残す（必要なら devtools で見て）
-    try { window.__toc_debug = { buttons, sections }; } catch(e) {}
-  })(); // ← 関数をちゃんと閉じる
-})();   // ← 最後のIIFE全体を閉じる
+  } catch(e) {
+    // 失敗してもUIは変えない
+  }
+})();
 </script>
 
 </body>
