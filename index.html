@@ -308,89 +308,103 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 
 
 <style>
-  /* ===== 成果カード専用（他には影響しません） ===== */
-  .results-card{
-    position:relative;
-    /* 内側で控えめに光る背景（最終見た目は擬似要素で加飾） */
-    background:
-      radial-gradient(1200px 400px at -10% -20%, #fff4bf 0%, #ffffff 45%),
-      linear-gradient(180deg,#fffef6 0%,#fff9e8 100%);
-    border-radius:18px;
-    padding:26px 30px;
-    box-shadow:
-      0 18px 45px rgba(0,0,0,.12),
-      0 6px 14px rgba(0,0,0,.08),
-      inset 0 0 0 1.5px rgba(255, 209, 85, .30),
-      0 12px 28px rgba(255, 209, 85, .12);
-    overflow: hidden;     /* ← 重要：はみ出し防止 */
-    isolation:isolate;
-    border: 3.5px solid #ffd155;
-  }
+/* ===== 成果カード（更新版） ===== */
+.results-card{
+  position:relative;
+  background:
+    radial-gradient(1200px 400px at -10% -20%, #fff4bf 0%, #ffffff 45%),
+    linear-gradient(180deg,#fffef6 0%,#fff9e8 100%);
+  border-radius:18px;
+  padding:26px 30px;
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.12),
+    0 6px 14px rgba(0,0,0,.08),
+    inset 0 0 0 1.5px rgba(255, 209, 85, .30),
+    0 12px 28px rgba(255,209,85,.12);
+  /* スタンプを枠外に出すため visible にする（擬似要素は中に収める調整済み） */
+  overflow: visible;
+  isolation:isolate;
+  border: 3.5px solid #ffd155;
+}
 
-  /* カード内コンテンツを擬似要素より上に出す */
-  .results-card > * {
-    position: relative;
-    z-index: 1;
-  }
+/* カード内コンテンツは擬似要素より上に */
+.results-card > * {
+  position: relative;
+  z-index: 1;
+}
 
-  /* 擬似要素：カード内に収め、回転は維持だが面積/ぼかしは控えめ */
-  .results-card::before{
-    content:"";
-    position:absolute;
-    /* カード内に収めるインセット（top, right, bottom, left） */
-    inset:8% 6% auto 6%;
-    height:140px; /* 面積を小さくして枠内に収める */
-    background: conic-gradient(from 120deg,
-      rgba(255,215,115,0.98) 0deg, rgba(255,240,177,0.9) 60deg, rgba(255,215,115,0.98) 120deg, transparent 180deg);
-    filter: blur(12px);   /* ぼかしを小さめに */
-    opacity:.45;          /* 強調具合 */
-    animation: rc-spin 18s linear infinite; /* ゆっくり回す */
-    pointer-events:none;
-    z-index:0;
-    border-radius:14px;
-    transform-origin:50% 50%;
-  }
-  @keyframes rc-spin{ to{ transform: rotate(360deg); } }
+/* ---- 擬似要素：枠内中心に配置、サイズを大きめに、回転を速く ---- */
+.results-card::before{
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 280px;              /* ← 幅を倍に（調整可） */
+  height: 280px;             /* ← 高さを幅に合わせる */
+  transform: translate(-50%, -50%) rotate(0deg);
+  transform-origin: 50% 50%;
+  background: conic-gradient(from 120deg,
+    rgba(255,215,115,0.98) 0deg,
+    rgba(255,240,177,0.92) 60deg,
+    rgba(255,215,115,0.98) 120deg,
+    rgba(255,240,220,0) 180deg);
+  filter: blur(10px);        /* ぼかしは適度に */
+  opacity: .48;              /* 強調具合（調整可） */
+  animation: rc-spin 9s linear infinite; /* ← 倍速（短く） */
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;       /* 丸くして自然に見せる */
+}
 
-  /* 回転ボーダーは無効化（元の ::after があれば消す） */
-  .results-card::after { content: none !important; }
+/* 回転アニメ（そのまま使用） */
+@keyframes rc-spin{ to{ transform: translate(-50%, -50%) rotate(360deg); } }
 
-  .results-badge{
-    position:absolute;
-    top:-24px; right:-24px;
-    background:#111; color:#fff; font-weight:900; letter-spacing:.08em;
-    font-size:1.25rem; padding:14px 20px; border-radius:999px;
-    box-shadow:0 12px 28px rgba(0,0,0,.35); transform: rotate(8deg);
-    z-index:3; pointer-events:none;
-  }
+/* 既存の ::after 無効化（あれば） */
+.results-card::after { content: none !important; }
 
-  .results-title{
-    margin:0 0 14px; font-size:22px; font-weight:800; line-height:1;
-    padding-left:12px; border-left:6px solid #111;
-    background: linear-gradient(90deg,#111 0%, #6b4b00 100%);
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-  }
-  .results-list{ margin:0; padding-left:20px; color:#333; line-height:1.85; }
-  .results-list > li{ margin:8px 0; }
-  .results-sub{ margin:6px 0 0 18px; padding-left:16px; list-style:circle; color:#222; }
+/* ===== RESULTS スタンプ（大きく＆枠外に出す） ===== */
+.results-badge{
+  position:absolute;
+  top:-36px;                 /* 枠の外に少しはみ出す */
+  right:-36px;               /* 枠の外に少しはみ出す */
+  background:#111; color:#fff; font-weight:900; letter-spacing:.08em;
+  font-size:1.25rem; padding:14px 20px; border-radius:999px;
+  box-shadow:0 12px 28px rgba(0,0,0,.35);
+  transform: rotate(8deg) scale(2); /* ← 倍の大きさ */
+  transform-origin: 50% 50%;
+  z-index: 4;                 /* 最前面に */
+  pointer-events:none;
+}
 
-  .kpi{
-    display:inline-block; font-weight:900; padding:.18em .60em; line-height:1;
-    border-radius:999px; background:linear-gradient(90deg,#ffe08a 0%,#ffd24d 40%,#ffce3a 100%);
-    color:#3a2a00; box-shadow:0 2px 0 rgba(255,190,60,.9), 0 8px 18px rgba(255,190,60,.35);
-    position:relative; overflow:hidden; vertical-align:-0.12em;
-  }
-  .kpi--outline{
-    background:#fff7d6; border:2px solid #ffd155; color:#5a4100;
-    box-shadow:0 6px 14px rgba(255,190,60,.25) inset; vertical-align:-0.09em;
-  }
-  .kpi::after{
-    content:""; position:absolute; top:-40%; left:-150%; width:120%; height:180%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
-    transform: skewX(-20deg); opacity:.9; animation:kira 2.2s linear infinite;
-    pointer-events:none; will-change:left;
-  }
-  @keyframes kira{ to { left:150%; } }
+/* タイトルやリストはそのまま（必要なら微調整） */
+.results-title{
+  margin:0 0 14px; font-size:22px; font-weight:800; line-height:1;
+  padding-left:12px; border-left:6px solid #111;
+  background: linear-gradient(90deg,#111 0%, #6b4b00 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.results-list{ margin:0; padding-left:20px; color:#333; line-height:1.85; }
+.results-list > li{ margin:8px 0; }
+.results-sub{ margin:6px 0 0 18px; padding-left:16px; list-style:circle; color:#222; }
+
+.kpi{
+  display:inline-block; font-weight:900; padding:.18em .60em; line-height:1;
+  border-radius:999px; background:linear-gradient(90deg,#ffe08a 0%,#ffd24d 40%,#ffce3a 100%);
+  color:#3a2a00; box-shadow:0 2px 0 rgba(255,190,60,.9), 0 8px 18px rgba(255,190,60,.35);
+  position:relative; overflow:hidden; vertical-align:-0.12em;
+}
+.kpi--outline{
+  background:#fff7d6; border:2px solid #ffd155; color:#5a4100;
+  box-shadow:0 6px 14px rgba(255,190,60,.25) inset; vertical-align:-0.09em;
+}
+.kpi::after{
+  content:""; position:absolute; top:-40%; left:-150%; width:120%; height:180%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.95), transparent);
+  transform: skewX(-20deg); opacity:.9; animation:kira 2.2s linear infinite;
+  pointer-events:none; will-change:left;
+}
+@keyframes kira{ to { left:150%; } }
+
 </style>
 
 <div class="results-card">
