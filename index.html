@@ -341,7 +341,7 @@ section#ai-qa {
   position: relative;
   z-index: 1;
 }
-
+  
 /* ===== 左→右に流れる強めのシアー効果（枠にぴったり収める） ===== */
 .results-card::before{
   content: "";
@@ -376,6 +376,20 @@ section#ai-qa {
   100% { transform: translateX(160%); opacity: 0; }
 }
 
+/* 擬似要素をカードの上に持ってくる（文字の上に重なる） */
+.results-card::before{
+  /* 既存プロパティはそのまま使ってOK。z-indexだけ上げる */
+  z-index: 5;              /* ← ここを十分に大きくする（例: 5） */
+  pointer-events: none;
+  /* 例（他プロパティはあなたの現在の定義をそのまま残す） */
+  /* position, top, left, width, height, background, filter, animation ... */
+}
+
+/* RESULTSスタンプはさらに上に表示させたいのでより大きなz-indexを確保 */
+.results-badge{
+  z-index: 20;             /* ← スタンプは最前面に */
+  position: absolute;      /* 既に指定済みのはず。なければ追加 */
+}
 
 
 /* 既存の ::after は無効化 */
