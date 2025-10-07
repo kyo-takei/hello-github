@@ -297,9 +297,9 @@
         <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">新たな課題</h3>
         <ul style="margin:0 0 0 20px;color:#333;line-height:1.8;">
           <li>誤対応件数の増加に伴う委託先の<strong>管理者負荷</strong>対策。</li>
-          <li>現時点でのAIの判定精度は<strong>約85%</li>程度   
-          <ul><li>連投入信／画像のみ入信など、<strong>AI判定不可</strong>な案件や、ハルシネーション発生もあり。</li>/<ul> 
-            <ul><li>判定結果に対する委託先からのFBデータを元に、定期的にPromptの調整が必要</li>/<ul>
+          <li>現時点でのAIの判定精度は<strong>約85%</strong>程度。</li> 
+          <ul><li>連投入信／画像のみ入信など、<strong>AI判定不可</strong>な案件や、ハルシネーション発生もあり。</li></ul> 
+            <ul><li>判定結果に対する委託先からのFBデータを元に、定期的にPromptの調整が必要</li></ul>
             <ul><li><strong>Special Thanks @Hikichiさん</strong>（の日々のご協力により実現。）</li></ul>
         </ul>
       </div>
@@ -371,68 +371,101 @@
     </section>
 
     <!-- 実際AIで何をしたん？？（スタイル統一） -->
-    <section class="reveal" id="what-ai-did" style="width:100%;max-width:960px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:30px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
-      <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
-       AIと進めたプロセス
-      </h2>
+<section class="reveal" id="what-ai-did" style="width:100%;max-width:960px;background:#ffffff;border-radius:20px;padding:44px 28px;margin-top:0;margin-bottom:20px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+  <h2 style="font-size:32px;font-weight:800;margin:0 0 24px;text-align:center;color:#111;">
+   で、実際AIで何をやったん？？
+  </h2>
 
-      <!-- ウィンドウ1 -->
-      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">chatGPTに相談（壁打ち）</h3>
-        <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-          <li>「入信の品質管理を自動化するアイデア出して」と相談。ふわっと抽象的な感じでOK！</li>
-          <li>あとは、GPTからのヒアリングにひたすら回答し、抽象的な内容を具体的な方向性にもっていく。</li>
-          <li>使えないツールの提案が出たら代替案を出してもらう。</li>
-          <li>わからないことや、やりたくないことは、そのままストレートに伝える。</li>
-        </ul>
-      </div>
+  <!-- 見出し1 -->
+  <h3 style="font-size:24px;font-weight:800;margin:40px 0 20px;color:#111;text-align:left;">
+    ① どんな相談をしたか？（きっかけフェーズ）
+  </h3>
 
-      <!-- ウィンドウ2 -->
-      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;margin-bottom:28px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">実作業フェーズ（指示は具体的に）</h3>
-        <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-          <li>壁打ちで方向性が決まったら、GASや関数の要件整理と生成をしてもらう。</li>
-          <li>CSのワーディングルールやAudit判定基準を読ませ、判定できるPromptを生成してもらう</li>
-          <li>スプシに実際にGASを仕込み、出力される場所や内容など細かい調整やFBをして修正してもらう</li>
-          <li>修正箇所の説明がわからない時は「フルコードで出して」といって全てを上書きするとラク</li>
-        </ul>
-      </div>
+  <!-- ウィンドウ1 -->
+  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
+              padding:28px 36px;margin-bottom:28px;">
+    <h4 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+      chatGPTに相談（壁打ち）
+    </h4>
+    <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
+      <li>「入信の品質管理を自動化するアイデア出して」と相談。ふわっと抽象的な感じでOK！</li>
+      <li>あとは、GPTからのヒアリングにひたすら回答し、抽象的な内容を具体的な方向性にもっていく。</li>
+      <li>使えないツールの提案が出たら代替案を出してもらう。</li>
+      <li>わからないことや、やりたくないことは、そのままストレートに伝える。</li>
+    </ul>
+  </div>
 
-      <!-- ウィンドウ3 -->
-      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">ちょっとしたコツ</h3>
-        <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-          <li>AIとの会話は、壁打ち（発散）と実装依頼（収束）で分けると精度UP。</li>
-          <li>要件が固まっている内容は、具体的に伝えるほどブレが減る。</li>
-          <li>chatGPT は柔軟性と発想力、Geminiはコード最適化や堅実性に強み → 役割分担が効く。</li>
-          <ul><li>chatGPTが出してきたPromptやscriptをGeminiで最適化するとスムーズだった</li></ul>
-        </ul>
-      </div>
+  <!-- 見出し2 -->
+  <h3 style="font-size:24px;font-weight:800;margin:40px 0 20px;color:#111;text-align:left;">
+    ② 実装フェーズ（形にしていく段階）
+  </h3>
 
-      <!-- ウィンドウ4 -->
-      <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);padding:28px 36px;">
-        <h3 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">参考にした資料</h3>
-        <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-          <li>Udemyの動画講座</li>
-            <ul><li><strong>
-              <a href="https://www.udemy.com/course/chatgpt_gas/learn/lecture/47087587?start=255#content"
-                 target="_blank" rel="noopener noreferrer"
-                 style="color:#0070f3;text-decoration:none;border-bottom:1px solid rgba(0,112,243,0.4);">
-                 chatGPTをフル活用してGASをレベルアップする方法
-              </a>
-            </strong></li></ul>
+  <!-- ウィンドウ2 -->
+  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
+              padding:28px 36px;margin-bottom:28px;">
+    <h4 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+      実作業フェーズ（指示は具体的に）
+    </h4>
+    <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
+      <li>壁打ちで方向性が決まったら、GASや関数の要件整理と生成をしてもらう。</li>
+      <li>CSのワーディングルールやAudit判定基準を読ませ、判定できるPromptを生成してもらう。</li>
+      <li>スプシに実際にGASを仕込み、出力される場所や内容など細かい調整やFBをして修正してもらう。</li>
+      <li>修正箇所の説明がわからない時は「フルコードで出して」といって全てを上書きするとラク。</li>
+    </ul>
+  </div>
 
-          <li>購入書籍</li>
-            <ul><li><strong>
-              <a href="https://www.amazon.co.jp/dp/4866367296"
-                 target="_blank" rel="noopener noreferrer"
-                 style="color:#0070f3;text-decoration:none;border-bottom:1px solid rgba(0,112,243,0.4);">
-                 ChatGPT はじめてのプロンプトエンジニアリング
-              </a>
-            </strong></li></ul>
-        </ul>
-      </div>
-    </section>
+  <!-- 見出し3 -->
+  <h3 style="font-size:24px;font-weight:800;margin:40px 0 20px;color:#111;text-align:left;">
+    ③ 運用ノウハウ（AIとの付き合い方）
+  </h3>
+
+  <!-- ウィンドウ3 -->
+  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
+              padding:28px 36px;margin-bottom:28px;">
+    <h4 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+      ちょっとしたコツ
+    </h4>
+    <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
+      <li>AIとの会話は、壁打ち（発散）と実装依頼（収束）で分けると精度UP。</li>
+      <li>要件が固まっている内容は、具体的に伝えるほどブレが減る。</li>
+      <li>chatGPT は柔軟性と発想力、Geminiはコード最適化や堅実性に強み → 役割分担が効く。</li>
+      <ul><li>chatGPTが出してきたPromptやscriptをGeminiで最適化するとスムーズだった。</li></ul>
+    </ul>
+  </div>
+
+  <!-- 見出し4 -->
+  <h3 style="font-size:24px;font-weight:800;margin:40px 0 20px;color:#111;text-align:left;">
+    ④ 参考資料（学びのもと）
+  </h3>
+
+  <!-- ウィンドウ4 -->
+  <div style="background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);
+              padding:28px 36px;">
+    <h4 style="margin:0 0 10px;font-size:20px;border-left:6px solid #111;padding-left:10px;">
+      参考にした資料
+    </h4>
+    <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
+      <li>Udemyの動画講座</li>
+        <ul><li><strong>
+          <a href="https://www.udemy.com/course/chatgpt_gas/learn/lecture/47087587?start=255#content"
+             target="_blank" rel="noopener noreferrer"
+             style="color:#0070f3;text-decoration:none;border-bottom:1px solid rgba(0,112,243,0.4);">
+             chatGPTをフル活用してGASをレベルアップする方法
+          </a>
+        </strong></li></ul>
+
+      <li>購入書籍</li>
+        <ul><li><strong>
+          <a href="https://www.amazon.co.jp/dp/4866367296"
+             target="_blank" rel="noopener noreferrer"
+             style="color:#0070f3;text-decoration:none;border-bottom:1px solid rgba(0,112,243,0.4);">
+             ChatGPT はじめてのプロンプトエンジニアリング
+          </a>
+        </strong></li></ul>
+    </ul>
+  </div>
+</section>
+
 
     <!-- GASコード（主要スニペット：スタイル維持/微整形） -->
     <section class="reveal" id="gas-codes" style="width:100%;max-width:960px;background:#ffffff;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:30px;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
