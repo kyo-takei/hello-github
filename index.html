@@ -306,47 +306,54 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
           </li>
       </div>
 
-<!-- 成果（派手版：ここだけ差し替え） -->
+
 <style>
   /* ===== 成果カード専用（他には影響しません） ===== */
   .results-card{
     position:relative;
-    background: radial-gradient(1200px 400px at -10% -40%, #fff7d6 0%, #ffffff 42%) ,
-                linear-gradient(180deg,#ffffff 0%,#fffdf6 100%);
+    /* 内側で控えめに光る背景（最終見た目は擬似要素で加飾） */
+    background:
+      radial-gradient(1200px 400px at -10% -20%, #fff4bf 0%, #ffffff 45%),
+      linear-gradient(180deg,#fffef6 0%,#fff9e8 100%);
     border-radius:18px;
     padding:26px 30px;
     box-shadow:
       0 18px 45px rgba(0,0,0,.12),
       0 6px 14px rgba(0,0,0,.08),
-      inset 0 0 0 1px rgba(255,188,52,.20);
-    overflow: visible;
+      inset 0 0 0 1.5px rgba(255, 209, 85, .30),
+      0 12px 28px rgba(255, 209, 85, .12);
+    overflow: hidden;     /* ← 重要：はみ出し防止 */
     isolation:isolate;
+    border: 3.5px solid #ffd155;
   }
+
+  /* カード内コンテンツを擬似要素より上に出す */
+  .results-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* 擬似要素：カード内に収め、回転は維持だが面積/ぼかしは控えめ */
   .results-card::before{
     content:"";
-    position:absolute; inset:-20% -40% auto -40%;
-    height:260px;
+    position:absolute;
+    /* カード内に収めるインセット（top, right, bottom, left） */
+    inset:8% 6% auto 6%;
+    height:140px; /* 面積を小さくして枠内に収める */
     background: conic-gradient(from 120deg,
-      #ffd773 0deg, #fff0b1 60deg, #ffd773 120deg, transparent 180deg);
-    filter: blur(20px); opacity:.25;
-    animation:rc-spin 14s linear infinite;
-    pointer-events:none; z-index:-1;
+      rgba(255,215,115,0.98) 0deg, rgba(255,240,177,0.9) 60deg, rgba(255,215,115,0.98) 120deg, transparent 180deg);
+    filter: blur(12px);   /* ぼかしを小さめに */
+    opacity:.45;          /* 強調具合 */
+    animation: rc-spin 18s linear infinite; /* ゆっくり回す */
+    pointer-events:none;
+    z-index:0;
+    border-radius:14px;
+    transform-origin:50% 50%;
   }
   @keyframes rc-spin{ to{ transform: rotate(360deg); } }
 
-  /* 回転ボーダーは無効化し、黄色の静的枠＋薄い黄背景に */
+  /* 回転ボーダーは無効化（元の ::after があれば消す） */
   .results-card::after { content: none !important; }
-  .results-card{
-    border: 3.5px solid #ffd155;
-    background:
-      radial-gradient(1200px 400px at -10% -20%, #fff4bf 0%, #ffffff 45%) ,
-      linear-gradient(180deg, #fffef6 0%, #fff9e8 100%);
-    box-shadow:
-      0 18px 45px rgba(0,0,0,.12),
-      0 6px 14px rgba(0,0,0,.08),
-      inset 0 0 0 1.5px rgba(255, 209, 85, .30),
-      0 12px 28px rgba(255, 209, 85, .22);
-  }
 
   .results-badge{
     position:absolute;
@@ -356,6 +363,7 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
     box-shadow:0 12px 28px rgba(0,0,0,.35); transform: rotate(8deg);
     z-index:3; pointer-events:none;
   }
+
   .results-title{
     margin:0 0 14px; font-size:22px; font-weight:800; line-height:1;
     padding-left:12px; border-left:6px solid #111;
