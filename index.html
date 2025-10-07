@@ -99,31 +99,30 @@
   }
   img{ display:block; width:100%; height:auto; user-select:none; pointer-events:none; }
 
-/* --- Contents (目次) 大見出し風トグル --- */
+/* ===== Contents トグル（最適化版） ===== */
 .toc-row {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 26px;                 /* ボタン間の余白を広く */
   padding: 18px 12px;
-  margin: -32px 0 24px;   /* 上に引っ張って他の白いカードと重なるように見せる */
+  margin: -12px 0 22px;      /* はみ出し量を抑える（以前は -32px）*/
   pointer-events: auto;
-  overflow: visible;      /* はみ出し可 */
+  overflow: visible;
   z-index: 30;
 }
 
-/* コンテナ自体の白枠を無くす（背景は透過） */
 .toc-wrap {
   background: transparent;
   border-radius: 0;
   box-shadow: none;
   display: inline-flex;
-  padding: 0 12px;
+  padding: 0 8px;
   align-items: center;
 }
 
-/* トグルボタン（大きく豪快に） */
+/* ボタン（大きめ・だけど重なり対策） */
 .toc-btn {
   display: inline-flex;
   align-items: center;
@@ -133,34 +132,39 @@
   border: none;
   cursor: pointer;
 
-  /* サイズ: 現状の約2倍を目安に */
-  font-size: 2rem;            /* フォントを大きく */
-  padding: 14px 30px;         /* ボタンの面積を大きく */
-  border-radius: 999px;       /* 丸ボタン */
+  font-size: 1.9rem;          /* 少し控えめに（元は2rem） */
+  padding: 12px 28px;
+  border-radius: 999px;
   background: linear-gradient(180deg,#ffffff 0%, #f2f8ff 100%);
-  color: #0b2740;
-  box-shadow: 0 10px 30px rgba(10,30,60,0.12), inset 0 -2px 0 rgba(0,0,0,0.02);
+  color: #07243f;
+  box-shadow: 0 6px 18px rgba(8,24,48,0.10); /* シャドウを小さく・薄く */
   border: 1px solid rgba(10,40,80,0.06);
   transition: transform .18s cubic-bezier(.2,.9,.3,1), box-shadow .18s, background .18s;
+  transform: none;            /* デフォルトは拡大なし（重ならない）*/
+  position: relative;
 }
 
-/* active状態（現在表示中のセクション） */
+/* hoverは軽め（activeだけ強めに） */
+.toc-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(8,24,48,0.10);
+}
+
+/* active状態（現在のセクション）: ここだけ目立たせる */
 .toc-btn.active {
-  transform: translateY(-4px) scale(1.02);
+  transform: translateY(-6px) scale(1.04); /* 小さめの拡大に制限 */
   background: linear-gradient(90deg,#0b64ff,#00b0ff);
   color: #fff;
-  box-shadow: 0 18px 40px rgba(11,100,255,0.18);
-  border-color: rgba(255,255,255,0.06);
+  box-shadow: 0 20px 40px rgba(11,100,255,0.16);
+  z-index: 40; /* 重なりは active が上に来る */
 }
 
-/* hoverふわっと */
-.toc-btn:hover { transform: translateY(-4px) scale(1.01); }
-
-/* レスポンシブ：狭い画面では折り返して中央寄せ */
+/* 小画面で折返し／サイズ調整 */
 @media (max-width: 900px) {
-  .toc-row { gap: 12px; margin: -18px 0 18px; }
-  .toc-btn { font-size: 1.25rem; padding: 10px 18px; }
+  .toc-row { gap: 12px; margin: -8px 0 18px; }
+  .toc-btn { font-size: 1.15rem; padding: 10px 14px; }
 }
+
 
 
   /* ===== 画像スタック（実行フロー用） ===== */
