@@ -99,62 +99,67 @@
   }
   img{ display:block; width:100%; height:auto; user-select:none; pointer-events:none; }
 
-  /* ===== 目次（TOC） ===== */
-.toc {
-  max-width: 800px;
-  width: 90%;
-  margin: 20px auto;
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 14px 18px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-  position: relative;
-  z-index: 6;
+/* --- Contents (目次) 大見出し風トグル --- */
+.toc-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 12px;
+  margin: -32px 0 24px;   /* 上に引っ張って他の白いカードと重なるように見せる */
+  pointer-events: auto;
+  overflow: visible;      /* はみ出し可 */
+  z-index: 30;
 }
-.toc .toc-title {
-  font-weight:800;
-  font-size:16px;
-  color:#111;
-  margin-right:12px;
-  white-space:nowrap;
+
+/* コンテナ自体の白枠を無くす（背景は透過） */
+.toc-wrap {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  display: inline-flex;
+  padding: 0 12px;
+  align-items: center;
 }
-.toc .toc-links {
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
+
+/* トグルボタン（大きく豪快に） */
+.toc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+
+  /* サイズ: 現状の約2倍を目安に */
+  font-size: 2rem;            /* フォントを大きく */
+  padding: 14px 30px;         /* ボタンの面積を大きく */
+  border-radius: 999px;       /* 丸ボタン */
+  background: linear-gradient(180deg,#ffffff 0%, #f2f8ff 100%);
+  color: #0b2740;
+  box-shadow: 0 10px 30px rgba(10,30,60,0.12), inset 0 -2px 0 rgba(0,0,0,0.02);
+  border: 1px solid rgba(10,40,80,0.06);
+  transition: transform .18s cubic-bezier(.2,.9,.3,1), box-shadow .18s, background .18s;
 }
-.toc .toc-links a {
-  text-decoration:none;
-  padding:8px 12px;
-  border-radius:999px;
-  background: linear-gradient(180deg,#f6fbff 0%, #ffffff 100%);
-  border:1px solid rgba(0,0,0,0.05);
-  box-shadow:0 4px 12px rgba(0,0,0,0.04);
-  font-weight:700;
-  font-size:14px;
-  color:#10324a;
-  transition: transform .18s var(--ease), box-shadow .18s var(--ease);
+
+/* active状態（現在表示中のセクション） */
+.toc-btn.active {
+  transform: translateY(-4px) scale(1.02);
+  background: linear-gradient(90deg,#0b64ff,#00b0ff);
+  color: #fff;
+  box-shadow: 0 18px 40px rgba(11,100,255,0.18);
+  border-color: rgba(255,255,255,0.06);
 }
-.toc .toc-links a:hover,
-.toc .toc-links a:focus {
-  transform: translateY(-3px);
-  box-shadow:0 12px 24px rgba(0,0,0,0.08);
-  outline: none;
-}
-.toc .toc-links a.active {
-  background:#111;
-  color:#fff;
-  box-shadow:0 12px 26px rgba(0,0,0,0.22);
-}
-@media (max-width:640px){
-  .toc { padding:12px; gap:8px; }
-  .toc .toc-title { font-size:14px; }
-  .toc .toc-links a { font-size:13px; padding:8px 10px; }
+
+/* hoverふわっと */
+.toc-btn:hover { transform: translateY(-4px) scale(1.01); }
+
+/* レスポンシブ：狭い画面では折り返して中央寄せ */
+@media (max-width: 900px) {
+  .toc-row { gap: 12px; margin: -18px 0 18px; }
+  .toc-btn { font-size: 1.25rem; padding: 10px 18px; }
 }
 
 
@@ -214,19 +219,17 @@
     <p>「AIと人の強みを融合して、MP全体の品質を次のステージへ」</p>
   </div>
 
-<!-- 目次（TOC） -->
-<nav class="toc" aria-label="このページの目次">
-  <div class="toc-title">Contents</div>
-  <div class="toc-links" role="navigation">
-    <a href="#ai-qa">品質管理AI化の取り組み</a>
-    <a href="#flow-explain">実行フローのイメージ</a>
-    <a href="#what-ai-did">AIと進めたプロセス</a>
-    <a href="#gas-codes">参考：作成GAS一覧</a>
-    <a href="#how-made">おまけ（作り方）</a>
+<!-- Contents（目次）: .profile の直後に挿入 -->
+<div class="toc-row">
+  <div class="toc-wrap" role="navigation" aria-label="Contents">
+    <a class="toc-btn" href="#ai-qa">品質管理AI化の取り組み</a>
+    <a class="toc-btn" href="#flow-explain">実行フローのイメージ</a>
+    <a class="toc-btn" href="#what-ai-did">AIと進めたプロセス</a>
+    <a class="toc-btn" href="#gas-codes">参考：作成GAS一覧</a>
+    <a class="toc-btn" href="#how-made">おまけ（このページの作り方）</a>
   </div>
-</nav>
+</div>
 
-  
   <main>
     <!-- 漫画コマ（760px） -->
     <section class="reveal"><img src="1.png" alt="comic1" loading="lazy"></section>
@@ -2009,5 +2012,49 @@ function notifyEgAuditError() {
 })();
 </script>
 
+<script>
+(function(){
+  // smooth scrolling の補助（ブラウザ組み込み smooth がある場合も）
+  document.querySelectorAll('.toc-btn[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var id = this.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (!target) return;
+      // ヘッダ分の隙間を考慮して少し上にずらす（sticky header 高さに合わせて調整）
+      var headerOffset = document.querySelector('header') ? document.querySelector('header').offsetHeight + 12 : 12;
+      var rect = target.getBoundingClientRect();
+      var scrollTop = window.scrollY + rect.top - headerOffset;
+      window.scrollTo({ top: scrollTop, behavior: 'smooth' });
+    });
+  });
+
+  // IntersectionObserver で現在表示中のセクションを判定して active を切り替える
+  var sections = ['ai-qa','flow-explain','what-ai-did','gas-codes','how-made'].map(id => document.getElementById(id)).filter(Boolean);
+  var btns = Array.from(document.querySelectorAll('.toc-btn'));
+
+  if (sections.length) {
+    var io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          // 交差したセクションに該当するボタンを active
+          var id = e.target.id;
+          btns.forEach(b => {
+            if (b.getAttribute('href') === '#'+id) b.classList.add('active');
+            else b.classList.remove('active');
+          });
+        }
+      });
+    }, {
+      root: null,
+      rootMargin: '0px 0px -40% 0px', // 下側を余裕持たせて切り替え
+      threshold: 0.05
+    });
+    sections.forEach(s => io.observe(s));
+  }
+})();
+</script>
+
+   
 </body>
 </html>
