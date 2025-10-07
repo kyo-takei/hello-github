@@ -129,6 +129,31 @@
     main{ gap:25px; padding:30px 0 100px; }  /* ← 50px から半分に */
     section, .profile{ border-radius:12px; }
   }
+
+  /* ===== 目次（TOC） ===== */
+.toc{
+  max-width:960px; width:92%; margin:22px auto 8px; padding:10px 12px;
+  background:#fff; border-radius:14px; box-shadow:0 6px 18px rgba(0,0,0,.08);
+  display:flex; gap:10px; flex-wrap:wrap; overflow:auto;
+}
+.toc a{
+  display:inline-block; padding:8px 12px; border-radius:999px;
+  text-decoration:none; color:#10324a; border:1px solid rgba(0,0,0,.08);
+  background:linear-gradient(#fff,#f8fbff); font-weight:700; font-size:14px;
+  white-space:nowrap; transition:transform .12s var(--ease), box-shadow .12s var(--ease);
+}
+.toc a:hover{ transform:translateY(-1px); box-shadow:0 6px 12px rgba(0,0,0,.08); }
+.toc a.active{ outline:2px solid #0ea5e9; background:#e6f6ff; }
+/* stickyヘッダで見出しが隠れないよう、スクロール先の上余白を確保 */
+section[id], .profile, .hero{ scroll-margin-top:88px; }
+/* モバイル微調整 */
+@media (max-width:768px){
+  .toc{ width:94%; padding:8px; border-radius:12px; }
+  .toc a{ font-size:13px; padding:7px 10px; }
+}
+/* ユーザーが動きを減らす設定ならスムーズスクロール無効化 */
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+
 </style>
 </head>
 <body>
@@ -154,10 +179,20 @@
     </p>
     <p>「AIと人の強みを融合して、MP全体の品質を次のステージへ」</p>
   </div>
+ 
+  <!-- 目次（ページ内ジャンプ） -->
+  <nav class="toc" aria-label="ページ内目次">
+    <a href="#manga">漫画</a>
+    <a href="#ai-qa">品質管理AI化の取り組み</a>
+    <a href="#flow-explain">実行フロー</a>
+    <a href="#what-ai-did">AIと進めたプロセス</a>
+    <a href="#gas-codes">作成GAS一覧</a>
+    <a href="#how-made">おまけ</a>
+  </nav>
 
   <main>
     <!-- 漫画コマ（760px） -->
-    <section class="reveal"><img src="1.png" alt="comic1" loading="lazy"></section>
+    <section class="reveal" id="manga"><img src="1.png" alt="comic1" loading="lazy"></section>
     <section class="reveal"><img src="2.png" alt="comic2" loading="lazy"></section>
     <section class="reveal"><img src="3.png" alt="comic3" loading="lazy"></section>
     <section class="reveal"><img src="4.png" alt="comic4" loading="lazy"></section>
@@ -364,7 +399,7 @@
 </li>
   <img src="flow2.png" alt="判定結果の画面1" class="stack-img">
   <br>
-  <img src="flow3.png" alt="判定結果の画面2" class="stack-img"></br>
+  <img src="flow3.png" alt="判定結果の画面2" class="stack-img">
 </div>
 
 <!-- Audit完了通知 -->
@@ -442,6 +477,7 @@
       <li>コードの修正箇所が不明な際は「フルコードで出して」と伝え、全てを上書きするとラク。</li>
       <li>AIをパートナーとして会話ができると良い。</li>
      <ul><li>人間でも、まずブレストを経てから具体プランを検討していくようなイメージ。</li></ul>
+      </li>
     </ul>
   </div>
 
@@ -1906,6 +1942,24 @@ function notifyEgAuditError() {
   });
 </script>
 
+<script>
+  // TOCリンクのアクティブ更新（スクロールスパイ）
+  (()=>{
+    const links=[...document.querySelectorAll('.toc a')];
+    if(!links.length) return;
+    const map=new Map(links.map(a=>[a.getAttribute('href'),a]));
+    const targets=[...map.keys()].map(h=>document.querySelector(h)).filter(Boolean);
+    const io=new IntersectionObserver(es=>{
+      es.forEach(e=>{
+        if(!e.isIntersecting) return;
+        const id='#'+e.target.id;
+        links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')===id));
+      });
+    },{rootMargin:'-40% 0px -55% 0px',threshold:0});
+    targets.forEach(t=>io.observe(t));
+  })();
+</script>
+   
 <script>
 (function(){
   var API = "https://script.google.com/a/macros/mercari.com/s/AKfycbxwx1i_ApbPA-jzX5PIGGA5PGjBifCUY37aIELdM4CrxgozTffN_soRY9p84AWbb45H-w/exec";
