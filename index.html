@@ -193,9 +193,11 @@
         <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
           <li>サンプルチェック用の案件の入信/返信文を<strong>個人情報保護フォルダへ毎日自動抽出</strong>する仕組みを構築。</li>
           <li>委託先には<strong>プロセスチェックのみ</strong>依頼（1件3分）。ツール処理やフロー判断はAIではなく人が担当。</li>
-          <li><strong>スプシ上の案件 → chatGPT取り込み判定 → 結果を元のスプシに出力 → slack通知</strong>をGAS連携で<strong>ワンクリック放置運用</strong>実現。</li>
-          <ul><li><strong>Special Thanks @UcchiYさん</strong>（のご協力により実現。）</li></ul>
-        </ul>
+          <li><strong>スプシ上の案件 → chatGPT取り込み判定 → 結果を元のスプシに出力 → slack通知</strong>をGAS連携で<strong>ワンクリック放置運用</strong>実現。
+            <ul style="margin-top:6px;">
+             <li><strong>Special Thanks @UcchiYさん</strong>（のご協力により実現。）</li>
+            </ul>
+          </li>
       </div>
 
 <!-- 成果（派手版：ここだけ差し替え） -->
@@ -350,15 +352,16 @@
     判定結果のアウトプット
   </h3>
   <ul style="margin:8px 0 16px 18px;color:#333;line-height:1.8;">
-    <li>以下の内容が案件ごとにスプシへ出力されます。</li>
-    <ul><li>1) Audit判定一覧（pass/fail）</li>
-        <li>2) 主訴の特定</li>
-        <li>3) 評価サマリ</li>
-        <li>4) Modify診断</li>
-        <li>5) 問題の指摘</li>
-        <li>6) 改善メール案</li>
-    </ul>
+<li>以下の内容が案件ごとにスプシへ出力されます。
+  <ul>
+    <li>1) Audit判定一覧（pass/fail）</li>
+    <li>2) 主訴の特定</li>
+    <li>3) 評価サマリ</li>
+    <li>4) Modify診断</li>
+    <li>5) 問題の指摘</li>
+    <li>6) 改善メール案</li>
   </ul>
+</li>
   <img src="flow2.png" alt="判定結果の画面1" class="stack-img">
   <br>
   <img src="flow3.png" alt="判定結果の画面2" class="stack-img"></br>
@@ -454,24 +457,25 @@
       参考にした資料
     </h4>
     <ul style="margin:8px 0 0 18px;color:#333;line-height:1.8;">
-      <li>Udemyの動画講座</li>
+      <li>Udemyの動画講座
         <ul><li><strong>
           <a href="https://www.udemy.com/course/chatgpt_gas/learn/lecture/47087587?start=255#content"
              target="_blank" rel="noopener noreferrer"
              style="color:#0070f3;text-decoration:none;border-bottom:1px solid rgba(0,112,243,0.4);">
              chatGPTをフル活用してGASをレベルアップする方法
-          </a>
-        </strong></li></ul>
-
-      <li>購入書籍</li>
+          </a></strong></li>
+        </ul>
+      </li>
+      
+      <li>購入書籍
         <ul><li><strong>
           <a href="https://www.amazon.co.jp/dp/4866367296"
              target="_blank" rel="noopener noreferrer"
              style="color:#0070f3;text-decoration:none;border-bottom:1px solid rgba(0,112,243,0.4);">
              ChatGPT はじめてのプロンプトエンジニアリング
-          </a>
-        </strong></li></ul>
-    </ul>
+          </a></strong></li>
+        </ul>
+      </li>
   </div>
 </section>
 
