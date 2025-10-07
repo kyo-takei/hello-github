@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>QA・品質管理のAI活用</title>
 <style>
-  :root { --ease: cubic-bezier(.25,.1,.25,1); }
+  :root { --ease: cubic-bezier(.25,.1,.25,1); --accent:#10324a; }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
 
@@ -20,7 +20,7 @@
   }
 
   header {
-    position: sticky; top: 0; z-index: 50;
+    position: sticky; top: 0; z-index: 60;
     backdrop-filter: blur(10px);
     background: rgba(240,240,240,0.6);
     border-bottom: 1px solid rgba(0,0,0,.05);
@@ -35,11 +35,7 @@
     box-shadow: inset 0 -40px 40px rgba(0,0,0,0.18);
     background:#111;
   }
- .hero-img{
-  display:block;
-  width:100%;
-  height:auto;
-}
+ .hero-img{ display:block; width:100%; height:auto; }
 
   .visually-hidden{
     position:absolute !important; width:1px; height:1px; margin:-1px; border:0; padding:0;
@@ -55,27 +51,70 @@
     padding:40px 28px;
     text-align:center;
     margin:30px auto 0;
-    position:relative; z-index:5;
+    position:relative; z-index:50; /* 高めにして被らないように */
   }
   .profile h2{ margin:0 0 8px; font-size:24px; }
   .profile p{ color:#555; line-height:1.8; margin:4px 0; }
 
-  /* ===== 1行スライドアニメ ===== */
-  .ticker{ height:1.8em; overflow:hidden; display:inline-block; }
-  .ticker .track{
-    display:flex; flex-direction:column;
-    line-height:1.8em;
-    animation:tick 9s steps(3) infinite;
+  /* ===== 目次（TOC）トグル ===== */
+  details.toc{
+    max-width:1100px; width:92%;
+    margin:22px auto 0;                /* 自己紹介と被らせないための余白 */
+    background:transparent;
+    position:relative; z-index:20;
   }
-  @keyframes tick{
-    0%{ transform:translateY(0); }
-    100%{ transform:translateY(-5.4em); }
+  details.toc summary{
+    list-style:none;
+    display:flex; align-items:center; justify-content:center;
+    padding:10px 18px;
+    border-radius:999px;
+    cursor:pointer;
+    user-select:none;
+    font-weight:700;
+    color:var(--accent);
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,251,255,0.98));
+    box-shadow: 0 10px 24px rgba(14,70,100,0.06);
+    width:fit-content;
+    margin:0 auto;
+    transition: transform .18s var(--ease), box-shadow .18s var(--ease);
   }
+  details.toc summary::-webkit-details-marker { display:none; }
+
+  details.toc[open] summary{ transform:translateY(-4px); box-shadow: 0 20px 40px rgba(14,70,100,0.10); }
+
+  .toc-list{
+    margin-top:12px;
+    display:flex; gap:18px; padding:18px 10px 26px; justify-content:center; flex-wrap:wrap;
+    align-items:center;
+  }
+
+  /* pill buttons */
+  .toc-btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:12px 22px; border-radius:999px; text-decoration:none;
+    background:#fff; color:#0b3144; font-weight:700;
+    box-shadow: 0 14px 32px rgba(3,33,44,0.08);
+    transform:translateY(0);
+    transition: transform .24s var(--ease), box-shadow .24s var(--ease), background .18s;
+    font-size:18px; /* ← 既存より大きめ（リクエスト） */
+    line-height:1;
+    border: 1px solid rgba(10,50,70,0.04);
+    white-space:nowrap;
+  }
+  .toc-btn:hover, .toc-btn:focus{
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 32px 56px rgba(3,33,44,0.16);
+    outline: none;
+  }
+  .toc-btn:active{ transform: translateY(-4px) scale(.998); }
+
+  /* 小さめの目立たせ方（代替） */
+  .toc-btn.secondary{ background:linear-gradient(180deg,#f7fbff,#ffffff); }
 
   /* ===== 共通セクション ===== */
   main{
     display:flex; flex-direction:column; align-items:center;
-    gap:16px;                   /* ← 70px から半分に */
+    gap:16px;
     padding:30px 0 90px;
   }
   section{
@@ -125,9 +164,16 @@
     font-size:13px; line-height:1.6; margin-top:10px; white-space:pre-wrap; word-break:break-word;
   }
 
+  @media (max-width:1024px){
+    .toc-btn{ font-size:17px; padding:10px 18px; }
+    .profile{ padding:34px 22px; }
+  }
   @media (max-width:768px){
-    main{ gap:25px; padding:30px 0 100px; }  /* ← 50px から半分に */
+    main{ gap:25px; padding:30px 0 100px; }
     section, .profile{ border-radius:12px; }
+    .toc-list{ gap:12px; padding:12px 6px 20px; }
+    .toc-btn{ font-size:15px; padding:10px 14px; }
+    details.toc{ margin-top:16px; }
   }
 </style>
 </head>
@@ -1879,29 +1925,35 @@ function notifyEgAuditError() {
   </main>
 
 <script>
+  /* IntersectionObserver（既存） */
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => {
       const el = e.target;
       if (e.isIntersecting) {
-        // 画面に入ったら付与（ふわっと表示）
         el.classList.add('is-in');
       } else {
-       // 再入場のたびに“ふわっ”を発火させるため、外れたら即リセット
-       el.classList.remove('is-in');
+        el.classList.remove('is-in');
       }
     });
   }, {
-    threshold: 0,                 // 当たった瞬間に入場判定
-    rootMargin: "0px 0px -35% 0px"// 下マージンをマイナスにしてチラつき抑制
+    threshold: 0,
+    rootMargin: "0px 0px -35% 0px"
   });
-
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
   // detailsは「付け足し」だけにして沈み込み防止
   document.querySelectorAll('details').forEach(d => {
     d.addEventListener('toggle', () => {
       const sec = d.closest('section.reveal');
-      if (sec) sec.classList.add('is-in'); // 外さない
+      if (sec) sec.classList.add('is-in');
+    });
+  });
+
+  /* optional: details の開閉に合わせて body にクラスを付ける（見た目制御の拡張用） */
+  document.querySelectorAll('details.toc').forEach(d => {
+    d.addEventListener('toggle', () => {
+      if (d.open) document.body.classList.add('toc-open');
+      else document.body.classList.remove('toc-open');
     });
   });
 </script>
@@ -1909,31 +1961,15 @@ function notifyEgAuditError() {
 <script>
 (function(){
   var API = "https://script.google.com/a/macros/mercari.com/s/AKfycbxwx1i_ApbPA-jzX5PIGGA5PGjBifCUY37aIELdM4CrxgozTffN_soRY9p84AWbb45H-w/exec";
-
-  // ページID：パスをそのまま使う（必要なら固定文字列でも可）
   var pid = (location.pathname || "/").replace(/\/+$/,'') || "/";
-
-  var payload = JSON.stringify({
-    pid: pid,
-    ref: document.referrer || ""
-  });
-
+  var payload = JSON.stringify({ pid: pid, ref: document.referrer || "" });
   try {
     if (navigator.sendBeacon) {
-      // 非同期で送ってページの描画をブロックしない
       navigator.sendBeacon(API, new Blob([payload], {type: 'application/json'}));
     } else {
-      // sendBeacon非対応ブラウザ用
-      fetch(API, {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: payload,
-        keepalive: true
-      }).catch(function(){});
+      fetch(API, { method: 'POST', headers: {'Content-Type':'application/json'}, body: payload, keepalive: true }).catch(function(){});
     }
-  } catch(e) {
-    // 失敗してもUIは変えない
-  }
+  } catch(e) {}
 })();
 </script>
 
