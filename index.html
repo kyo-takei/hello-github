@@ -396,24 +396,46 @@ section#ai-qa {
 .results-card::after { content: none !important; }
 
 /* ===== RESULTS スタンプ ===== */
+/* 初期状態：画面の外（右上）かつちょい縮小 */
 .results-badge{
   position:absolute;
-  /* 白枠を越えてさらに薄水色背景まで出す位置 */
-  top: calc(-36px + 38px);   /* 1cm下げ（見た目調整済み） */
-  right:-80px;               /* ← はみ出し量を増加 */
-  background:#111;
-  color:#fff;
-  font-weight:900;
-  letter-spacing:.08em;
-  font-size:1.25rem;
-  padding:14px 20px;
-  border-radius:999px;
+  top: -24px;
+  right: -24px;
+  transform: translate(200%, -40%) rotate(8deg) scale(0.9); /* ここが「外」 */
+  transform-origin: center;
+  z-index: 50;
+  background:#111; color:#fff; font-weight:900; letter-spacing:.08em;
+  font-size:1.25rem; padding:14px 20px; border-radius:999px;
   box-shadow:0 12px 28px rgba(0,0,0,.35);
-  transform: rotate(8deg) scale(1.4); /* ← 前回より小さいが存在感あり */
-  transform-origin: 50% 50%;
-  z-index: 9999;             /* 最前面（背景より前） */
   pointer-events:none;
+  /* アニメーションをここで指定（自動で実行される）*/
+  animation: badge-fly-in 900ms cubic-bezier(.2,.9,.25,1) 300ms both;
 }
+
+/* 飛んでくるアニメ */
+@keyframes badge-fly-in {
+  0% {
+    transform: translate(200%, -40%) rotate(8deg) scale(0.9);
+    opacity: 0;
+    filter: blur(6px);
+  }
+  60% {
+    transform: translate(-6%, 6%) rotate(6deg) scale(1.05); /* 少し大きめでオーバーシュート */
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    transform: translate(0%, 0%) rotate(8deg) scale(1); /* 最終位置（今の位置） */
+    opacity: 1;
+    filter: none;
+  }
+}
+
+/* アクセシビリティ：動きを減らすユーザーにはアニメ無効 */
+@media (prefers-reduced-motion: reduce) {
+  .results-badge { animation: none !important; transform: translate(0,0) rotate(8deg) scale(1); opacity:1; filter:none; }
+}
+
 
 /* タイトル・リスト等は現行維持 */
 .results-title{
