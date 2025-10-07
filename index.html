@@ -131,27 +131,59 @@
   }
 
   /* ===== 目次（TOC） ===== */
+/* ── 横スクロールのTOC（既存の .toc / .toc a をこれに置き換える） */
 .toc{
-  max-width:2400px; width:94%; margin:22px auto 8px; padding:12px 16px;
-  background:#fff; border-radius:14px; box-shadow:0 6px 18px rgba(0,0,0,.08);
-  display:flex; gap:10px; flex-wrap:wrap; overflow:auto;
+  max-width:1800px;
+  width:94%;
+  margin:22px auto 8px;
+  padding:12px 16px;
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  display:flex;
+  gap:14px;
+  flex-wrap:nowrap;        /* ← 折り返さない（横スクロール） */
+  overflow-x:auto;         /* ← 横スクロール有効 */
+  -webkit-overflow-scrolling:touch; /* スムーズな慣性スクロール（iOS） */
 }
+
+/* 各ボタン（横に並ぶ固定幅ではなく内容に合わせる）*/
 .toc a{
-  display:inline-block; padding:8px 12px; border-radius:999px;
-  text-decoration:none; color:#10324a; border:1px solid rgba(0,0,0,.08);
-  background:linear-gradient(#fff,#f8fbff); font-weight:700; font-size:30px;
-  white-space:nowrap; transition:transform .12s var(--ease), box-shadow .12s var(--ease);
+  flex:0 0 auto;           /* 折返しを防ぎ、内容幅に合わせる */
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 18px;
+  border-radius:999px;
+  text-decoration:none;
+  color:#052235;           /* テキスト暗め（漫画ボタンに近い） */
+  background: linear-gradient(#e6f6ff,#d7f0ff); /* 明るい青グラデ */
+  border:3px solid #0ea5e9; /* 青い外枠 */
+  font-weight:900;
+  font-size:24px;          /* 先に合わせた大きさ */
+  white-space:nowrap;
+  transition:transform .12s var(--ease), box-shadow .12s var(--ease), background .12s;
+  box-shadow: 0 6px 12px rgba(14,165,233,0.08);
 }
-.toc a:hover{ transform:translateY(-1px); box-shadow:0 6px 12px rgba(0,0,0,.08); }
-.toc a.active{ outline:2px solid #0ea5e9; background:#e6f6ff; }
+
+/* hoverで少し濃く */
+.toc a:hover{
+  transform:translateY(-2px);
+  background: linear-gradient(#d8f0ff,#c7e8ff);
+  box-shadow:0 10px 22px rgba(14,165,233,0.12);
+}
+  
 .toc { overflow-x: auto; }
+  
 /* stickyヘッダで見出しが隠れないよう、スクロール先の上余白を確保 */
 section[id], .profile, .hero{ scroll-margin-top:88px; }
-/* モバイル微調整 */
+  
+/* モバイルの調整（横スクロールは維持） */
 @media (max-width:768px){
-  .toc{ width:94%; padding:8px; border-radius:12px; }
-  .toc a{ font-size:13px; padding:7px 10px; }
+  .toc{ width:96%; padding:8px 10px; gap:10px; }
+  .toc a{ font-size:20px; padding:9px 14px; }
 }
+  
 /* ユーザーが動きを減らす設定ならスムーズスクロール無効化 */
 @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
 
