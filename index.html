@@ -99,87 +99,89 @@
   }
   img{ display:block; width:100%; height:auto; user-select:none; pointer-events:none; }
 
-/* ===== Contents トグル（横スクロール化 + hoverで青になる） ===== */
-.toc-row {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 14px 8px;
-  margin: -8px 0 22px;   /* 上にはみ出す量を適度に抑える */
-  pointer-events: auto;
-  overflow: visible;
-  position: relative;
-  z-index: 30;
-}
+  /* ===== Contents トグル（横スクロール化 + hoverで青になる） ===== */
+  .toc-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 14px 8px;
+    margin: -8px 0 22px;   /* 上にはみ出す量を適度に抑える */
+    pointer-events: auto;
+    overflow: visible;
+    position: relative;
+    z-index: 30;
+  }
 
-/* 横スクロールのラッパー（ボタン群） */
-.toc-wrap {
-  display: flex;
-  gap: 24px;               /* ボタン間のスペース */
-  align-items: center;
-  width: min(1100px, 96%);
-  padding: 6px 12px;
-  overflow-x: auto;        /* ← 横スクロール化 */
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(11,100,255,0.20) rgba(0,0,0,0.03);
-}
+  /* 横スクロールのラッパー（ボタン群） */
+  .toc-wrap {
+    display: flex;
+    gap: 24px;               /* ボタン間のスペース */
+    align-items: center;
+    width: min(1100px, 96%);
+    padding: 6px 12px;
+    overflow-x: auto;        /* ← 横スクロール化 */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(11,100,255,0.20) rgba(0,0,0,0.03);
+  }
 
-/* Webkitスクロールバー見た目（任意） */
-.toc-wrap::-webkit-scrollbar { height: 10px; }
-.toc-wrap::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(11,100,255,0.20), rgba(11,100,255,0.08));
-  border-radius: 999px;
-}
-.toc-wrap::-webkit-scrollbar-track { background: transparent; }
+  /* Webkitスクロールバー見た目（任意） */
+  .toc-wrap::-webkit-scrollbar { height: 10px; }
+  .toc-wrap::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(11,100,255,0.20), rgba(11,100,255,0.08));
+    border-radius: 999px;
+  }
+  .toc-wrap::-webkit-scrollbar-track { background: transparent; }
 
-/* トグルボタン本体（大きめ） */
-.toc-btn {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  font-size: 1.7rem;         /* フォントを大きく（調整可） */
-  padding: 14px 34px;       /* ボタンサイズを大きく */
-  border-radius: 999px;
-  border: 1px solid rgba(10,40,80,0.06);
-  background: linear-gradient(180deg,#ffffff 0%, #f3f9ff 100%);
-  color: #07243f;
-  box-shadow: 0 8px 20px rgba(8,24,48,0.08);
-  cursor: pointer;
-  transition: transform .18s cubic-bezier(.2,.9,.3,1),
-              box-shadow .18s,
-              background .18s,
-              color .18s;
-  transform: none;
-  outline: none;
-}
+  /* トグルボタン本体（大きめ） */
+  .toc-btn {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    font-size: 1.7rem;         /* フォントを大きく（調整可） */
+    padding: 14px 34px;       /* ボタンサイズを大きく */
+    border-radius: 999px;
+    border: 1px solid rgba(10,40,80,0.06);
+    background: linear-gradient(180deg,#ffffff 0%, #f3f9ff 100%);
+    color: #07243f;
+    box-shadow: 0 8px 20px rgba(8,24,48,0.08);
+    cursor: pointer;
+    transition: transform .18s cubic-bezier(.2,.9,.3,1),
+                box-shadow .18s,
+                background .18s,
+                color .18s;
+    transform: none;
+    outline: none;
+  }
 
-/* マウスを合わせたとき：active と同じ（青）にする */
-.toc-btn:hover,
-.toc-btn:focus {
-  transform: translateY(-4px) scale(1.02);
-  background: linear-gradient(90deg,#0b64ff,#00b0ff);
-  color: #fff;
-  box-shadow: 0 22px 40px rgba(11,100,255,0.14);
-  z-index: 40;
-}
+  /* マウスを合わせたとき：active と同じ（青）にする */
+  .toc-btn:hover,
+  .toc-btn:focus {
+    transform: translateY(-4px) scale(1.02);
+    background: linear-gradient(90deg,#0b64ff,#00b0ff);
+    color: #fff;
+    box-shadow: 0 22px 40px rgba(11,100,255,0.14);
+    z-index: 40;
+  }
 
-/* クリックで選択済み（現在のセクション） */
-.toc-btn.active {
-  transform: translateY(-6px) scale(1.04);
-  background: linear-gradient(90deg,#0b64ff,#00b0ff);
-  color: #fff;
-  box-shadow: 0 26px 48px rgba(11,100,255,0.18);
-  z-index: 45;
-}
+  /* クリックで選択済み（現在のセクション）
+     ※重要: 初期ロード直後に勝手に青くならないよう、
+     「.toc-row.toc-initialized」 があるときだけ active スタイルが効く */
+  .toc-row.toc-initialized .toc-btn.active {
+    transform: translateY(-6px) scale(1.04);
+    background: linear-gradient(90deg,#0b64ff,#00b0ff);
+    color: #fff;
+    box-shadow: 0 26px 48px rgba(11,100,255,0.18);
+    z-index: 45;
+  }
 
-/* 小さい画面で詰まらないようにリサイズ */
-@media (max-width: 900px) {
-  .toc-wrap { gap: 12px; padding: 6px; }
-  .toc-btn { font-size: 1.05rem; padding: 10px 18px; }
-}
+  /* 小さい画面で詰まらないようにリサイズ */
+  @media (max-width: 900px) {
+    .toc-wrap { gap: 12px; padding: 6px; }
+    .toc-btn { font-size: 1.05rem; padding: 10px 18px; }
+  }
 
   /* ===== 画像スタック（実行フロー用） ===== */
   .stack-box{
@@ -240,6 +242,7 @@
 <!-- Contents（目次） -->
 <nav class="toc-row" aria-label="ページ内目次">
   <div class="toc-wrap">
+    <!-- data-target 属性でセクションに飛ばす（既存の id と一致） -->
     <button class="toc-btn" data-target="#ai-qa">品質管理AI化の取り組み</button>
     <button class="toc-btn" data-target="#flow-explain">実行フローのイメージ</button>
     <button class="toc-btn" data-target="#what-ai-did">AIと進めたプロセス</button>
@@ -1976,16 +1979,14 @@ function notifyEgAuditError() {
   /* ========================
      設定
      ======================== */
-  const HEADER_EXTRA_SPACING = 12; // ヘッダとの隙間調整（必要に応じて増減）
-  const SECTION_IDS = ['ai-qa','flow-explain','what-ai-did','gas-codes','how-made']; // TOC対象セクションID
-  const TOC_BTN_SELECTOR = '.toc-btn'; // TOCボタンのセレクタ
-  const TOC_WRAP_SELECTOR = '.toc-wrap'; // 横スクロールするラッパー（あれば）
+  const HEADER_EXTRA_SPACING = 12; // ヘッダとの隙間調整
+  const SECTION_IDS = ['ai-qa','flow-explain','what-ai-did','gas-codes','how-made'];
+  const TOC_BTN_SELECTOR = '.toc-btn';
+  const TOC_WRAP_SELECTOR = '.toc-wrap';
   const BEACON_API = "https://script.google.com/a/macros/mercari.com/s/AKfycbxwx1i_ApbPA-jzX5PIGGA5PGjBifCUY37aIELdM4CrxgozTffN_soRY9p84AWbb45H-w/exec";
 
   /* ========================
      1) reveal 用 IntersectionObserver（ふわっと表示）
-     - .reveal 要素に対して is-in を付ける
-     - 既存動作と同じ挙動を再現
      ======================== */
   (function initRevealObserver(){
     const revealObserver = new IntersectionObserver((entries) => {
@@ -2016,7 +2017,6 @@ function notifyEgAuditError() {
 
   /* ========================
      2) 軽量アクセスカウンタ（sendBeacon / fetch）
-     - ページロードで非同期に送信（UI はブロックしない）
      ======================== */
   (function sendPageviewBeacon(){
     try {
@@ -2034,19 +2034,19 @@ function notifyEgAuditError() {
         }).catch(()=>{ /* swallow */ });
       }
     } catch(e) {
-      // 失敗しても何もしない
       console.warn('beacon error', e);
     }
   })();
 
   /* ========================
      3) TOC（目次）: クリックで smooth scroll、IntersectionObserver で .active 切替
-     - data-target="#id" または a[href="#id"] の両方に対応
-     - TOC ラッパーがあればクリック時に横スクロールで中央に寄せる
+     - ここを読むと「どこを入れればいいか」分かります（全部まとまってます）
      ======================== */
   (function initToc(){
     const buttons = Array.from(document.querySelectorAll(TOC_BTN_SELECTOR));
     if (!buttons.length) return;
+    const tocRow = document.querySelector('.toc-row');
+    const tocWrap = document.querySelector(TOC_WRAP_SELECTOR);
 
     // ヘッダ高さを考慮してスクロール
     function scrollToSection(sec){
@@ -2065,49 +2065,69 @@ function notifyEgAuditError() {
       return null;
     }
 
+    // ボタンを親スクロール領域の中央に合わせるユーティリティ
+    function centerButtonInWrap(btn){
+      if (!btn) return;
+      const wrap = tocWrap || (document.scrollingElement || document.documentElement);
+      const isPage = (wrap === document.scrollingElement || wrap === document.documentElement);
+      const btnRect = btn.getBoundingClientRect();
+      const wrapRect = isPage ? { left: 0, width: window.innerWidth } : wrap.getBoundingClientRect();
+      const currentScroll = isPage ? (window.scrollX || window.pageXOffset) : wrap.scrollLeft;
+      const elCenterInContainer = (btnRect.left - wrapRect.left) + (btnRect.width / 2);
+      const targetScroll = Math.round(currentScroll + elCenterInContainer - (wrapRect.width / 2));
+      if (isPage) {
+        window.scrollTo({ left: Math.max(0, targetScroll), top: window.scrollY, behavior: 'smooth' });
+      } else {
+        wrap.scrollTo({ left: Math.max(0, targetScroll), behavior: 'smooth' });
+      }
+    }
+
     // クリック動作
     buttons.forEach(btn => {
       btn.addEventListener('click', function(e){
-        // allow non-anchors (button) and anchors
         if (e.preventDefault) e.preventDefault();
         const sec = getTargetFromButton(btn);
         if (!sec) return;
         scrollToSection(sec);
 
-        // クリック直後の一時的クラス（IOが本当のactiveを決めたら上書きされる）
+        // クリックで一時的に付けるクラス（IOが最終activeを判定したら上書き）
         buttons.forEach(b => b.classList.remove('active-temp'));
         btn.classList.add('active-temp');
 
-        // TOCラッパーがある場合、押したボタンを中央に寄せる（横スクロールの見た目を良くする）
-        const wrap = document.querySelector(TOC_WRAP_SELECTOR);
-        if (wrap && typeof wrap.scrollTo === 'function') {
-          const wrapRect = wrap.getBoundingClientRect();
-          const btnRect = btn.getBoundingClientRect();
-          const currentScroll = wrap.scrollLeft;
-          const targetScroll = currentScroll + (btnRect.left - wrapRect.left) - (wrapRect.width / 2) + (btnRect.width / 2);
-          wrap.scrollTo({ left: targetScroll, behavior: 'smooth' });
-        }
+        // クリックで中央に持ってく（見た目良くする）
+        setTimeout(() => centerButtonInWrap(btn), 80);
       });
     });
 
     // IntersectionObserver: 見えているセクションに対応するボタンに .active を付与
-    // 「最も intersectionRatio が高い」セクションを active にする
     const sections = SECTION_IDS.map(id => document.getElementById(id)).filter(Boolean);
-    if (!sections.length) return;
+    if (!sections.length) {
+      // もし id が見つからないなら初期化フラグだけ付与しておく
+      if (tocRow) tocRow.classList.add('toc-initialized');
+      return;
+    }
 
+    // ここで一度でもIOコールバックが来たら「初期化済み」とみなす（これで勝手に青くならない）
+    let initializedOnce = false;
     const tocObserver = new IntersectionObserver((entries) => {
-      // entries 内で intersectionRatio が最大のものを採用（isIntersecting が false でも boundingClientRect を使って代替可能）
+      // choose the most visible entry
       const visible = entries.filter(e => e.isIntersecting);
       let chosen = null;
       if (visible.length) {
         visible.sort((a,b) => b.intersectionRatio - a.intersectionRatio);
         chosen = visible[0].target;
       } else {
-        // 交差していない場合でもウィンドウ上部に近いセクションを代替に選ぶ
+        // 交差なしでも上に近いセクションを選ぶ
         const positives = entries.filter(e => e.boundingClientRect.top >= 0).sort((a,b) => a.boundingClientRect.top - b.boundingClientRect.top);
         if (positives.length) chosen = positives[0].target;
       }
       if (!chosen) return;
+
+      // 初回に tocRow に .toc-initialized を付ける（これで .active のスタイルが効く）
+      if (!initializedOnce) {
+        initializedOnce = true;
+        if (tocRow) tocRow.classList.add('toc-initialized');
+      }
 
       buttons.forEach(b => {
         const sec = getTargetFromButton(b);
@@ -2125,10 +2145,31 @@ function notifyEgAuditError() {
       threshold: [0, 0.05, 0.15, 0.3, 0.5]
     });
 
-setTimeout(() => {
-  sections.forEach(s => tocObserver.observe(s));
-}, 800);
+    // 少し遅延して観測を開始（DOMのレイアウト安定を待つ）
+    setTimeout(() => sections.forEach(s => tocObserver.observe(s)), 600);
 
+    // MutationObserver: ボタンの class 属性に 'active' が付いたら中央化（IOや他ロジックで active が付く場合に対応）
+    const mo = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type === 'attributes' && m.attributeName === 'class') {
+          const target = m.target;
+          if (target.classList && target.classList.contains('toc-btn') && target.classList.contains('active')) {
+            centerButtonInWrap(target);
+          }
+        }
+      }
+    });
+    buttons.forEach(b => mo.observe(b, { attributes: true, attributeFilter: ['class'] }));
+
+    // リサイズ時の再中央化
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const activeBtn = document.querySelector('.toc-btn.active');
+        if (activeBtn) centerButtonInWrap(activeBtn);
+      }, 150);
+    });
 
     // ページロードで hash があれば遅延スクロールして active を馴染ませる
     if (location.hash) {
@@ -2138,13 +2179,13 @@ setTimeout(() => {
       } catch(e){}
     }
 
-    // デバッグ用（必要ならコンソールで参照）
+    // デバッグ用（必要なら console で参照）
     try { window.__toc_debug = { buttons, sections }; } catch(e) {}
+
   })();
 
 })();
 </script>
 
-   
 </body>
 </html>
