@@ -415,47 +415,50 @@ section#ai-qa {
   pointer-events:none;
 }
 
-/* ===== RESULTSスタンプ：スクロールで飛び込むアニメ ===== */
+/* ===== RESULTSスタンプ：画面の右上から飛んでくる見た目に変更 ===== */
+
+/* 初期状態（アニメなしのとき）:
+   - opacity:0（見えない）
+   - translate( startX, startY ) は「要素基準の右上外」を表現
+*/
 .results-badge {
-  opacity: 0;  /* 初期は非表示 */
-  transform: translate(200%, -40%) rotate(8deg) scale(0.9);
-  transition: none;
+  opacity: 0;
+  /* 右上の外（Xは右方向に200%程度、Yは上にさらに300%で“画面上”っぽく） */
+  transform: translate(200%, -300%) rotate(8deg) scale(0.9);
+  pointer-events: none;
 }
 
-/* .fly-in が付いたら右外から飛び込む */
+/* .fly-in が付いたらアニメ実行（右上→最終位置） */
 .results-badge.fly-in {
-  animation: badgeFlyIn 1s cubic-bezier(.2,.9,.25,1) both;
+  animation: badgeFlyInTopRight 900ms cubic-bezier(.2,.9,.25,1) both;
 }
 
-@keyframes badgeFlyIn {
+/* キーフレーム：右上外側 -> 少しオーバーシュート -> 定位置 */
+@keyframes badgeFlyInTopRight {
   0% {
-    transform: translate(200%, -40%) rotate(8deg) scale(0.9);
+    transform: translate(200%, -300%) rotate(8deg) scale(0.9);
     opacity: 0;
-    filter: blur(6px);
+    filter: blur(8px);
   }
-  60% {
-    transform: translate(-4%, 6%) rotate(6deg) scale(1.05);
+
+  /* 早い段階でほぼ見えてくる */
+  55% {
+    transform: translate(-6%, 6%) rotate(6deg) scale(1.05); /* オーバーシュートで弾ませる */
     opacity: 1;
     filter: blur(0);
   }
+
   100% {
-    transform: translate(0, 0) rotate(8deg) scale(1);
+    transform: translate(0, 0) rotate(8deg) scale(1); /* 最終位置（既存の位置） */
     opacity: 1;
     filter: none;
   }
 }
 
-/* 動きを減らす設定の人向け（アクセシビリティ対応） */
+/* アクセシビリティ対応：動きを減らす設定の人にはアニメ無効 */
 @media (prefers-reduced-motion: reduce) {
-  .results-badge { animation: none !important; opacity:1 !important; transform:none !important; }
+  .results-badge { animation: none !important; transform: translate(0,0) rotate(8deg) scale(1) !important; opacity:1 !important; }
 }
-
-  
-/* アクセシビリティ：動きを減らすユーザーにはアニメ無効 */
-@media (prefers-reduced-motion: reduce) {
-  .results-badge { animation: none !important; transform: translate(0,0) rotate(8deg) scale(1); opacity:1; filter:none; }
-}
-
 
 /* タイトル・リスト等は現行維持 */
 .results-title{
