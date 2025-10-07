@@ -131,41 +131,50 @@
   }
 
   /* ===== 目次（TOC） ===== */
-/* ── 横スクロールのTOC（既存の .toc / .toc a をこれに置き換える） */
+/* ── 横スクロールTOC（確実版） */
 .toc{
-  max-width:1800px;
-  width:94%;
+  /* ← 溢れを作るために幅を“狭める”。広げるとスクロールは出ません */
+  max-width:960px;                 /* ここが1800pxだと溢れにくい → 960pxに戻す */
+  width:calc(100vw - 48px);
+
   margin:22px auto 8px;
   padding:12px 16px;
   background:#fff;
   border-radius:14px;
   box-shadow:0 6px 18px rgba(0,0,0,.08);
+
   display:flex;
   gap:14px;
-  flex-wrap:nowrap;        /* ← 折り返さない（横スクロール） */
-  overflow-x:auto;         /* ← 横スクロール有効 */
-  -webkit-overflow-scrolling:touch; /* スムーズな慣性スクロール（iOS） */
+  flex-wrap:nowrap;                /* 1行固定 */
+  overflow-x:auto;                 /* 横スクロール */
+  overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
 }
 
-/* 各ボタン（横に並ぶ固定幅ではなく内容に合わせる）*/
 .toc a{
-  flex:0 0 auto;           /* 折返しを防ぎ、内容幅に合わせる */
+  flex:0 0 auto;                   /* ← 縮ませない（超重要）*/
+  /* 念のため：古い指定に勝つ */
+  min-width:max-content;
+  white-space:nowrap;
+
   display:inline-flex;
   align-items:center;
   justify-content:center;
   padding:10px 18px;
   border-radius:999px;
   text-decoration:none;
-  color:#052235;           /* テキスト暗め（漫画ボタンに近い） */
-  background: linear-gradient(#e6f6ff,#d7f0ff); /* 明るい青グラデ */
-  border:3px solid #0ea5e9; /* 青い外枠 */
+  color:#052235;
+  background:linear-gradient(#e6f6ff,#d7f0ff);
+  border:3px solid #0ea5e9;
   font-weight:900;
-  font-size:24px;          /* 先に合わせた大きさ */
-  white-space:nowrap;
+  font-size:24px;
   transition:transform .12s var(--ease), box-shadow .12s var(--ease), background .12s;
-  box-shadow: 0 6px 12px rgba(14,165,233,0.08);
+  box-shadow:0 6px 12px rgba(14,165,233,0.08);
 }
 
+/* 任意：スクロールバー見える化（デバッグ用） */
+.toc::-webkit-scrollbar{ height:10px; }
+.toc::-webkit-scrollbar-thumb{ background:#cfefff; border-radius:8px; }
 /* hoverで少し濃く */
 .toc a:hover{
   transform:translateY(-2px);
