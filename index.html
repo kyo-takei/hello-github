@@ -309,7 +309,7 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 
 <style>
 
-/* ===== 成果カード（要求どおり調整済み） ===== */
+/* ===== 成果カード専用（他には影響しません） ===== */
 .results-card{
   position:relative;
   background:
@@ -322,26 +322,25 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
     0 6px 14px rgba(0,0,0,.08),
     inset 0 0 0 1.5px rgba(255, 209, 85, .30),
     0 12px 28px rgba(255,209,85,.12);
-  /* スタンプは枠外にはみ出してOKにする */
-  overflow: visible;
+  overflow: visible;   /* スタンプを背景外まで出せるように */
   isolation:isolate;
   border: 3.5px solid #ffd155;
 }
 
-/* カード内コンテンツを擬似要素より上に出す */
+/* コンテンツを擬似要素より上に */
 .results-card > * {
   position: relative;
   z-index: 1;
 }
 
-/* ---- 擬似要素：カード中心に配置、直径を大きく、回転をさらに速く ---- */
+/* ---- 擬似要素：中心配置、直径を倍（560px）、さらに倍速回転 ---- */
 .results-card::before{
   content: "";
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 560px;              /* ← 直径を倍（560px） */
-  height: 560px;             /* ← 同じく */
+  width: 560px;               /* ← 直径を倍（カード全体を照らす） */
+  height: 560px;
   transform: translate(-50%, -50%) rotate(0deg);
   transform-origin: 50% 50%;
   background: conic-gradient(from 120deg,
@@ -349,43 +348,52 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
     rgba(255,240,177,0.92) 60deg,
     rgba(255,215,115,0.98) 120deg,
     rgba(255,240,220,0) 180deg);
-  filter: blur(12px);        /* ぼかしは適度に（必要なら小さく） */
-  opacity: .42;              /* 強調具合（調整可） */
-  animation: rc-spin 4.5s linear infinite; /* ← 倍速（さらに速く） */
+  filter: blur(12px);
+  opacity: .45;
+  animation: rc-spin 4.5s linear infinite; /* ← 前回の倍速回転 */
   pointer-events: none;
   z-index: 0;
   border-radius: 50%;
 }
 
-/* 回転アニメ：中央基準の回転(translate込み) */
 @keyframes rc-spin{
   to{ transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* 既存 ::after があれば無効化 */
+/* 回転ボーダーは無効化 */
 .results-card::after { content: none !important; }
 
-/* ===== RESULTS スタンプ：さらに大きく、色・位置調整、1cm下げる ===== */
+/* ===== RESULTS スタンプ（前回より小さく、背景まではみ出す） ===== */
 .results-badge{
   position:absolute;
-  /* 一度はみ出してOKにしているので負の値で外側へ */
-  top: calc(-36px + 38px); /* 既存 top(-36px) に 1cm(≈38px) 下げた形 */
-  right:-48px;             /* 右外にはみ出す量をやや広めに（調整可） */
-  background:#111; color:#fff; font-weight:900; letter-spacing:.08em;
-  font-size:1.25rem; padding:20px 28px; border-radius:999px;
-  box-shadow:0 18px 40px rgba(0,0,0,.35);
-  transform: rotate(8deg) scale(2.2); /* ← 更に拡大（約2.2倍） */
+  top: calc(-36px + 38px);  /* ← 前回の位置＋約1cm下げる */
+  right:-60px;              /* ← 右方向にややはみ出す（薄水色背景まで） */
+  background:#111; 
+  color:#fff; 
+  font-weight:900; 
+  letter-spacing:.08em;
+  font-size:1.25rem; 
+  padding:14px 20px; 
+  border-radius:999px;
+  box-shadow:0 12px 28px rgba(0,0,0,.35);
+  transform: rotate(8deg) scale(1.4);  /* ← 小さく戻す（前回2.2倍→1.4倍） */
   transform-origin: 50% 50%;
-  z-index: 9999;           /* 最前面にして見切れないように */
+  z-index: 9999; /* 背景より前、他要素より上 */
   pointer-events:none;
 }
 
-/* タイトルやリストはそのまま（必要なら微調整可） */
+/* タイトル＆リストなどは現行のまま */
 .results-title{
-  margin:0 0 14px; font-size:22px; font-weight:800; line-height:1;
-  padding-left:12px; border-left:6px solid #111;
+  margin:0 0 14px; 
+  font-size:22px; 
+  font-weight:800; 
+  line-height:1;
+  padding-left:12px; 
+  border-left:6px solid #111;
   background: linear-gradient(90deg,#111 0%, #6b4b00 100%);
-  -webkit-background-clip:text; background-clip:text; color:transparent;
+  -webkit-background-clip:text; 
+  background-clip:text; 
+  color:transparent;
 }
 .results-list{ margin:0; padding-left:20px; color:#333; line-height:1.85; }
 .results-list > li{ margin:8px 0; }
@@ -393,8 +401,10 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 
 .kpi{
   display:inline-block; font-weight:900; padding:.18em .60em; line-height:1;
-  border-radius:999px; background:linear-gradient(90deg,#ffe08a 0%,#ffd24d 40%,#ffce3a 100%);
-  color:#3a2a00; box-shadow:0 2px 0 rgba(255,190,60,.9), 0 8px 18px rgba(255,190,60,.35);
+  border-radius:999px; 
+  background:linear-gradient(90deg,#ffe08a 0%,#ffd24d 40%,#ffce3a 100%);
+  color:#3a2a00; 
+  box-shadow:0 2px 0 rgba(255,190,60,.9), 0 8px 18px rgba(255,190,60,.35);
   position:relative; overflow:hidden; vertical-align:-0.12em;
 }
 .kpi--outline{
@@ -408,7 +418,6 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
   pointer-events:none; will-change:left;
 }
 @keyframes kira{ to { left:150%; } }
-
 
 </style>
 
