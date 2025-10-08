@@ -310,9 +310,36 @@ section[id], .profile, .hero{ scroll-margin-top:88px; }
 /* ユーザーが動きを減らす設定ならスムーズスクロール無効化 */
 @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
 
+/* ===== ページトップボタン ===== */
+.back-to-top {
+  text-align: center;
+  margin: 40px 0 60px; /* 上下の余白 */
+}
+
+.back-to-top a {
+  display: inline-block;
+  background: #ffb6c1;           /* 薄ピンク */
+  color: #111;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 14px 28px;
+  border-radius: 999px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: all 0.25s ease;
+}
+
+.back-to-top a:hover {
+  background: #ff94b3;           /* 濃いピンクに */
+  transform: translateY(-2px);   /* 少し浮く */
+  box-shadow: 0 12px 24px rgba(0,0,0,0.18);
+}
+
 </style>
 </head>
 <body>
+  
+<a id="top"></a>
+
   <header>QA・品質管理のAI活用</header>
 
   <!-- ヒーロー -->
@@ -2087,7 +2114,7 @@ function notifyEgAuditError() {
 
 <!-- おまけ（1080px） -->
 <section class="reveal" id="how-made" style="width:100%;max-width:1080px;
-  background:#fff;border:3px solid #ffc0cb;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:30px;
+  background:#fff;border:10px solid #ffc0cb;border-radius:20px;padding:60px 40px;margin-top:0;margin-bottom:30px;
   box-shadow:0 6px 20px rgba(0,0,0,0.08);">
 
   <h2 style="font-weight:800;margin:0 0 40px;text-align:center;color:#ff1493
@@ -2188,6 +2215,11 @@ function notifyEgAuditError() {
     </ul>
   </div>
 </section>
+
+<!-- ページトップへ戻るボタン -->
+<div class="back-to-top">
+  <a href="#top">▲ ページトップへ</a>
+</div>
 
   </main>
 
