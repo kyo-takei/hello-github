@@ -9,41 +9,58 @@
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
 
-      /* ---------- rocket（スクロールで飛んでくる） ---------- */
+<style>
+/* --- rocket（スクロールで左→右に飛ぶ） --- */
 .rocket {
   position: fixed;
-  /* 初期は画面右上の外（JSで具体位置をセット） */
-  left: calc(100vw + 120px);
-  top: -120px;
-  width: 64px;
-  height: 64px;
-  font-size: 40px;
+  left: -160px;           /* 画面左外スタート */
+  top: 40vh;              /* 初期高さ（画面の真ん中やや上） */
+  width: 96px;
+  height: 96px;
+  border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-size: 36px;
+  background: linear-gradient(180deg,#111 0%, #222 100%);
+  color: #fff;
+  box-shadow: 0 18px 36px rgba(0,0,0,0.28);
   pointer-events: none;
-  z-index: 99999;
+  z-index: 999999;
   opacity: 0;
-  transform-origin: 50% 50%;
-  filter: drop-shadow(0 10px 18px rgba(0,0,0,0.28));
+  transform: rotate(-12deg) scale(0.9);
+  transition:
+    left 1.2s cubic-bezier(.22,.9,.32,1),
+    top 1.2s cubic-bezier(.22,.9,.32,1),
+    transform 260ms ease,
+    opacity 220ms linear;
   will-change: left, top, transform, opacity;
-  transition: opacity 220ms linear;
 }
 
-/* 表示フラグ */
-.rocket.is-visible { opacity: 1; }
+.rocket.visible {
+  opacity: 1;
+  transform: rotate(-6deg) scale(1);
+}
 
-/* 到着後の「はね」効果 */
 .rocket.pulse {
-  transition: transform 220ms ease-out, opacity 200ms linear;
-  transform: scale(1.08) rotate(-6deg);
+  transform: rotate(-6deg) scale(1.08);
+  transition: transform 220ms cubic-bezier(.2,.8,.2,1);
 }
 
-/* prefers-reduced-motion の配慮 */
-@media (prefers-reduced-motion: reduce) {
-  .rocket { transition: none !important; animation: none !important; }
+@media (max-width:720px){
+  .rocket { width:72px; height:72px; font-size:28px; }
 }
 
+@media (prefers-reduced-motion: reduce){
+  .rocket, .rocket.visible, .rocket.pulse {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    left: 12px !important;
+  }
+}
+</style>
 
   
   /* ===== 全体背景：単色の淡い水色 ===== */
@@ -2245,163 +2262,60 @@ function notifyEgAuditError() {
 
 <script>
 (function(){
-  // ===== 設定 =====
-  const TARGET_SELECTOR = '.results-badge'; // 発射先（Badge）
-  const ONCE = false;                       // true = 一度だけ（再トリガ不可）, false = スクロール戻して何度も可
-  const THRESHOLD = 0.45;                   // 交差判定（0.45 = 45% 見えたら発射）
-  const DURATION = 900;                     // 飛翔時間（ms）
-  const ARC_HEIGHT = 120;                   // 弧の高さ（px）: 大きいほど高く弧を描く
-  const ARRIVAL_OFFSET_Y = -8;              // 到着微調整（px）
-  // =================
+  // --- 設定 ---
+  const TARGET_TEXT = '判定結果のアウトプット'; // トリガー見出し
+  const THRESHOLD = 0.4; // 画面に40%見えたら発火
 
-  // reduced-motion の場合はアニメを無効化（静かに表示→短時間で消える等）
-  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // --- ヘルパー：トリガー要素を探す ---
+  const trigger = Array.from(document.querySelectorAll('h3'))
+    .find(h => h.textContent.includes(TARGET_TEXT));
 
-  // 作る（既にあれば再利用）
-  let rocket = document.querySelector('.rocket');
-  if (!rocket) {
-    rocket = document.createElement('div');
-    rocket.className = 'rocket';
-    rocket.setAttribute('aria-hidden','true');
-    rocket.innerHTML = '🚀';
-    document.body.appendChild(rocket);
+  if (!trigger) {
+    console.warn('🚀 trigger not found:', TARGET_TEXT);
+    return;
   }
 
-  // ヘルパ：2次ベジェ（start-control-end）
-  function quadBezier(p0, p1, p2, t){
-    const u = 1 - t;
-    return {
-      x: u*u*p0.x + 2*u*t*p1.x + t*t*p2.x,
-      y: u*u*p0.y + 2*u*t*p1.y + t*t*p2.y
-    };
-  }
-  function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+  // --- rocketを作成 ---
+  const rocket = document.createElement('div');
+  rocket.className = 'rocket';
+  rocket.innerHTML = '🚀';
+  document.body.appendChild(rocket);
 
-  // アニメ本体（RAFで弧を描く）
-  function flyTo(targetRect) {
-    // 初期（スタート）座標：画面右上の外側
-    const start = { x: window.innerWidth + 80, y: -120 };
-    // 到着座標：ターゲットの中心（ビューポート座標）
-    const end = {
-      x: targetRect.left + targetRect.width / 2,
-      y: targetRect.top + targetRect.height / 2 + ARRIVAL_OFFSET_Y
-    };
-
-    // 制御点（中間点）＝start/endの中間を上に持ち上げてアーチにする
-    const cp = {
-      x: (start.x + end.x) / 2,
-      y: Math.min(start.y, end.y) - ARC_HEIGHT
-    };
-
-    // 初期配置（left/topで制御）
-    rocket.style.left = `${start.x - (rocket.offsetWidth/2)}px`;
-    rocket.style.top  = `${start.y - (rocket.offsetHeight/2)}px`;
+  // --- 飛行アニメ（左→右） ---
+  function flyAcross() {
+    // 初期位置
+    rocket.style.left = '-160px';
     rocket.style.opacity = '0';
-    rocket.classList.add('is-visible');
+    rocket.classList.remove('pulse');
 
-    if (reduced) {
-      // 動作抑制: ダイレクトに到着位置へフェードイン→小さくパルス→消える
-      rocket.style.left = `${end.x - (rocket.offsetWidth/2)}px`;
-      rocket.style.top  = `${end.y - (rocket.offsetHeight/2)}px`;
-      rocket.style.opacity = '1';
-      setTimeout(()=> { rocket.classList.add('pulse'); }, 120);
-      setTimeout(()=> { rocket.classList.remove('pulse'); rocket.style.opacity='0'; }, 900);
-      return Promise.resolve();
-    }
+    // 発射！
+    rocket.classList.add('visible');
+    rocket.style.opacity = '1';
 
-    return new Promise((resolve) => {
-      const startTime = performance.now();
-      const dur = DURATION;
+    // ゴール位置（画面右外）
+    const endLeft = window.innerWidth + 120;
+    rocket.style.left = endLeft + 'px';
 
-      function step(now){
-        const tRaw = (now - startTime) / dur;
-        const t = Math.min(1, Math.max(0, tRaw));
-        const eased = easeOutCubic(t);
-
-        // 二次ベジェで位置を決める
-        const pos = quadBezier({x:start.x, y:start.y}, cp, {x:end.x, y:end.y}, eased);
-
-        rocket.style.left = `${pos.x - (rocket.offsetWidth/2)}px`;
-        rocket.style.top  = `${pos.y - (rocket.offsetHeight/2)}px`;
-
-        // 回転とスケールの演出
-        const rot = -20 * eased; // 回転（到着時 -20deg）
-        const scale = 0.9 + 0.3 * (0.5 + 0.5 * Math.sin(Math.PI * eased)); // 少しふわっと
-        rocket.style.transform = `rotate(${rot}deg) scale(${scale})`;
-
-        // 前半でフェードイン
-        if (t < 0.25) {
-          rocket.style.opacity = String(t * 4);
-        } else {
-          rocket.style.opacity = '1';
-        }
-
-        if (t < 1) {
-          requestAnimationFrame(step);
-        } else {
-          // 到着→小さくはねさせる
-          rocket.classList.add('pulse');
-          setTimeout(()=> {
-            rocket.classList.remove('pulse');
-            // 到着後ゆっくりフェードアウト
-            rocket.style.transition = 'opacity 420ms ease';
-            rocket.style.opacity = '0';
-            // 0.5s後に resolve
-            setTimeout(()=> {
-              // reset transforms/transitions for next run
-              rocket.style.transition = '';
-              rocket.style.transform = '';
-              resolve();
-            }, 520);
-          }, 180); // 到着後の滞在時間（ms）
-        }
-      }
-
-      requestAnimationFrame(step);
-    });
+    // 到着後にpulse→フェードアウト
+    setTimeout(() => {
+      rocket.classList.add('pulse');
+      setTimeout(() => {
+        rocket.classList.remove('pulse');
+        rocket.classList.remove('visible');
+        rocket.style.opacity = '0';
+        rocket.style.left = '-160px'; // 初期位置へ戻す
+      }, 1000);
+    }, 1800);
   }
 
-  // IntersectionObserver で発射トリガー
-  const observer = new IntersectionObserver((entries) => {
+  // --- IntersectionObserver（何度でも発火） ---
+  const obs = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting && entry.intersectionRatio >= THRESHOLD) {
-        // 発射対象の要素（badge）を使って目標rectを取得
-        const badge = entry.target;
-        const rect = badge.getBoundingClientRect();
-
-        // guard: 同時二重発射を防ぐフラグ
-        if (badge._rocketFiring) return;
-        badge._rocketFiring = true;
-
-        flyTo(rect).then(()=> {
-          // 発射済みフラグの扱い
-          if (ONCE) {
-            observer.unobserve(badge);
-          } else {
-            // 繰り返し可能なら、スクロールアウトでフラグ解除
-            // （ここでは解除はスクロールアウト処理で行う）
-            setTimeout(()=> { badge._rocketFiring = false; }, 300);
-          }
-        });
-      } else {
-        // スクロールアウト時（繰り返し向け）：フラグを解除して再発射可能に
-        if (!ONCE && !entry.isIntersecting) {
-          entry.target._rocketFiring = false;
-        }
-      }
+      if (entry.isIntersecting) flyAcross();
     });
   }, { threshold: THRESHOLD });
 
-  // 観察対象を登録（ページに .results-badge が複数ある可能性も考慮）
-  const targets = document.querySelectorAll(TARGET_SELECTOR);
-  if (targets.length === 0) return; // 対象なければ何もしない
-  targets.forEach(t => observer.observe(t));
-
-  // 再配置：ウィンドウリサイズ時に位置崩れしないようにする（簡易）
-  window.addEventListener('resize', () => {
-    // rocket を一旦消して、次回発射時に位置を適切に計算するだけでOK
-    rocket.style.opacity = '0';
-  });
+  obs.observe(trigger);
 })();
 </script>
 
