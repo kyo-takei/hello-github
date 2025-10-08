@@ -12,24 +12,44 @@
 /* --- rocket（ゆっくり・絵文字だけ） --- */
 .rocket {
   position: fixed;
-  left: -160px;           /* 画面左外スタート */
-  top: 40vh;              /* 縦位置（画面の真ん中あたり） */
-  font-size: 64px;        /* ロケットのサイズ */
+  left: -160px;
+  top: 40vh;
+  font-size: 128px;       /* ← 2倍に拡大（64px → 128px） */
   line-height: 1;
   display: inline-block;
   pointer-events: none;
   z-index: 9999;
   opacity: 0;
-  transform: rotate(-12deg) scale(1);
+  transform: rotate(0deg) scale(1);  /* ← 水平に変更（角度0°） */
   transition:
-    left 3.5s cubic-bezier(.22,.9,.32,1),  /* ← ゆっくり（3.5秒） */
+    left 3.5s cubic-bezier(.22,.9,.32,1),
     opacity 600ms linear;
   will-change: left, opacity;
 }
 
-/* 飛行中 */
 .rocket.visible {
   opacity: 1;
+}
+
+.rocket.pulse {
+  transform: rotate(0deg) scale(1.15);  /* ← 回転せず拡大だけ */
+  transition: transform 0.4s ease-out;
+}
+
+/* スマホ用：画面が狭いときは少し小さく */
+@media (max-width:720px){
+  .rocket { font-size:80px; }
+}
+
+/* prefers-reduced-motion 対応 */
+@media (prefers-reduced-motion: reduce){
+  .rocket, .rocket.visible, .rocket.pulse {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+    left: 12px !important;
+  }
 }
 
 /* 到着後の軽いはね */
