@@ -2291,62 +2291,102 @@ function notifyEgAuditError() {
 
 <script>
 (function(){
-  const TARGET_TEXT = '判定結果のアウトプット'; // トリガーになる見出し
-  const THRESHOLD = 0.4; // 40%見えたら発火
+  const TARGET_TEXT = '判定結果のアウトプット';
+  const THRESHOLD = 0.4;
+  const FLIGHT_DURATION_MS = 3500; // CSS の left transition と合わせる
+  const ARRIVAL_HOLD_MS = 450;
+  const COOL_DOWN_MS = 600;
 
-  // 見出しを探す
   const trigger = Array.from(document.querySelectorAll('h3'))
-    .find(h => h.textContent.includes(TARGET_TEXT));
+    .find(h => h.textContent && h.textContent.includes(TARGET_TEXT));
+  if (!trigger) { console.warn('[rocket] trigger not found:', TARGET_TEXT); return; }
 
-  if (!trigger) {
-    console.warn('🚀 trigger not found:', TARGET_TEXT);
-    return;
+  let rocket = document.querySelector('.rocket');
+  if (!rocket) {
+    rocket = document.createElement('div');
+    rocket.className = 'rocket';
+    rocket.textContent = '🚀';
+    document.body.appendChild(rocket);
   }
 
-  // rocketを生成（絵文字のみ）
-  const rocket = document.createElement('div');
-  rocket.className = 'rocket';
-  rocket.textContent = '🚀';
-  document.body.appendChild(rocket);
+  let isFlying = false;
+  let lastFiredAt = 0;
 
-  // 飛行アニメ（左→右へゆっくり）
+  function tryFly() {
+    const now = Date.now();
+    if (isFlying) return;
+    if (now - lastFiredAt < COOL_DOWN_MS) return;
+    isFlying = true;
+    lastFiredAt = now;
+    flyAcross().finally(() => { setTimeout(() => { isFlying = false; }, 80); });
+  }
+
   function flyAcross() {
-    // 初期化（左外）
-    rocket.style.left = '-160px';
-    rocket.style.opacity = '0';
-    rocket.classList.remove('pulse');
+    return new Promise((resolve) => {
+      // 保存しておく（復帰用）
+      const computed = getComputedStyle(rocket);
+      const savedTransition = rocket.style.transition || computed.transition || '';
 
-    // フェードインして飛行
-    requestAnimationFrame(() => {
-      rocket.classList.add('visible');
-      rocket.style.opacity = '1';
-      rocket.style.left = (window.innerWidth + 100) + 'px'; // 右外へ飛行
-    });
+      // ① 即時リセット（left をアニメしないように一旦 'none' に）
+      rocket.style.transition = 'none';
+      rocket.style.left = '-160px';
+      rocket.style.opacity = '0';
+      // 強制 reflow で確実に即時適用
+      void rocket.offsetWidth;
 
-    // 到着後に「はね」＆フェードアウト
-    setTimeout(() => {
-      rocket.classList.add('pulse');
+      // ② 飛行開始（次フレームに可視化して移動）
+      requestAnimationFrame(() => {
+        // restore transition so left will animate according to CSS (we restore savedTransition)
+        rocket.style.transition = savedTransition || '';
+        rocket.classList.add('visible');
+        rocket.style.opacity = '1';
+        rocket.style.left = (window.innerWidth + 120) + 'px';
+      });
+
+      // ③ 到着後の処理（pulse → 非表示 → 即時リセット）
       setTimeout(() => {
-        rocket.classList.remove('pulse');
-        rocket.classList.remove('visible');
-        rocket.style.opacity = '0';
-        rocket.style.left = '-160px'; // 初期位置に戻す
-      }, 1000);
-    }, 4000); // ← 飛行時間に合わせて遅延（3.5s + α）
+        rocket.classList.add('pulse');
+
+        setTimeout(() => {
+          rocket.classList.remove('pulse');
+          rocket.classList.remove('visible');
+
+          // フェードアウト（opacityのみアニメ）
+          // 一旦 left のトランジションを無効化して瞬間移動（これが重要）
+          // 保存（上で取得した savedTransition を使って復帰する）
+          // ここは確実に「left を瞬時に戻す」ために 'none' を一度設定します
+          // その後 reflow をかまして、トランジションを元に戻します
+          // → これで「右→左に戻る」アニメは発生しない
+          // fade opacity
+          rocket.style.opacity = '0';
+
+          // disable transitions so left assignment is instant
+          rocket.style.transition = 'none';
+          rocket.style.left = '-160px';
+          void rocket.offsetWidth; // reflow to apply instantly
+
+          // small timeout to ensure DOM painted with instant left
+          setTimeout(() => {
+            // restore original transition (if any) so next flight animates
+            rocket.style.transition = savedTransition || '';
+            resolve();
+          }, 30);
+
+        }, ARRIVAL_HOLD_MS);
+      }, FLIGHT_DURATION_MS);
+    });
   }
 
-  // IntersectionObserverで発火（何度でも）
-  const obs = new IntersectionObserver(entries => {
+  const obs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) flyAcross();
+      if (entry.isIntersecting) tryFly();
     });
   }, { threshold: THRESHOLD });
 
   obs.observe(trigger);
+  window.addEventListener('pagehide', () => obs.disconnect());
 })();
 </script>
 
-
-   
 </body>
 </html>
