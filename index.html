@@ -9,47 +9,42 @@
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
 
-/* --- rocket（スクロールで左→右に飛ぶ） --- */
+<style>
+/* --- rocket（ゆっくり・絵文字だけ） --- */
 .rocket {
   position: fixed;
   left: -160px;           /* 画面左外スタート */
-  top: 40vh;              /* 初期高さ（画面の真ん中やや上） */
-  width: 96px;
-  height: 96px;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36px;
-  background: linear-gradient(180deg,#111 0%, #222 100%);
-  color: #fff;
-  box-shadow: 0 18px 36px rgba(0,0,0,0.28);
+  top: 40vh;              /* 縦位置（画面の真ん中あたり） */
+  font-size: 64px;        /* ロケットのサイズ */
+  line-height: 1;
+  display: inline-block;
   pointer-events: none;
-  z-index: 999999;
+  z-index: 9999;
   opacity: 0;
-  transform: rotate(-12deg) scale(0.9);
+  transform: rotate(-12deg) scale(1);
   transition:
-    left 1.2s cubic-bezier(.22,.9,.32,1),
-    top 1.2s cubic-bezier(.22,.9,.32,1),
-    transform 260ms ease,
-    opacity 220ms linear;
-  will-change: left, top, transform, opacity;
+    left 3.5s cubic-bezier(.22,.9,.32,1),  /* ← ゆっくり（3.5秒） */
+    opacity 600ms linear;
+  will-change: left, opacity;
 }
 
+/* 飛行中 */
 .rocket.visible {
   opacity: 1;
-  transform: rotate(-6deg) scale(1);
 }
 
+/* 到着後の軽いはね */
 .rocket.pulse {
-  transform: rotate(-6deg) scale(1.08);
-  transition: transform 220ms cubic-bezier(.2,.8,.2,1);
+  transform: rotate(-6deg) scale(1.15);
+  transition: transform 0.4s ease-out;
 }
 
+/* スマホ対応 */
 @media (max-width:720px){
-  .rocket { width:72px; height:72px; font-size:28px; }
+  .rocket { font-size:48px; }
 }
 
+/* 動きを減らす設定のユーザーには無効化 */
 @media (prefers-reduced-motion: reduce){
   .rocket, .rocket.visible, .rocket.pulse {
     transition: none !important;
@@ -59,8 +54,8 @@
     left: 12px !important;
   }
 }
+</style>
 
-  
   /* ===== 全体背景：単色の淡い水色 ===== */
   body {
     margin: 0;
@@ -2260,11 +2255,10 @@ function notifyEgAuditError() {
 
 <script>
 (function(){
-  // --- 設定 ---
-  const TARGET_TEXT = '判定結果のアウトプット'; // トリガー見出し
-  const THRESHOLD = 0.4; // 画面に40%見えたら発火
+  const TARGET_TEXT = '判定結果のアウトプット'; // トリガーになる見出し
+  const THRESHOLD = 0.4; // 40%見えたら発火
 
-  // --- ヘルパー：トリガー要素を探す ---
+  // 見出しを探す
   const trigger = Array.from(document.querySelectorAll('h3'))
     .find(h => h.textContent.includes(TARGET_TEXT));
 
@@ -2273,40 +2267,39 @@ function notifyEgAuditError() {
     return;
   }
 
-  // --- rocketを作成 ---
+  // rocketを生成（絵文字のみ）
   const rocket = document.createElement('div');
   rocket.className = 'rocket';
-  rocket.innerHTML = '🚀';
+  rocket.textContent = '🚀';
   document.body.appendChild(rocket);
 
-  // --- 飛行アニメ（左→右） ---
+  // 飛行アニメ（左→右へゆっくり）
   function flyAcross() {
-    // 初期位置
+    // 初期化（左外）
     rocket.style.left = '-160px';
     rocket.style.opacity = '0';
     rocket.classList.remove('pulse');
 
-    // 発射！
-    rocket.classList.add('visible');
-    rocket.style.opacity = '1';
+    // フェードインして飛行
+    requestAnimationFrame(() => {
+      rocket.classList.add('visible');
+      rocket.style.opacity = '1';
+      rocket.style.left = (window.innerWidth + 100) + 'px'; // 右外へ飛行
+    });
 
-    // ゴール位置（画面右外）
-    const endLeft = window.innerWidth + 120;
-    rocket.style.left = endLeft + 'px';
-
-    // 到着後にpulse→フェードアウト
+    // 到着後に「はね」＆フェードアウト
     setTimeout(() => {
       rocket.classList.add('pulse');
       setTimeout(() => {
         rocket.classList.remove('pulse');
         rocket.classList.remove('visible');
         rocket.style.opacity = '0';
-        rocket.style.left = '-160px'; // 初期位置へ戻す
+        rocket.style.left = '-160px'; // 初期位置に戻す
       }, 1000);
-    }, 1800);
+    }, 4000); // ← 飛行時間に合わせて遅延（3.5s + α）
   }
 
-  // --- IntersectionObserver（何度でも発火） ---
+  // IntersectionObserverで発火（何度でも）
   const obs = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) flyAcross();
@@ -2316,6 +2309,7 @@ function notifyEgAuditError() {
   obs.observe(trigger);
 })();
 </script>
+
 
    
 </body>
