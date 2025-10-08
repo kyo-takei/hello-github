@@ -9,70 +9,88 @@
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
 
-/* --- rocket（ゆっくり・絵文字だけ） --- */
+/* ==== rocket（水平化補正 + 光の軌跡） ==== */
 .rocket {
   position: fixed;
-  left: -160px;
-  top: 40vh;
-  font-size: 128px;       /* ← 2倍に拡大（64px → 128px） */
+  left: -160px;           /* 初期：画面左外 */
+  top: 40vh;              /* 高さはJSと合わせて調整 */
+  font-size: 128px;       /* ロケットサイズ（現在2倍） */
   line-height: 1;
   display: inline-block;
   pointer-events: none;
   z-index: 9999;
   opacity: 0;
-  transform: rotate(0deg) scale(1);  /* ← 水平に変更（角度0°） */
+  /* -------------------------
+     rotate(0deg) は「水平」
+     もし絵文字が若干傾いて見えるなら小さな角度で補正する（例 rotate(-3deg)）
+     ------------------------- */
+  transform: rotate(30deg) scale(1);
   transition:
     left 3.5s cubic-bezier(.22,.9,.32,1),
-    opacity 600ms linear;
-  will-change: left, opacity;
+    opacity 600ms linear,
+    transform 240ms ease;
+  will-change: left, opacity, transform;
+  /* 見た目微調整 */
+  text-shadow: 0 6px 14px rgba(0,0,0,0.25);
 }
 
-.rocket.visible {
+/* ---- 飛行表示クラス ---- */
+.rocket.visible { opacity: 1; }
+
+/* ---- 到着時の弾み（回転しないで拡大） ---- */
+.rocket.pulse { transform: rotate(0deg) scale(1.15); transition: transform 0.36s ease-out; }
+
+/* ==== 軌跡（光の帯）: 擬似要素で作る（ロケット要素に追従） ==== */
+.rocket::before {
+  content: "";
+  position: absolute;
+  /* 擬似要素はロケットの中心を基準（absoluteなので .rocket の相対位置） */
+  left: -220px;            /* ロケット左側へ伸ばす量（負値） */
+  top: 50%;                /* 垂直位置をロケット中央に合わせる */
+  transform: translateY(-50%);
+  width: 260px;            /* 軌跡の長さ（ロケットサイズに応じて調整） */
+  height: 26px;            /* 軌跡の高さ（細くしたいほど小さく） */
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: -1;             /* ロケットの背後に置く（見やすさ） */
+  filter: blur(6px);       /* ふわっとさせる */
+  opacity: 0.95;
+  background: linear-gradient(90deg,
+      rgba(255,255,220,0.00) 0%,
+      rgba(255,250,200,0.55) 20%,
+      rgba(255,240,120,0.95) 50%,
+      rgba(255,250,200,0.55) 80%,
+      rgba(255,255,220,0.00) 100%);
+  /* 動き（ロケット移動に合わせてトレイルにシフトアニメを入れて「流れ感」） */
+  transition: transform 0.4s linear, opacity 220ms linear;
+  will-change: transform, opacity;
+}
+
+/* 飛行中にトレイルを強調して動かす（visible状態で追加クラスにする） */
+.rocket.visible::before {
+  /* 軌跡をロケットの後ろに固定しつつ内部のグラデを少し左へ偏らせる */
+  transform: translateY(-50%) translateX(-12px);
+  filter: blur(6px) saturate(1.1);
   opacity: 1;
 }
 
-.rocket.pulse {
-  transform: rotate(0deg) scale(1.15);  /* ← 回転せず拡大だけ */
-  transition: transform 0.4s ease-out;
+/* 到着時は軌跡を小さくしてフェード */
+.rocket.pulse::before {
+  transform: translateY(-50%) translateX(6px) scaleX(0.85);
+  opacity: 0.85;
 }
 
-/* スマホ用：画面が狭いときは少し小さく */
+/* ---- モバイル調整 ---- */
 @media (max-width:720px){
-  .rocket { font-size:80px; }
+  .rocket { font-size: 80px; }
+  .rocket::before { left: -140px; width: 160px; height: 18px; filter: blur(4px); }
 }
 
-/* prefers-reduced-motion 対応 */
-@media (prefers-reduced-motion: reduce){
-  .rocket, .rocket.visible, .rocket.pulse {
-    transition: none !important;
-    animation: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-    left: 12px !important;
-  }
+/* ---- reduced motion 対応 ---- */
+@media (prefers-reduced-motion: reduce) {
+  .rocket, .rocket::before { transition: none !important; animation: none !important; transform: none !important; opacity: 1 !important; left: 12px !important; }
 }
 
-/* 到着後の軽いはね */
-.rocket.pulse {
-  transform: rotate(-6deg) scale(1.15);
-  transition: transform 0.4s ease-out;
-}
-
-/* スマホ対応 */
-@media (max-width:720px){
-  .rocket { font-size:48px; }
-}
-
-/* 動きを減らす設定のユーザーには無効化 */
-@media (prefers-reduced-motion: reduce){
-  .rocket, .rocket.visible, .rocket.pulse {
-    transition: none !important;
-    animation: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-    left: 12px !important;
-  }
-}
 
   /* ===== 全体背景：単色の淡い水色 ===== */
   body {
